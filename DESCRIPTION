@@ -1,0 +1,13 @@
+Package: bvarNWish
+Type: Package
+Title: What the Package Does (Short Line)
+Version: 1.0
+Date: 2025-04-14
+Author: Who wrote it
+Maintainer: Who to complain to <yourfault@somewhere.net>
+Description: More about what it does (maybe more than
+      one line).
+License: What license is it under?
+Imports: Rcpp (>= 1.0.14)
+LinkingTo: Rcpp, RcppArmadillo
+Encoding: UTF-8
