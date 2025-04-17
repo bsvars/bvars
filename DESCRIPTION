@@ -9,10 +9,18 @@ Authors@R: c(person("Rui", "Liu", , "rl3023@columbia.edu", role = c("aut"), comm
 Maintainer: Tomasz Woźniak <wozniak.tom@pm.me>
 Description: Bayesian Vector Autoregressions with Normal-Wishart Priors and the Matrix Generalized Inverse Gaussian Gibbs sampler.
 License: GPL (>= 3)
+Depends: 
+    R (>= 4.1.0),
+    RcppArmadillo,
+    bsvars
 Imports: 
-    Rcpp (>= 1.0.14)
+    Rcpp (>= 1.0.14),
+    RcppProgress,
+    R6
 LinkingTo: 
     Rcpp, 
-    RcppArmadillo
+    RcppArmadillo,
+    RcppProgress,
+    bsvars
 Encoding: UTF-8
 RoxygenNote: 7.3.2
