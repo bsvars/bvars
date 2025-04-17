@@ -4,18 +4,26 @@
 \name{bvarNWish-package}
 \alias{bvarNWish-package}
 \alias{bvarNWish}
-\title{bvarNWish: Bayesian Vector Autoregressions with Normal-Wishart Priors}
+\title{Bayesian Vector Autoregressions with Normal-Wishart Priors}
 \description{
-Bayesian Vector Autoregressions with Normal-Wishart Priors and the Matrix Generalized Inverse Gaussian Gibbs sampler.
+Bayesian Vector Autoregressions with Normal-Wishart Priors and 
+the Matrix Generalized Inverse Gaussian Gibbs sampler.
+}
+\note{
+This package is currently in active development. Your comments,
+suggestions and requests are warmly welcome!
+}
+\references{
+Hamura, Irie, Sugasawa (2024) Gibbs Sampler for Matrix Generalized Inverse 
+Gaussian Distributions, Journal of Computational and Graphical Statistics,
+33(2), 331--340, <doi:10.1080/10618600.2023.2258186>.
+
+Chan (2020) Large Bayesian VARs: A Flexible Kronecker Error Covariance Structure,
+Journal of Business and Economic Statistics, 38(1), 68--79,
+<doi:10.1080/07350015.2018.1451336>.
 }
 \author{
-\strong{Maintainer}: Tomasz Woźniak \email{wozniak.tom@pm.me} (\href{https://orcid.org/0000-0003-2212-2378}{ORCID})
-
-Authors:
-\itemize{
-  \item Rui Liu \email{rl3023@columbia.edu} (\href{https://orcid.org/0009-0008-9348-8581}{ORCID})
-  \item Andres Ramirez Hassan \email{aramir21@gmail.com} (\href{https://orcid.org/0000-0002-0467-7903}{ORCID})
+Rui Liu \email{rl3023@columbia.edu}, 
+Andres Ramirez Hassan \email{aramir21@gmail.com} & 
+Tomasz Woźniak \email{wozniak.tom@pm.me}
 }
-
-}
-\keyword{internal}
