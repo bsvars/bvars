@@ -40,7 +40,7 @@ arma::mat do_rmgig1(
     mat     P         = inv_B.t() * diagmat( pow(a, -1) ) * inv_B;
     mat     M1        = Psi;
     mat     R1        = B;  
-    R1.submat(1, 0, N-1, 0) = 0;
+    R1.submat(1, 0, N-1, 0) = zeros<vec>(N-1);
     R1                = R1.t();
     R1                = trans( R1.each_col() % sqrt(a) );
     mat     M2        = Gamma;
@@ -63,13 +63,13 @@ arma::mat do_rmgig1(
         M1.row(i-1)       += trans( B.submat(i, i-1, N-1, i-1) ) * M1.rows(i, N-1);
         R1.rows(i+1, N-1) -= B.submat(i+1, i, N-1, i) * R1.row(i);
         M2.cols(i, N-1)   -= M2.col(i-1) * trans(B.submat(i, i-1, N-1, i-1));
-        M2.rows(i+1, N-1) -= B.submat(i, i-1, N-1, i-1) * M2.row(i);
+        M2.rows(i, N-1) -= B.submat(i, i-1, N-1, i-1) * M2.row(i);
         R2.row(i)         += trans(B.submat(i+1, i, N-1, i)) * R2.rows(i+1, N-1);
         vn                 = (-1) * M1.rows(i+1, N-1) * R1 * trans(R1.row(i));
         vn                += R2.rows(i+1, N-1) * R2.t() * trans(M2.row(i));
         NN                 = a(i) * Psi.submat(i+1, i+1, N-1, N-1) + M2(i, i) * P.submat(i+1, i+1, N-1, N-1);
         chol_N             = chol(NN, "upper");
-        vec     zz(N-i, fill::randn);
+        vec     zz(N-i-1, fill::randn);
         zz                += solve( trimatl(chol_N.t()), vn);
         B.submat(i+1, i, N-1, i) = solve( trimatu(chol_N), zz);
       } // END i loop
