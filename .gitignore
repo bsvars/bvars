@@ -62,3 +62,6 @@ docs
 *.o
 *.so
 *.o
+*.o
+src/nicerig2.o
+src/bvarNWish.so
