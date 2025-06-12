@@ -2,9 +2,9 @@
 % Please edit documentation in R/specify.R
 \name{specify_prior_bvarGIG}
 \alias{specify_prior_bvarGIG}
-\title{R6 Class Representing PriorBSVAR}
+\title{R6 Class Representing \code{PriorBVARGIG}}
 \description{
-The class PriorBSVAR presents a prior specification for the homoskedastic bsvar model.
+The class \code{PriorBVARGIG} presents a prior specification for the BVAR model.
 }
 \examples{
 prior = specify_prior_bsvar$new(N = 3, p = 1)  # a prior for 3-variable example with one lag
