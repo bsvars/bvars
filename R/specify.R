@@ -301,3 +301,107 @@ specify_bvarGIG = R6::R6Class(
   ) # END public
 ) # END specify_bvarGIG
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#' R6 Class Representing \code{PosteriorBVARGIG}
+#'
+#' @description
+#' The class \code{PosteriorBVARGIG} contains posterior output and the 
+#' specification including the last MCMC draw for the BVAR model. 
+#' Note that due to the thinning of the MCMC output the starting value in element 
+#' \code{last_draw} might not be equal to the last draw provided in element 
+#' \code{posterior}.
+#' 
+#' @examples 
+#' # This is a function that is used within estimate()
+#' data(us_fiscal_lsuw)
+#' specification  = specify_bvarGIG$new(us_fiscal_lsuw, p = 1)
+#' set.seed(123)
+#' # posterior       = estimate(specification, 50)
+#' # class(posterior)
+#' 
+#' @export
+specify_posterior_bvarGIG = R6::R6Class(
+  "PosteriorBVARGIG",
+  
+  public = list(
+    
+    #' @field last_draw an object of class \code{BVARGIG} with the last draw of 
+    #' the current MCMC run as the starting value to be passed to the 
+    #' continuation of the MCMC estimation using \code{estimate()}. 
+    last_draw = list(),
+    
+    #' @field posterior a list containing Bayesian estimation output collected 
+    #' in elements \code{A},  \code{Sigma}, and \code{V}.
+    posterior = list(),
+    
+    #' @description
+    #' Create a new posterior output \code{PosteriorBVARGIG}.
+    #' @param specification_bvarGIG an object of class \code{BVARGIG} with the 
+    #' last draw of the current MCMC run as the starting value.
+    #' @param posterior_bvarGIG a list containing Bayesian estimation output 
+    #' collected in elements \code{A}, \code{Sigma}, and \code{V}.
+    #' @return A posterior output \code{PosteriorBVARGIG}.
+    initialize = function(specification_bvarGIG, posterior_bvarGIG) {
+      
+      stopifnot("Argument specification_bsvar must be of class BVARGIG." = any(class(specification_bvarGIG) == "BVARGIG"))
+      stopifnot("Argument posterior_bsvar must must contain MCMC output." = is.list(posterior_bvarGIG) & is.array(posterior_bvarGIG$A) & is.array(posterior_bvarGIG$Sigma) & is.array(posterior_bvarGIG$V))
+      
+      self$last_draw    = specification_bvarGIG
+      self$posterior    = posterior_bvarGIG
+    }, # END initialize
+    
+    #' @description
+    #' Returns a list containing Bayesian estimation output collected in elements 
+    #' \code{A}, \code{Sigma}, and \code{V}.
+    #' 
+    #' @examples 
+    #' data(us_fiscal_lsuw)
+    #' specification  = specify_bvarGIG$new(us_fiscal_lsuw)
+    #' set.seed(123)
+    #' # posterior       = estimate(specification, 50)
+    #' # posterior$get_posterior()
+    #' 
+    get_posterior       = function(){
+      self$posterior
+    }, # END get_posterior
+    
+    #' @description
+    #' Returns an object of class \code{BVARGIG} with the last draw of the 
+    #' current MCMC run as the starting value to be passed to the continuation 
+    #' of the MCMC estimation using \code{estimate()}.
+    #' 
+    #' @examples
+    #' data(us_fiscal_lsuw)
+    #' 
+    #' # specify the model and set seed
+    #' specification  = specify_bvarGIG$new(us_fiscal_lsuw, p = 1)
+    #' set.seed(123)
+    #' 
+    #' # run the burn-in
+    #' # burn_in        = estimate(specification, 10)
+    #' 
+    #' # estimate the model
+    #' # posterior      = estimate(burn_in, 10)
+    #' 
+    get_last_draw      = function(){
+      self$last_draw$clone()
+    } # END get_last_draw
+    
+  ) # END public
+) # END specify_posterior_bsvar
