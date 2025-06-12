@@ -14,7 +14,7 @@ specify_prior_bvarGIG = R6::R6Class(
   
   public = list(
     
-    #' @field A a real-valued \code{KxN} matrix, the mean matrix \eqn{A_0} of 
+    #' @field A a real-valued \code{NxK} matrix, the mean matrix \eqn{A_0} of 
     #' the matrix-variate normal prior distribution for the parameter 
     #' matrix \eqn{A}. 
     A          = matrix(),
@@ -30,17 +30,17 @@ specify_prior_bvarGIG = R6::R6Class(
     nu   = numeric(),
     
     #' @field Psi a \code{KxK} scale matrix \eqn{\Psi_0} of the matrix 
-    #' generalized inverse Gaussian distribution for the column-specific prior 
+    #' generalized inverse Gaussian distribution for the equation-specific prior 
     #' covariance \eqn{V}
     Psi   = matrix(),
     
     #' @field Gamma a \code{KxK} scale matrix \eqn{\Gamma_0} of the matrix 
-    #' generalized inverse Gaussian distribution for the column-specific prior 
+    #' generalized inverse Gaussian distribution for the equation-specific prior 
     #' covariance \eqn{V}
     Gamma   = matrix(),
     
     #' @field lambda a positive scalar shape parameter \eqn{\lambda_0} of the 
-    #' matrix generalized inverse Gaussian distribution for the column-specific 
+    #' matrix generalized inverse Gaussian distribution for the equation-specific 
     #' prior covariance \eqn{V}
     lambda   = numeric(),
     
@@ -109,9 +109,7 @@ specify_prior_bvarGIG = R6::R6Class(
 #' 
 #' @examples 
 #' # starting values for a 3-variable BVAR model.
-#' A = matrix(TRUE, 3, 4)
-#' B = matrix(TRUE, 3, 3)
-#' sv = specify_starting_values_bsvar$new(A = A, B = B, N = 3, p = 1)
+#' sv = specify_starting_values_bvarGIG$new(N = 3, p = 1)
 #' 
 #' @export
 specify_starting_values_bvarGIG = R6::R6Class(
@@ -119,7 +117,7 @@ specify_starting_values_bvarGIG = R6::R6Class(
   
   public = list(
     
-    #' @field A an \code{KxN} matrix of starting values for the autoregressive 
+    #' @field A an \code{NxK} matrix of starting values for the autoregressive 
     #' matrix \eqn{A}. 
     A             = matrix(),
     
@@ -128,7 +126,7 @@ specify_starting_values_bvarGIG = R6::R6Class(
     Sigma             = matrix(),
     
     #' @field V a \code{KxK} matrix of starting values for the prior 
-    #' column-specific covariance \eqn{V} of the hierarchical prior distribution
+    #' equation-specific covariance \eqn{V} of the hierarchical prior distribution
     #' for matrix \eqn{A}. 
     V         = matrix(),
     

@@ -32,7 +32,7 @@ prior$get_prior() # show the prior as list
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{A}}{a real-valued \code{KxN} matrix, the mean matrix \eqn{A_0} of 
+\item{\code{A}}{a real-valued \code{NxK} matrix, the mean matrix \eqn{A_0} of 
 the matrix-variate normal prior distribution for the parameter 
 matrix \eqn{A}.}
 
@@ -45,15 +45,15 @@ Wishart prior distribution for the error term covariance
 matrix \eqn{\Sigma}.}
 
 \item{\code{Psi}}{a \code{KxK} scale matrix \eqn{\Psi_0} of the matrix 
-generalized inverse Gaussian distribution for the column-specific prior 
+generalized inverse Gaussian distribution for the equation-specific prior 
 covariance \eqn{V}}
 
 \item{\code{Gamma}}{a \code{KxK} scale matrix \eqn{\Gamma_0} of the matrix 
-generalized inverse Gaussian distribution for the column-specific prior 
+generalized inverse Gaussian distribution for the equation-specific prior 
 covariance \eqn{V}}
 
 \item{\code{lambda}}{a positive scalar shape parameter \eqn{\lambda_0} of the 
-matrix generalized inverse Gaussian distribution for the column-specific 
+matrix generalized inverse Gaussian distribution for the equation-specific 
 prior covariance \eqn{V}}
 }
 \if{html}{\out{</div>}}

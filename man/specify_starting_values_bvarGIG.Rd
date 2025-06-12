@@ -8,9 +8,7 @@ The class \code{StartingValuesBVARGIG} presents starting values for the BVAR mod
 }
 \examples{
 # starting values for a 3-variable BVAR model.
-A = matrix(TRUE, 3, 4)
-B = matrix(TRUE, 3, 3)
-sv = specify_starting_values_bsvar$new(A = A, B = B, N = 3, p = 1)
+sv = specify_starting_values_bvarGIG$new(N = 3, p = 1)
 
 
 ## ------------------------------------------------
@@ -46,14 +44,14 @@ sv$set_starting_values(sv_list)      # providing to the class object
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{A}}{an \code{KxN} matrix of starting values for the autoregressive 
+\item{\code{A}}{an \code{NxK} matrix of starting values for the autoregressive 
 matrix \eqn{A}.}
 
 \item{\code{Sigma}}{an \code{NxN} matrix of starting values for the error term 
 covariance \eqn{\Sigma}.}
 
 \item{\code{V}}{a \code{KxK} matrix of starting values for the prior 
-column-specific covariance \eqn{V} of the hierarchical prior distribution
+equation-specific covariance \eqn{V} of the hierarchical prior distribution
 for matrix \eqn{A}.}
 }
 \if{html}{\out{</div>}}
