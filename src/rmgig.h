@@ -1,6 +1,6 @@
 
-#ifndef _MGIG_H_
-#define _MGIG_H_
+#ifndef _RMGIG_H_
+#define _RMGIG_H_
 
 #include <RcppArmadillo.h>
 
@@ -13,4 +13,4 @@ arma::mat do_rmgig1(
 );
 
 
-#endif  // _MGIG_H_
+#endif  // _RMGIG_H_

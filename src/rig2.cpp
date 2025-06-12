@@ -5,7 +5,7 @@ using namespace arma;
 
 
 // [[Rcpp::export]]
-arma::vec nicerig2 (
+arma::vec rig2 (
   const int     n,    // a positive integer - number of draws
   const double  s,    // a positive scale parameter
   const double  nu    // a positive shape parameter

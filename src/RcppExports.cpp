@@ -14,6 +14,19 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// rig2
+arma::vec rig2(const int n, const double s, const double nu);
+RcppExport SEXP _bvarNWish_rig2(SEXP nSEXP, SEXP sSEXP, SEXP nuSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const int >::type n(nSEXP);
+    Rcpp::traits::input_parameter< const double >::type s(sSEXP);
+    Rcpp::traits::input_parameter< const double >::type nu(nuSEXP);
+    rcpp_result_gen = Rcpp::wrap(rig2(n, s, nu));
+    return rcpp_result_gen;
+END_RCPP
+}
 // do_rmatnorm1
 arma::mat do_rmatnorm1(const arma::mat& M, const arma::mat& V, const arma::mat& S);
 RcppExport SEXP _bvarNWish_do_rmatnorm1(SEXP MSEXP, SEXP VSEXP, SEXP SSEXP) {
@@ -64,19 +77,6 @@ RcppExport SEXP _bvarNWish_do_rmgig1(SEXP aux_SigmaSEXP, SEXP lambdaSEXP, SEXP P
     UNPROTECT(1);
     return rcpp_result_gen;
 }
-// nicerig2
-arma::vec nicerig2(const int n, const double s, const double nu);
-RcppExport SEXP _bvarNWish_nicerig2(SEXP nSEXP, SEXP sSEXP, SEXP nuSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const int >::type n(nSEXP);
-    Rcpp::traits::input_parameter< const double >::type s(sSEXP);
-    Rcpp::traits::input_parameter< const double >::type nu(nuSEXP);
-    rcpp_result_gen = Rcpp::wrap(nicerig2(n, s, nu));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 // validate (ensure exported C++ functions exist before calling them)
 static int _bvarNWish_RcppExport_validate(const char* sig) { 
@@ -95,9 +95,9 @@ RcppExport SEXP _bvarNWish_RcppExport_registerCCallable() {
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_bvarNWish_rig2", (DL_FUNC) &_bvarNWish_rig2, 3},
     {"_bvarNWish_do_rmatnorm1", (DL_FUNC) &_bvarNWish_do_rmatnorm1, 3},
     {"_bvarNWish_do_rmgig1", (DL_FUNC) &_bvarNWish_do_rmgig1, 4},
-    {"_bvarNWish_nicerig2", (DL_FUNC) &_bvarNWish_nicerig2, 3},
     {"_bvarNWish_RcppExport_registerCCallable", (DL_FUNC) &_bvarNWish_RcppExport_registerCCallable, 0},
     {NULL, NULL, 0}
 };

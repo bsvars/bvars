@@ -1,6 +1,6 @@
 
-#ifndef _MATNORM_H_
-#define _MATNORM_H_
+#ifndef _RMATNORM_H_
+#define _RMATNORM_H_
 
 #include <RcppArmadillo.h>
 
@@ -12,4 +12,4 @@ arma::mat do_rmatnorm1(     // vec(X) ~N(vec(M), S %x% V)
 );
 
 
-#endif  // _MATNORM_H_
+#endif  // _RMATNORM_H_
