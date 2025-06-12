@@ -3,6 +3,7 @@
 export(rig2)
 export(rmatnorm1)
 export(rmgig1)
+export(specify_bvarGIG)
 export(specify_prior_bvarGIG)
 export(specify_starting_values_bvarGIG)
 import(RcppArmadillo)
