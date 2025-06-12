@@ -98,10 +98,6 @@ specify_prior_bvarGIG = R6::R6Class(
 
 
 
-
-
-
-
 #' R6 Class Representing \code{StartingValuesBVARGIG}
 #'
 #' @description
@@ -193,3 +189,115 @@ specify_starting_values_bvarGIG = R6::R6Class(
     } # END set_starting_values
   ) # END public
 ) # END specify_starting_values_bvarGIG
+
+
+
+#' R6 Class representing the specification of the \code{BVARGIG} model
+#'
+#' @description
+#' The class \code{BVARGIG} presents complete specification for the BVAR model.
+#' 
+#' @examples 
+#' data(us_fiscal_lsuw)
+#' spec = specify_bvarGIG$new(
+#'    data = us_fiscal_lsuw,
+#'    p = 4
+#' )
+#' 
+#' @export
+specify_bvarGIG = R6::R6Class(
+  "BVARGIG",
+  
+  public = list(
+    
+    #' @field p a non-negative integer specifying the autoregressive lag order of the model. 
+    p                      = numeric(),
+    
+    #' @field prior an object \code{PriorBVARGIG} with the prior specification. 
+    prior                  = list(),
+    
+    #' @field data_matrices an object \code{DataMatricesBSVAR} with the data matrices.
+    data_matrices          = list(),
+    
+    #' @field starting_values an object \code{StartingValuesBVARGIG} with the starting values.
+    starting_values        = list(),
+    
+    #' @description
+    #' Create a new specification of the \code{BVARGIG} model.
+    #' @param data a \code{(T+p)xN} matrix with time series data.
+    #' @param p a positive integer providing model's autoregressive lag order.
+    #' @param exogenous a \code{(T+p)xd} matrix of exogenous variables. 
+    #' @param stationary an \code{N} logical vector - its element set to
+    #' \code{FALSE} sets the prior mean for the autoregressive parameters of the 
+    #' \code{N}th equation to the white noise process, otherwise to random walk.
+    #' @return A new complete specification for the \code{BVARGIG} model.
+    initialize = function(
+    data,
+    p = 1L,
+    exogenous = NULL,
+    stationary = rep(FALSE, ncol(data))
+    ) {
+      stopifnot("Argument p has to be a positive integer." = ((p %% 1) == 0 & p > 0))
+      self$p     = p
+      
+      TT            = nrow(data)
+      T             = TT - self$p
+      N             = ncol(data)
+      d             = 0
+      if (!is.null(exogenous)) {
+        d           = ncol(exogenous)
+      }
+      K             = N * p + 1 + d
+      
+      self$data_matrices   = specify_data_matrices$new(data, p, exogenous)
+      self$prior           = specify_prior_bvarGIG$new(N, p, d, stationary)
+      self$starting_values = specify_starting_values_bvarGIG$new(N, self$p, d)
+    }, # END initialize
+    
+    #' @description
+    #' Returns the data matrices as the \code{DataMatricesBSVAR} object.
+    #' 
+    #' @examples 
+    #' data(us_fiscal_lsuw)
+    #' spec = specify_bvarGIG$new(
+    #'    data = us_fiscal_lsuw,
+    #'    p = 4
+    #' )
+    #' spec$get_data_matrices()
+    #' 
+    get_data_matrices = function() {
+      self$data_matrices$clone()
+    }, # END get_data_matrices
+    
+    #' @description
+    #' Returns the prior specification as the \code{PriorBVARGIG} object.
+    #' 
+    #' @examples 
+    #' data(us_fiscal_lsuw)
+    #' spec = specify_bvarGIG$new(
+    #'    data = us_fiscal_lsuw,
+    #'    p = 4
+    #' )
+    #' spec$get_prior()
+    #' 
+    get_prior = function() {
+      self$prior$clone()
+    }, # END get_prior
+    
+    #' @description
+    #' Returns the starting values as the \code{StartingValuesBVARGIG} object.
+    #' 
+    #' @examples 
+    #' data(us_fiscal_lsuw)
+    #' spec = specify_bvarGIG$new(
+    #'    data = us_fiscal_lsuw,
+    #'    p = 4
+    #' )
+    #' spec$get_starting_values()
+    #' 
+    get_starting_values = function() {
+      self$starting_values$clone()
+    } # END get_starting_values
+  ) # END public
+) # END specify_bvarGIG
+
