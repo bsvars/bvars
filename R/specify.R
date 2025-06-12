@@ -1,8 +1,8 @@
 
-#' R6 Class Representing PriorBSVAR
+#' R6 Class Representing \code{PriorBVARGIG}
 #'
 #' @description
-#' The class PriorBSVAR presents a prior specification for the homoskedastic bsvar model.
+#' The class \code{PriorBVARGIG} presents a prior specification for the BVAR model.
 #' 
 #' @examples 
 #' prior = specify_prior_bsvar$new(N = 3, p = 1)  # a prior for 3-variable example with one lag
@@ -95,3 +95,103 @@ specify_prior_bvarGIG = R6::R6Class(
     
   ) # END public
 ) # END specify_prior_bvarGIG
+
+
+
+
+
+
+
+#' R6 Class Representing \code{StartingValuesBVARGIG}
+#'
+#' @description
+#' The class \code{StartingValuesBVARGIG} presents starting values for the BVAR model.
+#' 
+#' @examples 
+#' # starting values for a 3-variable BVAR model.
+#' A = matrix(TRUE, 3, 4)
+#' B = matrix(TRUE, 3, 3)
+#' sv = specify_starting_values_bsvar$new(A = A, B = B, N = 3, p = 1)
+#' 
+#' @export
+specify_starting_values_bvarGIG = R6::R6Class(
+  "StartingValuesBVARGIG",
+  
+  public = list(
+    
+    #' @field A an \code{KxN} matrix of starting values for the autoregressive 
+    #' matrix \eqn{A}. 
+    A             = matrix(),
+    
+    #' @field Sigma an \code{NxN} matrix of starting values for the error term 
+    #' covariance \eqn{\Sigma}. 
+    Sigma             = matrix(),
+    
+    #' @field V a \code{KxK} matrix of starting values for the prior 
+    #' column-specific covariance \eqn{V} of the hierarchical prior distribution
+    #' for matrix \eqn{A}. 
+    V         = matrix(),
+    
+    #' @description
+    #' Create new starting values \code{StartingValuesBVARGIG}.
+    #' @param N a positive integer - the number of dependent variables in the model.
+    #' @param p a positive integer - the autoregressive lag order of the BVAR model.
+    #' @param d a positive integer - the number of \code{exogenous} variables in the model.
+    #' @return Starting values \code{StartingValuesBVARGIG}.
+    #' @examples 
+    #' # starting values for a 3-variable BVAR model
+    #' sv = specify_starting_values_bvarGIG$new(N = 3, p = 4)
+    #' 
+    initialize = function(N, p, d = 0){
+      stopifnot("Argument N must be a positive integer number." = N > 0 & N %% 1 == 0)
+      stopifnot("Argument p must be a positive integer number." = p > 0 & p %% 1 == 0)
+      stopifnot("Argument d must be a non-negative integer number." = d >= 0 & d %% 1 == 0)
+      
+      K                   = N * p + 1 + d
+      self$A              = cbind(diag(runif(N)), matrix(0, N, K - N))
+      self$Sigma          = diag(rgamma(N, 1))
+      self$V              = diag(rgamma(K, 1))
+    }, # END initialize
+    
+    #' @description
+    #' Returns the elements of the starting values \code{StartingValuesBVARGIG} as a \code{list}.
+    #' 
+    #' @examples 
+    #' # starting values for a 3-variable BVAR model
+    #' sv = specify_starting_values_bvarGIG$new(N = 3, p = 1)
+    #' sv$get_starting_values()   # show starting values as list
+    #' 
+    get_starting_values   = function(){
+      list(
+        A                 = self$A,
+        Sigma             = self$Sigma,
+        V                 = self$V
+      )
+    }, # END get_starting_values
+    
+    #' @description
+    #' Sets the elements of the starting values \code{StartingValuesBVARGIG} to 
+    #' provided values.
+    #' @param last_draw a list containing the last draw of elements \code{A} - 
+    #' a \code{KxN} matrix, \code{Sigma} - an \code{NxN} matrix, and \code{V} - 
+    #' a \code{KxK} matrix.
+    #' @return An object of class \code{StartingValuesBVARGIG} including the 
+    #' last draw of the current MCMC as the starting value to be passed to the 
+    #' continuation of the MCMC estimation using \code{estimate()}.
+    #' 
+    #' @examples 
+    #' # starting values for a 3-variable BVAR model
+    #' sv = specify_starting_values_bvarGIG$new(N = 3, p = 1)
+    #' 
+    #' # Modify the starting values by:
+    #' sv_list = sv$get_starting_values()   # getting them as list
+    #' sv_list$A <- matrix(rnorm(12), 3, 4) # modifying the entry
+    #' sv$set_starting_values(sv_list)      # providing to the class object
+    #' 
+    set_starting_values   = function(last_draw) {
+      self$A            = last_draw$A
+      self$Sigma        = last_draw$Sigma
+      self$V            = last_draw$V
+    } # END set_starting_values
+  ) # END public
+) # END specify_starting_values_bvarGIG
