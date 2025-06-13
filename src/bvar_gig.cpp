@@ -42,15 +42,18 @@ Rcpp::List bvar_gig_cpp(
   }
   Progress p(50, show_progress);
   
-  const int N       = Y.n_rows;
-  const int K       = X.n_rows;
+  const int N         = Y.n_rows;
+  const int K         = X.n_rows;
+  const int T         = Y.n_cols;
   
-  mat   aux_A       = as<mat>(starting_values["A"]);
-  mat   aux_Sigma   = as<mat>(starting_values["Sigma"]);
-  mat   aux_V       = as<mat>(starting_values["V"]);
+  mat   aux_A         = as<mat>(starting_values["A"]);
+  mat   aux_Sigma     = as<mat>(starting_values["Sigma"]);
   mat   aux_Sigma_inv = inv_sympd(aux_Sigma);
-  
-  const int   SS    = floor(S / thin);
+  mat   aux_V         = as<mat>(starting_values["V"]);
+  mat   aux_V_inv     = inv_sympd(aux_V);
+  vec   aux_Omega_diag_inv(T, fill::ones);
+    
+  const int   SS      = floor(S / thin);
   
   cube  posterior_A(N, K, SS);
   cube  posterior_Sigma(N, N, SS);
@@ -65,10 +68,12 @@ Rcpp::List bvar_gig_cpp(
     // Check for user interrupts
     if (s % 200 == 0) checkUserInterrupt();
     
-    aux_V         = sample_V(aux_V, aux_A, aux_Sigma_inv, prior);
+    aux_V                 = sample_V_mgig( aux_V, aux_A, aux_Sigma_inv, prior );
+    aux_V_inv             = inv_sympd(aux_V);
     
-    // aux_Sigma     = sample_B_homosk1(aux_Sigma, aux_A, aux_V, Y, X, prior);
-    // aux_A         = sample_A_heterosk1(aux_A, aux_Sigma, aux_V, Y, X, prior);
+    field<mat> aux_ASigma = sample_ASigma( Y, X, aux_V_inv, aux_Omega_diag_inv, prior );
+    aux_A                 = aux_ASigma(0);
+    aux_Sigma             = aux_ASigma(1);
     
     if (s % thin == 0) {
       posterior_A.slice(ss)     = aux_A;
