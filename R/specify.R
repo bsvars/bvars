@@ -68,8 +68,8 @@ specify_prior_bvarGIG = R6::R6Class(
       self$A        = cbind(diag(as.numeric(!stationary)), matrix(0, N, K - N))
       self$S        = diag(N)
       self$nu       = N + 1
-      self$Psi      = diag(N)
-      self$Gamma    = diag(N)
+      self$Psi      = diag(K)
+      self$Gamma    = diag(K)
       self$lambda   = N + 1
     }, # END initialize
     
