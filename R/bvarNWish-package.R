@@ -36,4 +36,28 @@
 #' Distribution and Its Bayesian Applications, Statistics: A Journal of Theoretical 
 #' and Applied Statistics, 38(6), 511--526, <doi:10.1080/02331880412331319279>.
 #' 
+#' @examples
+#' # simple workflow
+#' ############################################################
+#' # upload data
+#' data(us_fiscal_lsuw)
+#' 
+#' # specify the model and set seed
+#' specification  = specify_bvarGIG$new(us_fiscal_lsuw, p = 1)
+#' set.seed(123)
+#' 
+#' # run the burn-in
+#' burn_in        = estimate(specification, 5)
+#' 
+#' # estimate the model
+#' posterior      = estimate(burn_in, 10)
+#' 
+#' # workflow with the pipe |>
+#' ############################################################
+#' set.seed(123)
+#' us_fiscal_lsuw |>
+#'   specify_bvarGIG$new(p = 1) |>
+#'   estimate(S = 5) |> 
+#'   estimate(S = 10) -> posterior
+#'   
 '_PACKAGE'
