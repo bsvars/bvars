@@ -13,6 +13,31 @@ Inverse Gaussian Priors.
 This package is currently in active development. Your comments,
 suggestions and requests are warmly welcome!
 }
+\examples{
+# simple workflow
+############################################################
+# upload data
+data(us_fiscal_lsuw)
+
+# specify the model and set seed
+specification  = specify_bvarGIG$new(us_fiscal_lsuw, p = 1)
+set.seed(123)
+
+# run the burn-in
+burn_in        = estimate(specification, 5)
+
+# estimate the model
+posterior      = estimate(burn_in, 10)
+
+# workflow with the pipe |>
+############################################################
+set.seed(123)
+us_fiscal_lsuw |>
+  specify_bvarGIG$new(p = 1) |>
+  estimate(S = 5) |> 
+  estimate(S = 10) -> posterior
+  
+}
 \references{
 Chan (2020) Large Bayesian VARs: A Flexible Kronecker Error Covariance Structure,
 Journal of Business and Economic Statistics, 38(1), 68--79,
