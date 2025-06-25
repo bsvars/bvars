@@ -4,6 +4,7 @@ using namespace Rcpp;
 using namespace arma;
 
 
+// [[Rcpp::interfaces(cpp)]]
 // [[Rcpp::export]]
 arma::vec rig2 (
   const int     n,    // a positive integer - number of draws

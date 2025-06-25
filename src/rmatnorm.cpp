@@ -6,7 +6,7 @@ using namespace arma;
 
 
 // the function below is the rmatnorm_cpp function copied from bsvarSIGNs package on 2025-05-20 and modified subsequently
-// [[Rcpp:interface(cpp,r)]]
+// [[Rcpp::interfaces(cpp)]]
 // [[Rcpp::export]]
 arma::mat do_rmatnorm1(     // vec(X) ~N(vec(M), S %x% V)
     const arma::mat& M,     // mean

@@ -67,6 +67,48 @@ namespace bvarNWish {
         return Rcpp::as<Rcpp::List >(rcpp_result_gen);
     }
 
+    inline arma::vec rig2(const int n, const double s, const double nu) {
+        typedef SEXP(*Ptr_rig2)(SEXP,SEXP,SEXP);
+        static Ptr_rig2 p_rig2 = NULL;
+        if (p_rig2 == NULL) {
+            validateSignature("arma::vec(*rig2)(const int,const double,const double)");
+            p_rig2 = (Ptr_rig2)R_GetCCallable("bvarNWish", "_bvarNWish_rig2");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_rig2(Shield<SEXP>(Rcpp::wrap(n)), Shield<SEXP>(Rcpp::wrap(s)), Shield<SEXP>(Rcpp::wrap(nu)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<arma::vec >(rcpp_result_gen);
+    }
+
+    inline arma::mat do_rmatnorm1(const arma::mat& M, const arma::mat& V, const arma::mat& S) {
+        typedef SEXP(*Ptr_do_rmatnorm1)(SEXP,SEXP,SEXP);
+        static Ptr_do_rmatnorm1 p_do_rmatnorm1 = NULL;
+        if (p_do_rmatnorm1 == NULL) {
+            validateSignature("arma::mat(*do_rmatnorm1)(const arma::mat&,const arma::mat&,const arma::mat&)");
+            p_do_rmatnorm1 = (Ptr_do_rmatnorm1)R_GetCCallable("bvarNWish", "_bvarNWish_do_rmatnorm1");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_do_rmatnorm1(Shield<SEXP>(Rcpp::wrap(M)), Shield<SEXP>(Rcpp::wrap(V)), Shield<SEXP>(Rcpp::wrap(S)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<arma::mat >(rcpp_result_gen);
+    }
+
     inline arma::mat do_rmgig1(arma::mat& aux_Sigma, const double lambda, const arma::mat Psi, const arma::mat Gamma) {
         typedef SEXP(*Ptr_do_rmgig1)(SEXP,SEXP,SEXP,SEXP);
         static Ptr_do_rmgig1 p_do_rmgig1 = NULL;
