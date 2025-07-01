@@ -5,6 +5,10 @@ do_rmgig1 <- function(aux_Sigma, lambda, Psi, Gamma) {
     .Call(`_bvarNWish_do_rmgig1`, aux_Sigma, lambda, Psi, Gamma)
 }
 
+do_rwishart <- function(Sigma, df) {
+    .Call(`_bvarNWish_do_rwishart`, Sigma, df)
+}
+
 # Register entry points for exported C++ functions
 methods::setLoadAction(function(ns) {
     .Call(`_bvarNWish_RcppExport_registerCCallable`)
