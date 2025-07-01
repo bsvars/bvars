@@ -130,6 +130,18 @@ RcppExport SEXP _bvarNWish_rig2(SEXP nSEXP, SEXP sSEXP, SEXP nuSEXP) {
     UNPROTECT(1);
     return rcpp_result_gen;
 }
+// do_rinvwishart
+arma::mat do_rinvwishart(const arma::mat& Psi, int df);
+RcppExport SEXP _bvarNWish_do_rinvwishart(SEXP PsiSEXP, SEXP dfSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::mat& >::type Psi(PsiSEXP);
+    Rcpp::traits::input_parameter< int >::type df(dfSEXP);
+    rcpp_result_gen = Rcpp::wrap(do_rinvwishart(Psi, df));
+    return rcpp_result_gen;
+END_RCPP
+}
 // do_rmatnorm1
 arma::mat do_rmatnorm1(const arma::mat& M, const arma::mat& V, const arma::mat& S);
 static SEXP _bvarNWish_do_rmatnorm1_try(SEXP MSEXP, SEXP VSEXP, SEXP SSEXP) {
@@ -361,6 +373,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_bvarNWish_bvar_gig_cpp", (DL_FUNC) &_bvarNWish_bvar_gig_cpp, 7},
     {"_bvarNWish_forecast_bvarGIG", (DL_FUNC) &_bvarNWish_forecast_bvarGIG, 7},
     {"_bvarNWish_rig2", (DL_FUNC) &_bvarNWish_rig2, 3},
+    {"_bvarNWish_do_rinvwishart", (DL_FUNC) &_bvarNWish_do_rinvwishart, 2},
     {"_bvarNWish_do_rmatnorm1", (DL_FUNC) &_bvarNWish_do_rmatnorm1, 3},
     {"_bvarNWish_do_rmgig1", (DL_FUNC) &_bvarNWish_do_rmgig1, 4},
     {"_bvarNWish_do_rwishart", (DL_FUNC) &_bvarNWish_do_rwishart, 2},
