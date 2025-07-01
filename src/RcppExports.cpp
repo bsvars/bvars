@@ -178,6 +178,20 @@ RcppExport SEXP _bvarNWish_do_rmatnorm1(SEXP MSEXP, SEXP VSEXP, SEXP SSEXP) {
     UNPROTECT(1);
     return rcpp_result_gen;
 }
+// do_rmatt
+arma::mat do_rmatt(const arma::mat& M, const arma::mat& V, const arma::mat& S, const int df);
+RcppExport SEXP _bvarNWish_do_rmatt(SEXP MSEXP, SEXP VSEXP, SEXP SSEXP, SEXP dfSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::mat& >::type M(MSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type V(VSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type S(SSEXP);
+    Rcpp::traits::input_parameter< const int >::type df(dfSEXP);
+    rcpp_result_gen = Rcpp::wrap(do_rmatt(M, V, S, df));
+    return rcpp_result_gen;
+END_RCPP
+}
 // do_rmgig1
 arma::mat do_rmgig1(arma::mat& aux_Sigma, const double lambda, const arma::mat Psi, const arma::mat Gamma);
 static SEXP _bvarNWish_do_rmgig1_try(SEXP aux_SigmaSEXP, SEXP lambdaSEXP, SEXP PsiSEXP, SEXP GammaSEXP) {
@@ -375,6 +389,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_bvarNWish_rig2", (DL_FUNC) &_bvarNWish_rig2, 3},
     {"_bvarNWish_do_rinvwishart", (DL_FUNC) &_bvarNWish_do_rinvwishart, 2},
     {"_bvarNWish_do_rmatnorm1", (DL_FUNC) &_bvarNWish_do_rmatnorm1, 3},
+    {"_bvarNWish_do_rmatt", (DL_FUNC) &_bvarNWish_do_rmatt, 4},
     {"_bvarNWish_do_rmgig1", (DL_FUNC) &_bvarNWish_do_rmgig1, 4},
     {"_bvarNWish_do_rwishart", (DL_FUNC) &_bvarNWish_do_rwishart, 2},
     {"_bvarNWish_sample_V_mgig", (DL_FUNC) &_bvarNWish_sample_V_mgig, 4},

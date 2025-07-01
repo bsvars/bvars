@@ -5,6 +5,10 @@ do_rinvwishart <- function(Psi, df) {
     .Call(`_bvarNWish_do_rinvwishart`, Psi, df)
 }
 
+do_rmatt <- function(M, V, S, df) {
+    .Call(`_bvarNWish_do_rmatt`, M, V, S, df)
+}
+
 do_rmgig1 <- function(aux_Sigma, lambda, Psi, Gamma) {
     .Call(`_bvarNWish_do_rmgig1`, aux_Sigma, lambda, Psi, Gamma)
 }
