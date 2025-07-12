@@ -9,6 +9,10 @@ do_rmatt <- function(M, V, S, df) {
     .Call(`_bvarNWish_do_rmatt`, M, V, S, df)
 }
 
+sample_mgh <- function(M, U, aux_Sigma, lambda, Psi, Gamma) {
+    .Call(`_bvarNWish_sample_mgh`, M, U, aux_Sigma, lambda, Psi, Gamma)
+}
+
 do_rmgig1 <- function(aux_Sigma, lambda, Psi, Gamma) {
     .Call(`_bvarNWish_do_rmgig1`, aux_Sigma, lambda, Psi, Gamma)
 }

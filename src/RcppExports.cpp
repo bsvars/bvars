@@ -192,6 +192,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sample_mgh
+arma::mat sample_mgh(const arma::mat& M, const arma::mat& U, const arma::mat& aux_Sigma, const double lambda, const arma::mat& Psi, const arma::mat& Gamma);
+RcppExport SEXP _bvarNWish_sample_mgh(SEXP MSEXP, SEXP USEXP, SEXP aux_SigmaSEXP, SEXP lambdaSEXP, SEXP PsiSEXP, SEXP GammaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::mat& >::type M(MSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type U(USEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type aux_Sigma(aux_SigmaSEXP);
+    Rcpp::traits::input_parameter< const double >::type lambda(lambdaSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type Psi(PsiSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type Gamma(GammaSEXP);
+    rcpp_result_gen = Rcpp::wrap(sample_mgh(M, U, aux_Sigma, lambda, Psi, Gamma));
+    return rcpp_result_gen;
+END_RCPP
+}
 // do_rmgig1
 arma::mat do_rmgig1(arma::mat& aux_Sigma, const double lambda, const arma::mat Psi, const arma::mat Gamma);
 static SEXP _bvarNWish_do_rmgig1_try(SEXP aux_SigmaSEXP, SEXP lambdaSEXP, SEXP PsiSEXP, SEXP GammaSEXP) {
@@ -390,6 +406,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_bvarNWish_do_rinvwishart", (DL_FUNC) &_bvarNWish_do_rinvwishart, 2},
     {"_bvarNWish_do_rmatnorm1", (DL_FUNC) &_bvarNWish_do_rmatnorm1, 3},
     {"_bvarNWish_do_rmatt", (DL_FUNC) &_bvarNWish_do_rmatt, 4},
+    {"_bvarNWish_sample_mgh", (DL_FUNC) &_bvarNWish_sample_mgh, 6},
     {"_bvarNWish_do_rmgig1", (DL_FUNC) &_bvarNWish_do_rmgig1, 4},
     {"_bvarNWish_do_rwishart", (DL_FUNC) &_bvarNWish_do_rwishart, 2},
     {"_bvarNWish_sample_V_mgig", (DL_FUNC) &_bvarNWish_sample_V_mgig, 4},
