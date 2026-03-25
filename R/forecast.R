@@ -110,7 +110,7 @@ forecast.PosteriorBVARGIG = function(
   forecast_sigma2   = array(1, c(N, horizon, S))
   
   # perform forecasting
-  fore        = .Call(`_bvarNWish_forecast_bvarGIG`, 
+  fore        = .Call(`_bvars_forecast_bvarGIG`, 
                       posterior_Sigma,
                       posterior_A,
                       forecast_sigma2,    # (N, horizon, S)

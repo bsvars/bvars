@@ -29,6 +29,6 @@ rmgig1 <- function(Sigma, lambda, Psi, Gamma) {
       any(eigen(Gamma, symmetric = TRUE, only.values = TRUE)$values <= 0)) {
     stop("Sigma, Psi, and Gamma must be positive definite matrices.")
   }
-  out = .Call(`_bvarNWish_do_rmgig1`, Sigma, lambda, Psi, Gamma)
+  out = .Call(`_bvars_do_rmgig1`, Sigma, lambda, Psi, Gamma)
   return(out)
 }

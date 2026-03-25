@@ -41,5 +41,5 @@ rwishart <- function(Sigma, df) {
     nrow(Sigma) == ncol(Sigma),
     is.numeric(df), length(df) == 1, df >= nrow(Sigma)
   )
-  .Call(`_bvarNWish_do_rwishart`, Sigma, as.integer(df))
+  .Call(`_bvars_do_rwishart`, Sigma, as.integer(df))
 }

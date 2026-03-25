@@ -43,5 +43,5 @@ rinvwishart <- function(Psi, df) {
     all(abs(Psi - t(Psi)) < 1e-8),          # symmetry check
     all(eigen(Psi, symmetric = TRUE)$values > 0)  # positive-definiteness
   )
-  .Call(`_bvarNWish_do_rinvwishart`, Psi, as.integer(df))
+  .Call(`_bvars_do_rinvwishart`, Psi, as.integer(df))
 }

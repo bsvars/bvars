@@ -20,6 +20,6 @@ rmatnorm1 <- function(M, V, S) {
   stopifnot("M, V, and S must not contain NA values."
             = !any(is.na(M)) && !any(is.na(V)) && !any(is.na(S)))
   
-  out = .Call(`_bvarNWish_do_rmatnorm1`, M, V, S)
+  out = .Call(`_bvars_do_rmatnorm1`, M, V, S)
   return(out)
 }

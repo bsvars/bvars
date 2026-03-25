@@ -54,5 +54,5 @@ rmgh <- function(M, U, aux_Sigma, lambda, Psi, Gamma) {
     all(eigen(Psi, symmetric = TRUE)$values > 0),
     all(eigen(Gamma, symmetric = TRUE)$values > 0)
   )
-  .Call(`_bvarNWish_sample_mgh`, M, U, aux_Sigma, lambda, Psi, Gamma)
+  .Call(`_bvars_sample_mgh`, M, U, aux_Sigma, lambda, Psi, Gamma)
 }

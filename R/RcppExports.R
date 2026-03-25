@@ -2,26 +2,26 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 do_rinvwishart <- function(Psi, df) {
-    .Call(`_bvarNWish_do_rinvwishart`, Psi, df)
+    .Call(`_bvars_do_rinvwishart`, Psi, df)
 }
 
 do_rmatt <- function(M, V, S, df) {
-    .Call(`_bvarNWish_do_rmatt`, M, V, S, df)
+    .Call(`_bvars_do_rmatt`, M, V, S, df)
 }
 
 sample_mgh <- function(M, U, aux_Sigma, lambda, Psi, Gamma) {
-    .Call(`_bvarNWish_sample_mgh`, M, U, aux_Sigma, lambda, Psi, Gamma)
+    .Call(`_bvars_sample_mgh`, M, U, aux_Sigma, lambda, Psi, Gamma)
 }
 
 do_rmgig1 <- function(aux_Sigma, lambda, Psi, Gamma) {
-    .Call(`_bvarNWish_do_rmgig1`, aux_Sigma, lambda, Psi, Gamma)
+    .Call(`_bvars_do_rmgig1`, aux_Sigma, lambda, Psi, Gamma)
 }
 
 do_rwishart <- function(Sigma, df) {
-    .Call(`_bvarNWish_do_rwishart`, Sigma, df)
+    .Call(`_bvars_do_rwishart`, Sigma, df)
 }
 
 # Register entry points for exported C++ functions
 methods::setLoadAction(function(ns) {
-    .Call(`_bvarNWish_RcppExport_registerCCallable`)
+    .Call(`_bvars_RcppExport_registerCCallable`)
 })

@@ -113,7 +113,7 @@ estimate.BVARGIG <- function(specification, S, thin = 1, show_progress = TRUE) {
   
   # estimation
   qqq   = .Call(
-    `_bvarNWish_bvar_gig_cpp`, 
+    `_bvars_bvar_gig_cpp`, 
     S, 
     data_matrices$Y, 
     data_matrices$X, 
@@ -151,7 +151,7 @@ estimate.PosteriorBVARGIG <- function(specification, S, thin = 1, show_progress 
   
   # estimation
   qqq   = .Call(
-    `_bvarNWish_bvar_gig_cpp`, 
+    `_bvars_bvar_gig_cpp`, 
     S, 
     data_matrices$Y, 
     data_matrices$X, 

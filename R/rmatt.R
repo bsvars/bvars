@@ -69,5 +69,5 @@ rmatt <- function(M, V, S, df) {
   if (any(eigen(S, symmetric = TRUE)$values <= 0)) stop("S must be positive-definite.")
   if (!is.numeric(df) || length(df) != 1 || df <= 0) stop("df must be a positive scalar.")
   
-  .Call(`_bvarNWish_do_rmatt`, M, V, S, as.numeric(df))
+  .Call(`_bvars_do_rmatt`, M, V, S, as.numeric(df))
 }

@@ -8,7 +8,7 @@
 rig2 <- function(n, s, nu) {
     stopifnot(n > 0 & s > 0 & nu > 0)
     stopifnot(n %% 1 == 0)
-    qq = .Call(`_bvarNWish_rig2`, n, s, nu)
+    qq = .Call(`_bvars_rig2`, n, s, nu)
     return(qq)
 }
 
