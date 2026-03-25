@@ -1,8 +1,8 @@
 #  #####################################################################################
-#  R package bsvars by Rui Liu, Andres Ramirez Hassan and Tomasz Woźniak Copyright (C) 2025
+#  R package bvars by Rui Liu, Andres Ramirez Hassan and Tomasz Woźniak Copyright (C) 2026
 #
-#  This file is part of the R package bvars: Bayesian Estimation
-#  of Vector Autoregressive Models
+#  This file is part of the R package bvars: Bayesian Vector Autoregressions with 
+#  Flexible Priors
 #
 #  The R package bvars is free software: you can redistribute it
 #  and/or modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 #  refer to <http://www.gnu.org/licenses/>.
 #  #####################################################################################
 #
-#' @title Bayesian Estimation of Vector Autoregressions with Flexible Priors
+#' @title Bayesian Vector Autoregressions with Flexible Priors
 #'
 #' @description Provides fast and efficient procedures for Bayesian analysis of 
 #' vector Autoregressions with flexible priors. This package supports a hierarchical structure for the 
@@ -28,11 +28,8 @@
 #' This specification is flexible enough to encompass many previous approaches aimed at increasing
 #' flexibility in BVAR models, while also allowing for a higher degree of shrinkage. 
 #' Moreover, this package supports a Gibbs sampling algorithm that facilitates posterior inference.
-#' !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!(to be updated)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #' 
-#' 
-#' #' @details 
-#' 
+#' @details 
 #' \strong{Models.} All the BVAR models in this package are specified by two equations, including 
 #' the reduced form equation:
 #' \deqn{Y = AX + E}
@@ -47,7 +44,7 @@
 #' where \eqn{\Omega} and \eqn{\Sigma} are the row and column covariance matrices
 #' 
 #' The likelihood function is proportional to
-#' #' \deqn{
+#' \deqn{
 #' L\left(\mathbf{Y} \mid \mathbf{X} \mathbf{A}, \boldsymbol{\Omega}, \boldsymbol{\Sigma} \right)
 #' \propto \det\left( \boldsymbol{\Sigma} \right)^{-T/2}
 #' \det\left( \boldsymbol{\Omega} \right)^{-N/2}
@@ -63,7 +60,7 @@
 #' In particular, this package assumes that the serial covariance structure has an independent prior 
 #' that follows a stochastic volatility process (Carriero et al., 2016; Chan, 2020a): 
 #' 
-#' #' \deqn{
+#' \deqn{
 #' \boldsymbol{\Omega} = \operatorname{diag}(\omega_1, \omega_2, \dots, \omega_T), \\
 #' \omega_t = \lambda_t \sigma_t^2, \\
 #' \lambda_t \sim \mathcal{IG}(\alpha_0, \alpha_0 + 1), \\
@@ -75,7 +72,7 @@
 #' where \eqn{\mathbb{E}(\lambda_t) = 1} by construction.
 #' 
 #' This package further assumes that 
-#' #' \deqn{
+#' \deqn{
 #' \mathbf{A} \mid \underline{\mathbf{A}}, \mathbf{V}, \boldsymbol{\Sigma}
 #' \sim \mathcal{MN}_{K \times N}(\underline{\mathbf{A}}, \mathbf{V}, \boldsymbol{\Sigma})
 #' }
@@ -95,11 +92,12 @@
 #' specifically: 
 #' \itemize{ 
 #' \item \eqn{ K = 1 } recovers the scalar GIG case 
-#' \item If \eqn{\underline{\boldsymbol{\Psi}} = \mathbf{0}} and \eqn \underline{\kappa} > (K - 1)/2 }
+#' \item If \eqn{\underline{\boldsymbol{\Psi}} = \mathbf{0}} and \eqn{ \underline{\kappa} > (K - 1)/2 }
 #' then \eqn{\mathbf{V} \sim \mathcal{W}(\underline{\boldsymbol{\Lambda}}, \underline{\kappa})}
-#' \item If \eqn \underline{\boldsymbol{\Lambda}} = \mathbf{0}}
-#' and \eqn \underline{\kappa} < -(K - 1)/2 } 
-#' then \eqn \mathbf{V} \sim \mathcal{IW}(\underline{\boldsymbol{\Psi}}, \underline{\kappa})}
+#' \item If \eqn{ \underline{\boldsymbol{\Lambda}} = \mathbf{0}}
+#' and \eqn{\underline{\kappa} < -(K - 1)/2 } 
+#' then \eqn{ \mathbf{V} \sim \mathcal{IW}(\underline{\boldsymbol{\Psi}}, \underline{\kappa})}
+#' }
 #' 
 #' @name bvars-package
 #' @aliases bvars-package bvars
@@ -113,7 +111,7 @@
 #' @import RcppProgress
 #' @note This package is currently in active development. Your comments,
 #' suggestions and requests are warmly welcome!
-#' @authors Rui Liu \email{rl3023@columbia.edu}, 
+#' @author Rui Liu \email{rl3023@columbia.edu}, 
 #' Andres Ramirez Hassan \email{aramir21@gmail.com}, 
 #' Tomasz Woźniak \email{wozniak.tom@pm.me}
 

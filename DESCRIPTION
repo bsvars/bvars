@@ -1,13 +1,13 @@
-Package: bvarNWish
+Package: bvars
 Type: Package
-Title: Bayesian Vector Autoregressions with Normal-Wishart Priors
+Title: Bayesian Vector Autoregressions with Flexible Priors
 Version: 0.0.1.9000
-Date: 2025-04-14
+Date: 2026-03-25
 Authors@R: c(person("Rui", "Liu", , "rl3023@columbia.edu", role = c("aut"), comment = c(ORCID = "0009-0008-9348-8581")),
              person("Andres", "Ramirez Hassan", , "aramir21@gmail.com", role = c("aut"), comment = c(ORCID = "0000-0002-0467-7903")),
              person("Tomasz", "Woźniak", , "wozniak.tom@pm.me", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-2212-2378")))
 Maintainer: Tomasz Woźniak <wozniak.tom@pm.me>
-Description: Bayesian Vector Autoregressions with Normal-Wishart Priors and the Matrix Generalized Inverse Gaussian Gibbs sampler.
+Description: Bayesian vector autoregressions with flexible priors, including matrix generalized inverse Gaussian, generalized inverse Gaussian, and inverse gamma priors.
 License: GPL (>= 3)
 Depends: 
     R (>= 4.1.0),
@@ -23,4 +23,4 @@ LinkingTo:
     RcppProgress,
     bsvars
 Encoding: UTF-8
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3

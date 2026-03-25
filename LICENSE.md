@@ -1,3 +1,7 @@
+    bvars: Bayesian Vector Autoregressions with MGIG Prior
+    Copyright (C) 2026 Rui Liu, Andres Ramirez Hassan, and 
+    Tomasz Woźniak <wozniak.tom@pm.me>
+
 GNU General Public License
 ==========================
 
