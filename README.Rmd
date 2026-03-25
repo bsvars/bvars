@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# bvarNWish
+# bvars
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/bsvars/bvars/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bsvars/bvars/actions/workflows/R-CMD-check.yaml)

@@ -1,14 +1,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# bvarNWish
+# bvars
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/bsvars/bvarNWish/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bsvars/bvarNWish/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/bsvars/bvars/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bsvars/bvars/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-An **R** package for Bayesian Vector Autoregressions with Normal-Wishart
+An **R** package for Bayesian Vector Autoregressions with Flexible
 Priors
 
 ## Installation
@@ -29,4 +29,4 @@ and for **Linux:** install the standard development packages.
 The developer’s version of the package with the newest features can be
 installed by typing:
 
-    devtools::install_github("bsvars/bvarNWish")
+    devtools::install_github("bsvars/bvars")
