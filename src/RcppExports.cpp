@@ -14,9 +14,9 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// bvar_gig_cpp
-Rcpp::List bvar_gig_cpp(const int& S, const arma::mat& Y, const arma::mat& X, const Rcpp::List& prior, const Rcpp::List& starting_values, const int thin, const bool show_progress);
-static SEXP _bvars_bvar_gig_cpp_try(SEXP SSEXP, SEXP YSEXP, SEXP XSEXP, SEXP priorSEXP, SEXP starting_valuesSEXP, SEXP thinSEXP, SEXP show_progressSEXP) {
+// bvar_mgig_cpp
+Rcpp::List bvar_mgig_cpp(const int& S, const arma::mat& Y, const arma::mat& X, const Rcpp::List& prior, const Rcpp::List& starting_values, const int thin, const bool show_progress);
+static SEXP _bvars_bvar_mgig_cpp_try(SEXP SSEXP, SEXP YSEXP, SEXP XSEXP, SEXP priorSEXP, SEXP starting_valuesSEXP, SEXP thinSEXP, SEXP show_progressSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< const int& >::type S(SSEXP);
@@ -26,15 +26,15 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const Rcpp::List& >::type starting_values(starting_valuesSEXP);
     Rcpp::traits::input_parameter< const int >::type thin(thinSEXP);
     Rcpp::traits::input_parameter< const bool >::type show_progress(show_progressSEXP);
-    rcpp_result_gen = Rcpp::wrap(bvar_gig_cpp(S, Y, X, prior, starting_values, thin, show_progress));
+    rcpp_result_gen = Rcpp::wrap(bvar_mgig_cpp(S, Y, X, prior, starting_values, thin, show_progress));
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP _bvars_bvar_gig_cpp(SEXP SSEXP, SEXP YSEXP, SEXP XSEXP, SEXP priorSEXP, SEXP starting_valuesSEXP, SEXP thinSEXP, SEXP show_progressSEXP) {
+RcppExport SEXP _bvars_bvar_mgig_cpp(SEXP SSEXP, SEXP YSEXP, SEXP XSEXP, SEXP priorSEXP, SEXP starting_valuesSEXP, SEXP thinSEXP, SEXP show_progressSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(_bvars_bvar_gig_cpp_try(SSEXP, YSEXP, XSEXP, priorSEXP, starting_valuesSEXP, thinSEXP, show_progressSEXP));
+        rcpp_result_gen = PROTECT(_bvars_bvar_mgig_cpp_try(SSEXP, YSEXP, XSEXP, priorSEXP, starting_valuesSEXP, thinSEXP, show_progressSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -373,7 +373,7 @@ RcppExport SEXP _bvars_sample_ASigma(SEXP YSEXP, SEXP XSEXP, SEXP aux_V_invSEXP,
 static int _bvars_RcppExport_validate(const char* sig) { 
     static std::set<std::string> signatures;
     if (signatures.empty()) {
-        signatures.insert("Rcpp::List(*bvar_gig_cpp)(const int&,const arma::mat&,const arma::mat&,const Rcpp::List&,const Rcpp::List&,const int,const bool)");
+        signatures.insert("Rcpp::List(*bvar_mgig_cpp)(const int&,const arma::mat&,const arma::mat&,const Rcpp::List&,const Rcpp::List&,const int,const bool)");
         signatures.insert("Rcpp::List(*forecast_bvarGIG)(arma::cube&,arma::cube&,arma::cube&,arma::vec&,arma::mat&,arma::mat&,const int&)");
         signatures.insert("arma::vec(*rig2)(const int,const double,const double)");
         signatures.insert("arma::mat(*do_rmatnorm1)(const arma::mat&,const arma::mat&,const arma::mat&)");
@@ -387,7 +387,7 @@ static int _bvars_RcppExport_validate(const char* sig) {
 
 // registerCCallable (register entry points for exported C++ functions)
 RcppExport SEXP _bvars_RcppExport_registerCCallable() { 
-    R_RegisterCCallable("bvars", "_bvars_bvar_gig_cpp", (DL_FUNC)_bvars_bvar_gig_cpp_try);
+    R_RegisterCCallable("bvars", "_bvars_bvar_mgig_cpp", (DL_FUNC)_bvars_bvar_mgig_cpp_try);
     R_RegisterCCallable("bvars", "_bvars_forecast_bvarGIG", (DL_FUNC)_bvars_forecast_bvarGIG_try);
     R_RegisterCCallable("bvars", "_bvars_rig2", (DL_FUNC)_bvars_rig2_try);
     R_RegisterCCallable("bvars", "_bvars_do_rmatnorm1", (DL_FUNC)_bvars_do_rmatnorm1_try);
@@ -400,7 +400,7 @@ RcppExport SEXP _bvars_RcppExport_registerCCallable() {
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_bvars_bvar_gig_cpp", (DL_FUNC) &_bvars_bvar_gig_cpp, 7},
+    {"_bvars_bvar_mgig_cpp", (DL_FUNC) &_bvars_bvar_mgig_cpp, 7},
     {"_bvars_forecast_bvarGIG", (DL_FUNC) &_bvars_forecast_bvarGIG, 7},
     {"_bvars_rig2", (DL_FUNC) &_bvars_rig2, 3},
     {"_bvars_do_rinvwishart", (DL_FUNC) &_bvars_do_rinvwishart, 2},

@@ -1,11 +1,10 @@
 #ifndef _BVAR_GIG_
-
 #define _BVAR_GIG_
 
 #include <RcppArmadillo.h>
 
-Rcpp::List bvar_gig_cpp(
-    const int&  S,                        // number of draws from the posterior
+Rcpp::List bvar_mgig_cpp(
+    const int&        S,                  // number of draws from the posterior
     const arma::mat&  Y,                  // NxT dependent variables
     const arma::mat&  X,                  // KxT dependent variables
     const Rcpp::List& prior,              // a list of priors

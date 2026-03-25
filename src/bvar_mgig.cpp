@@ -11,8 +11,8 @@ using namespace arma;
 
 // [[Rcpp::interfaces(cpp)]]
 // [[Rcpp::export]]
-Rcpp::List bvar_gig_cpp(
-    const int&  S,                        // number of draws from the posterior
+Rcpp::List bvar_mgig_cpp(
+    const int&        S,                  // number of draws from the posterior
     const arma::mat&  Y,                  // NxT dependent variables
     const arma::mat&  X,                  // KxT dependent variables
     const Rcpp::List& prior,              // a list of priors
@@ -95,4 +95,4 @@ Rcpp::List bvar_gig_cpp(
       _["V"]        = posterior_V
     )
   );
-} // END bvar_gig_cpp
+} // END bvar_mgig_cpp

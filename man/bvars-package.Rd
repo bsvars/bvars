@@ -95,7 +95,7 @@ suggestions and requests are warmly welcome!
 data(us_fiscal_lsuw)
 
 # specify the model and set seed
-specification  = specify_bvarGIG$new(us_fiscal_lsuw, p = 1)
+specification  = specify_bvarMGIG$new(us_fiscal_lsuw, p = 1)
 set.seed(123)
 
 # run the burn-in
@@ -108,7 +108,7 @@ posterior      = estimate(burn_in, 10)
 ############################################################
 set.seed(123)
 us_fiscal_lsuw |>
-  specify_bvarGIG$new(p = 1) |>
+  specify_bvarMGIG$new(p = 1) |>
   estimate(S = 5) |> 
   estimate(S = 10) -> posterior
   

@@ -25,17 +25,17 @@ namespace bvars {
         }
     }
 
-    inline Rcpp::List bvar_gig_cpp(const int& S, const arma::mat& Y, const arma::mat& X, const Rcpp::List& prior, const Rcpp::List& starting_values, const int thin = 100, const bool show_progress = true) {
-        typedef SEXP(*Ptr_bvar_gig_cpp)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
-        static Ptr_bvar_gig_cpp p_bvar_gig_cpp = NULL;
-        if (p_bvar_gig_cpp == NULL) {
-            validateSignature("Rcpp::List(*bvar_gig_cpp)(const int&,const arma::mat&,const arma::mat&,const Rcpp::List&,const Rcpp::List&,const int,const bool)");
-            p_bvar_gig_cpp = (Ptr_bvar_gig_cpp)R_GetCCallable("bvars", "_bvars_bvar_gig_cpp");
+    inline Rcpp::List bvar_mgig_cpp(const int& S, const arma::mat& Y, const arma::mat& X, const Rcpp::List& prior, const Rcpp::List& starting_values, const int thin = 100, const bool show_progress = true) {
+        typedef SEXP(*Ptr_bvar_mgig_cpp)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+        static Ptr_bvar_mgig_cpp p_bvar_mgig_cpp = NULL;
+        if (p_bvar_mgig_cpp == NULL) {
+            validateSignature("Rcpp::List(*bvar_mgig_cpp)(const int&,const arma::mat&,const arma::mat&,const Rcpp::List&,const Rcpp::List&,const int,const bool)");
+            p_bvar_mgig_cpp = (Ptr_bvar_mgig_cpp)R_GetCCallable("bvars", "_bvars_bvar_mgig_cpp");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_bvar_gig_cpp(Shield<SEXP>(Rcpp::wrap(S)), Shield<SEXP>(Rcpp::wrap(Y)), Shield<SEXP>(Rcpp::wrap(X)), Shield<SEXP>(Rcpp::wrap(prior)), Shield<SEXP>(Rcpp::wrap(starting_values)), Shield<SEXP>(Rcpp::wrap(thin)), Shield<SEXP>(Rcpp::wrap(show_progress)));
+            rcpp_result_gen = p_bvar_mgig_cpp(Shield<SEXP>(Rcpp::wrap(S)), Shield<SEXP>(Rcpp::wrap(Y)), Shield<SEXP>(Rcpp::wrap(X)), Shield<SEXP>(Rcpp::wrap(prior)), Shield<SEXP>(Rcpp::wrap(starting_values)), Shield<SEXP>(Rcpp::wrap(thin)), Shield<SEXP>(Rcpp::wrap(show_progress)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();

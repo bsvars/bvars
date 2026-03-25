@@ -28,14 +28,14 @@
 #' \code{E}, are temporally and contemporaneously independent and jointly 
 #' normally distributed with zero mean and period-specific covariance \eqn{\Sigma}.
 #' 
-#' @param specification an object of class \code{BVARGIG} generated using the 
-#' \code{specify_bvarGIG$new()} function.
+#' @param specification an object of class \code{BVARMGIG} generated using the 
+#' \code{specify_bvarMGIG$new()} function.
 #' @param S a positive integer, the number of posterior draws to be generated
 #' @param thin a positive integer, specifying the frequency of MCMC output thinning
 #' @param show_progress a logical value, if \code{TRUE} the estimation progress 
 #' bar is visible
 #' 
-#' @return An object of class \code{PosteriorBVARGIG} containing the Bayesian 
+#' @return An object of class \code{PosteriorBVARMGIG} containing the Bayesian 
 #' estimation output and containing two elements:
 #' 
 #'  \code{posterior} a list with a collection of \code{S} draws from the 
@@ -47,11 +47,11 @@
 #'  matrix \eqn{\Sigma}}
 #' }
 #' 
-#' \code{last_draw} an object of class \code{BVARGIG} with the last draw of the 
+#' \code{last_draw} an object of class \code{BVARMGIG} with the last draw of the 
 #' current MCMC run as the starting value to be passed to the continuation of 
 #' the MCMC estimation using \code{estimate()}. 
 #'
-#' @seealso \code{\link{specify_bvarGIG}}, \code{\link{specify_posterior_bvarGIG}}
+#' @seealso \code{\link{specify_bvarMGIG}}, \code{\link{specify_posterior_bvarMGIG}}
 #'
 #' @author Rui Liu \email{rl3023@columbia.edu}, 
 #' Andres Ramirez Hassan \email{aramir21@gmail.com} & 
@@ -77,7 +77,7 @@
 #' Woźniak (2016) Bayesian Vector Autoregressions, Australian Economic Review,
 #' 49(3), 365--380, <doi:10.1111/1467-8462.12179>.
 #' 
-#' @method estimate BVARGIG
+#' @method estimate BVARMGIG
 #' 
 #' @examples
 #' # simple workflow
@@ -86,7 +86,7 @@
 #' data(us_fiscal_lsuw)
 #' 
 #' # specify the model and set seed
-#' specification  = specify_bvarGIG$new(us_fiscal_lsuw, p = 1)
+#' specification  = specify_bvarMGIG$new(us_fiscal_lsuw, p = 1)
 #' set.seed(123)
 #' 
 #' # run the burn-in
@@ -99,12 +99,12 @@
 #' ############################################################
 #' set.seed(123)
 #' us_fiscal_lsuw |>
-#'   specify_bvarGIG$new(p = 1) |>
+#'   specify_bvarMGIG$new(p = 1) |>
 #'   estimate(S = 5) |> 
 #'   estimate(S = 10) -> posterior
 #' 
 #' @export
-estimate.BVARGIG <- function(specification, S, thin = 1, show_progress = TRUE) {
+estimate.BVARMGIG <- function(specification, S, thin = 1, show_progress = TRUE) {
   
   # get the inputs to estimation
   prior               = specification$prior$get_prior()
@@ -113,7 +113,7 @@ estimate.BVARGIG <- function(specification, S, thin = 1, show_progress = TRUE) {
   
   # estimation
   qqq   = .Call(
-    `_bvars_bvar_gig_cpp`, 
+    `_bvars_bvar_mgig_cpp`, 
     S, 
     data_matrices$Y, 
     data_matrices$X, 
@@ -125,24 +125,23 @@ estimate.BVARGIG <- function(specification, S, thin = 1, show_progress = TRUE) {
   
   # prepare the output
   specification$starting_values$set_starting_values(qqq$last_draw)
-  output              = specify_posterior_bvarGIG$new(specification, qqq$posterior)
+  output              = specify_posterior_bvarMGIG$new(specification, qqq$posterior)
   
   return(output)
 }
 
 
-
-#' @inherit estimate.BVARGIG
+#' @inherit estimate.BVARMGIG
 #' 
-#' @method estimate PosteriorBVARGIG
+#' @method estimate PosteriorBVARMGIG
 #' 
-#' @param specification an object of class \code{PosteriorBVARGIG} generated 
-#' using the \code{estimate.BVARGIG()} function. This setup facilitates the 
+#' @param specification an object of class \code{PosteriorBVARMGIG} generated 
+#' using the \code{estimate.BVARMGIG()} function. This setup facilitates the 
 #' continuation of the MCMC sampling starting from the last draw of the previous 
 #' run.
 #' 
 #' @export
-estimate.PosteriorBVARGIG <- function(specification, S, thin = 1, show_progress = TRUE) {
+estimate.PosteriorBVARMGIG <- function(specification, S, thin = 1, show_progress = TRUE) {
   
   # get the inputs to estimation
   prior               = specification$last_draw$prior$get_prior()
@@ -151,7 +150,7 @@ estimate.PosteriorBVARGIG <- function(specification, S, thin = 1, show_progress 
   
   # estimation
   qqq   = .Call(
-    `_bvars_bvar_gig_cpp`, 
+    `_bvars_bvar_mgig_cpp`, 
     S, 
     data_matrices$Y, 
     data_matrices$X, 
@@ -163,7 +162,7 @@ estimate.PosteriorBVARGIG <- function(specification, S, thin = 1, show_progress 
   
   # prepare the output
   specification$last_draw$starting_values$set_starting_values(qqq$last_draw)
-  output              = specify_posterior_bvarGIG$new(specification$last_draw, qqq$posterior)
+  output              = specify_posterior_bvarMGIG$new(specification$last_draw, qqq$posterior)
   
   return(output)
 }

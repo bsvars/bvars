@@ -6,10 +6,10 @@
 #' \pkg{bvarPANELs} at forecast horizons from 1 to \code{horizon} specified as 
 #' an argument of the function.
 #' 
-#' @method forecast PosteriorBVARGIG
+#' @method forecast PosteriorBVARMGIG
 #' 
 #' @param posterior posterior estimation outcome - an object of class 
-#' \code{PosteriorBVARGIG} obtained by running the \code{estimate} function.
+#' \code{PosteriorBVARMGIG} obtained by running the \code{estimate} function.
 #' @param horizon a positive integer, specifying the forecasting horizon.
 #' @param exogenous_forecast a matrix of dimension \code{horizon x d} containing 
 #' forecasted values of the exogenous variables. 
@@ -38,7 +38,7 @@
 #' 
 #' # specify the model and set seed
 #' set.seed(123)
-#' specification  = specify_bvarGIG$new(us_fiscal_lsuw, p = 1)
+#' specification  = specify_bvarMGIG$new(us_fiscal_lsuw, p = 1)
 #' 
 #' # run the burn-in
 #' burn_in        = estimate(specification, 5)
@@ -53,13 +53,13 @@
 #' ############################################################
 #' set.seed(123)
 #' us_fiscal_lsuw |>
-#'   specify_bvarGIG$new(p = 1) |>
+#'   specify_bvarMGIG$new(p = 1) |>
 #'   estimate(S = 5) |> 
 #'   estimate(S = 10) |> 
 #'   forecast(horizon = 4) -> predictive
 #' 
 #' @export
-forecast.PosteriorBVARGIG = function(
+forecast.PosteriorBVARMGIG = function(
     posterior, 
     horizon = 1, 
     exogenous_forecast = NULL,

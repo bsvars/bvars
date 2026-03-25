@@ -1,16 +1,16 @@
 
-#' R6 Class Representing \code{PriorBVARGIG}
+#' R6 Class Representing \code{PriorBVARMGIG}
 #'
 #' @description
-#' The class \code{PriorBVARGIG} presents a prior specification for the BVAR model.
+#' The class \code{PriorBVARMGIG} presents a prior specification for the BVAR model.
 #' 
 #' @examples 
 #' prior = specify_prior_bsvar$new(N = 3, p = 1)  # a prior for 3-variable example with one lag
 #' prior$A                                        # show autoregressive prior mean
 #' 
 #' @export
-specify_prior_bvarGIG = R6::R6Class(
-  "PriorBVARGIG",
+specify_prior_bvarMGIG = R6::R6Class(
+  "PriorBVARMGIG",
   
   public = list(
     
@@ -45,17 +45,17 @@ specify_prior_bvarGIG = R6::R6Class(
     lambda   = numeric(),
     
     #' @description
-    #' Create a new prior specification \code{PriorBVARGIG}.
+    #' Create a new prior specification \code{PriorBVARMGIG}.
     #' @param N a positive integer - the number of dependent variables in the model.
     #' @param p a positive integer - the autoregressive lag order of the VAR model.
     #' @param d a positive integer - the number of \code{exogenous} variables in the model.
     #' @param stationary an \code{N} logical vector - its element set to 
     #' \code{FALSE} sets the prior mean for the autoregressive parameters of the 
     #' \code{N}th equation to the white noise process, otherwise to random walk.
-    #' @return A new prior specification \code{PriorBVARGIG}.
+    #' @return A new prior specification \code{PriorBVARMGIG}.
     #' @examples 
     #' # a prior for 3-variable example with one lag and stationary data
-    #' prior = specify_prior_bvarGIG$new(N = 3, p = 1, stationary = rep(TRUE, 3))
+    #' prior = specify_prior_bvarMGIG$new(N = 3, p = 1, stationary = rep(TRUE, 3))
     #' prior$A # show autoregressive prior mean
     #' 
     initialize = function(N, p, d = 0, stationary = rep(FALSE, N)){
@@ -74,12 +74,12 @@ specify_prior_bvarGIG = R6::R6Class(
     }, # END initialize
     
     #' @description
-    #' Returns the elements of the prior specification \code{PriorBVARGIG} as 
+    #' Returns the elements of the prior specification \code{PriorBVARMGIG} as 
     #' a \code{list}.
     #' 
     #' @examples 
     #' # a prior for 3-variable example with four lags
-    #' prior = specify_prior_bvarGIG$new(N = 3, p = 4)
+    #' prior = specify_prior_bvarMGIG$new(N = 3, p = 4)
     #' prior$get_prior() # show the prior as list
     #' 
     get_prior = function(){
@@ -94,22 +94,22 @@ specify_prior_bvarGIG = R6::R6Class(
     } # END get_prior
     
   ) # END public
-) # END specify_prior_bvarGIG
+) # END specify_prior_bvarMGIG
 
 
 
-#' R6 Class Representing \code{StartingValuesBVARGIG}
+#' R6 Class Representing \code{StartingValuesBVARMGIG}
 #'
 #' @description
-#' The class \code{StartingValuesBVARGIG} presents starting values for the BVAR model.
+#' The class \code{StartingValuesBVARMGIG} presents starting values for the BVAR model.
 #' 
 #' @examples 
 #' # starting values for a 3-variable BVAR model.
-#' sv = specify_starting_values_bvarGIG$new(N = 3, p = 1)
+#' sv = specify_starting_values_bvarMGIG$new(N = 3, p = 1)
 #' 
 #' @export
-specify_starting_values_bvarGIG = R6::R6Class(
-  "StartingValuesBVARGIG",
+specify_starting_values_bvarMGIG = R6::R6Class(
+  "StartingValuesBVARMGIG",
   
   public = list(
     
@@ -127,14 +127,14 @@ specify_starting_values_bvarGIG = R6::R6Class(
     V         = matrix(),
     
     #' @description
-    #' Create new starting values \code{StartingValuesBVARGIG}.
+    #' Create new starting values \code{StartingValuesBVARMGIG}.
     #' @param N a positive integer - the number of dependent variables in the model.
     #' @param p a positive integer - the autoregressive lag order of the BVAR model.
     #' @param d a positive integer - the number of \code{exogenous} variables in the model.
-    #' @return Starting values \code{StartingValuesBVARGIG}.
+    #' @return Starting values \code{StartingValuesBVARMGIG}.
     #' @examples 
     #' # starting values for a 3-variable BVAR model
-    #' sv = specify_starting_values_bvarGIG$new(N = 3, p = 4)
+    #' sv = specify_starting_values_bvarMGIG$new(N = 3, p = 4)
     #' 
     initialize = function(N, p, d = 0){
       stopifnot("Argument N must be a positive integer number." = N > 0 & N %% 1 == 0)
@@ -148,11 +148,11 @@ specify_starting_values_bvarGIG = R6::R6Class(
     }, # END initialize
     
     #' @description
-    #' Returns the elements of the starting values \code{StartingValuesBVARGIG} as a \code{list}.
+    #' Returns the elements of the starting values \code{StartingValuesBVARMGIG} as a \code{list}.
     #' 
     #' @examples 
     #' # starting values for a 3-variable BVAR model
-    #' sv = specify_starting_values_bvarGIG$new(N = 3, p = 1)
+    #' sv = specify_starting_values_bvarMGIG$new(N = 3, p = 1)
     #' sv$get_starting_values()   # show starting values as list
     #' 
     get_starting_values   = function(){
@@ -164,18 +164,18 @@ specify_starting_values_bvarGIG = R6::R6Class(
     }, # END get_starting_values
     
     #' @description
-    #' Sets the elements of the starting values \code{StartingValuesBVARGIG} to 
+    #' Sets the elements of the starting values \code{StartingValuesBVARMGIG} to 
     #' provided values.
     #' @param last_draw a list containing the last draw of elements \code{A} - 
     #' a \code{KxN} matrix, \code{Sigma} - an \code{NxN} matrix, and \code{V} - 
     #' a \code{KxK} matrix.
-    #' @return An object of class \code{StartingValuesBVARGIG} including the 
+    #' @return An object of class \code{StartingValuesBVARMGIG} including the 
     #' last draw of the current MCMC as the starting value to be passed to the 
     #' continuation of the MCMC estimation using \code{estimate()}.
     #' 
     #' @examples 
     #' # starting values for a 3-variable BVAR model
-    #' sv = specify_starting_values_bvarGIG$new(N = 3, p = 1)
+    #' sv = specify_starting_values_bvarMGIG$new(N = 3, p = 1)
     #' 
     #' # Modify the starting values by:
     #' sv_list = sv$get_starting_values()   # getting them as list
@@ -188,49 +188,49 @@ specify_starting_values_bvarGIG = R6::R6Class(
       self$V            = last_draw$V
     } # END set_starting_values
   ) # END public
-) # END specify_starting_values_bvarGIG
+) # END specify_starting_values_bvarMGIG
 
 
 
-#' R6 Class representing the specification of the \code{BVARGIG} model
+#' R6 Class representing the specification of the \code{BVARMGIG} model
 #'
 #' @description
-#' The class \code{BVARGIG} presents complete specification for the BVAR model.
+#' The class \code{BVARMGIG} presents complete specification for the BVAR model.
 #' 
 #' @examples 
 #' data(us_fiscal_lsuw)
-#' spec = specify_bvarGIG$new(
+#' spec = specify_bvarMGIG$new(
 #'    data = us_fiscal_lsuw,
 #'    p = 4
 #' )
 #' 
 #' @export
-specify_bvarGIG = R6::R6Class(
-  "BVARGIG",
+specify_bvarMGIG = R6::R6Class(
+  "BVARMGIG",
   
   public = list(
     
     #' @field p a non-negative integer specifying the autoregressive lag order of the model. 
     p                      = numeric(),
     
-    #' @field prior an object \code{PriorBVARGIG} with the prior specification. 
+    #' @field prior an object \code{PriorBVARMGIG} with the prior specification. 
     prior                  = list(),
     
     #' @field data_matrices an object \code{DataMatricesBSVAR} with the data matrices.
     data_matrices          = list(),
     
-    #' @field starting_values an object \code{StartingValuesBVARGIG} with the starting values.
+    #' @field starting_values an object \code{StartingValuesBVARMGIG} with the starting values.
     starting_values        = list(),
     
     #' @description
-    #' Create a new specification of the \code{BVARGIG} model.
+    #' Create a new specification of the \code{BVARMGIG} model.
     #' @param data a \code{(T+p)xN} matrix with time series data.
     #' @param p a positive integer providing model's autoregressive lag order.
     #' @param exogenous a \code{(T+p)xd} matrix of exogenous variables. 
     #' @param stationary an \code{N} logical vector - its element set to
     #' \code{FALSE} sets the prior mean for the autoregressive parameters of the 
     #' \code{N}th equation to the white noise process, otherwise to random walk.
-    #' @return A new complete specification for the \code{BVARGIG} model.
+    #' @return A new complete specification for the \code{BVARMGIG} model.
     initialize = function(
     data,
     p = 1L,
@@ -250,8 +250,8 @@ specify_bvarGIG = R6::R6Class(
       K             = N * p + 1 + d
       
       self$data_matrices   = specify_data_matrices$new(data, p, exogenous)
-      self$prior           = specify_prior_bvarGIG$new(N, p, d, stationary)
-      self$starting_values = specify_starting_values_bvarGIG$new(N, self$p, d)
+      self$prior           = specify_prior_bvarMGIG$new(N, p, d, stationary)
+      self$starting_values = specify_starting_values_bvarMGIG$new(N, self$p, d)
     }, # END initialize
     
     #' @description
@@ -259,7 +259,7 @@ specify_bvarGIG = R6::R6Class(
     #' 
     #' @examples 
     #' data(us_fiscal_lsuw)
-    #' spec = specify_bvarGIG$new(
+    #' spec = specify_bvarMGIG$new(
     #'    data = us_fiscal_lsuw,
     #'    p = 4
     #' )
@@ -270,11 +270,11 @@ specify_bvarGIG = R6::R6Class(
     }, # END get_data_matrices
     
     #' @description
-    #' Returns the prior specification as the \code{PriorBVARGIG} object.
+    #' Returns the prior specification as the \code{PriorBVARMGIG} object.
     #' 
     #' @examples 
     #' data(us_fiscal_lsuw)
-    #' spec = specify_bvarGIG$new(
+    #' spec = specify_bvarMGIG$new(
     #'    data = us_fiscal_lsuw,
     #'    p = 4
     #' )
@@ -285,11 +285,11 @@ specify_bvarGIG = R6::R6Class(
     }, # END get_prior
     
     #' @description
-    #' Returns the starting values as the \code{StartingValuesBVARGIG} object.
+    #' Returns the starting values as the \code{StartingValuesBVARMGIG} object.
     #' 
     #' @examples 
     #' data(us_fiscal_lsuw)
-    #' spec = specify_bvarGIG$new(
+    #' spec = specify_bvarMGIG$new(
     #'    data = us_fiscal_lsuw,
     #'    p = 4
     #' )
@@ -299,7 +299,7 @@ specify_bvarGIG = R6::R6Class(
       self$starting_values$clone()
     } # END get_starting_values
   ) # END public
-) # END specify_bvarGIG
+) # END specify_bvarMGIG
 
 
 
@@ -318,10 +318,10 @@ specify_bvarGIG = R6::R6Class(
 
 
 
-#' R6 Class Representing \code{PosteriorBVARGIG}
+#' R6 Class Representing \code{PosteriorBVARMGIG}
 #'
 #' @description
-#' The class \code{PosteriorBVARGIG} contains posterior output and the 
+#' The class \code{PosteriorBVARMGIG} contains posterior output and the 
 #' specification including the last MCMC draw for the BVAR model. 
 #' Note that due to the thinning of the MCMC output the starting value in element 
 #' \code{last_draw} might not be equal to the last draw provided in element 
@@ -330,18 +330,18 @@ specify_bvarGIG = R6::R6Class(
 #' @examples 
 #' # This is a function that is used within estimate()
 #' data(us_fiscal_lsuw)
-#' specification  = specify_bvarGIG$new(us_fiscal_lsuw, p = 1)
+#' specification  = specify_bvarMGIG$new(us_fiscal_lsuw, p = 1)
 #' set.seed(123)
 #' # posterior       = estimate(specification, 50)
 #' # class(posterior)
 #' 
 #' @export
-specify_posterior_bvarGIG = R6::R6Class(
-  "PosteriorBVARGIG",
+specify_posterior_bvarMGIG = R6::R6Class(
+  "PosteriorBVARMGIG",
   
   public = list(
     
-    #' @field last_draw an object of class \code{BVARGIG} with the last draw of 
+    #' @field last_draw an object of class \code{BVARMGIG} with the last draw of 
     #' the current MCMC run as the starting value to be passed to the 
     #' continuation of the MCMC estimation using \code{estimate()}. 
     last_draw = list(),
@@ -351,19 +351,19 @@ specify_posterior_bvarGIG = R6::R6Class(
     posterior = list(),
     
     #' @description
-    #' Create a new posterior output \code{PosteriorBVARGIG}.
-    #' @param specification_bvarGIG an object of class \code{BVARGIG} with the 
+    #' Create a new posterior output \code{PosteriorBVARMGIG}.
+    #' @param specification_bvarMGIG an object of class \code{BVARMGIG} with the 
     #' last draw of the current MCMC run as the starting value.
-    #' @param posterior_bvarGIG a list containing Bayesian estimation output 
+    #' @param posterior_bvarMGIG a list containing Bayesian estimation output 
     #' collected in elements \code{A}, \code{Sigma}, and \code{V}.
-    #' @return A posterior output \code{PosteriorBVARGIG}.
-    initialize = function(specification_bvarGIG, posterior_bvarGIG) {
+    #' @return A posterior output \code{PosteriorBVARMGIG}.
+    initialize = function(specification_bvarMGIG, posterior_bvarMGIG) {
       
-      stopifnot("Argument specification_bsvar must be of class BVARGIG." = any(class(specification_bvarGIG) == "BVARGIG"))
-      stopifnot("Argument posterior_bsvar must must contain MCMC output." = is.list(posterior_bvarGIG) & is.array(posterior_bvarGIG$A) & is.array(posterior_bvarGIG$Sigma) & is.array(posterior_bvarGIG$V))
+      stopifnot("Argument specification_bsvar must be of class BVARMGIG." = any(class(specification_bvarMGIG) == "BVARMGIG"))
+      stopifnot("Argument posterior_bsvar must must contain MCMC output." = is.list(posterior_bvarMGIG) & is.array(posterior_bvarMGIG$A) & is.array(posterior_bvarMGIG$Sigma) & is.array(posterior_bvarMGIG$V))
       
-      self$last_draw    = specification_bvarGIG
-      self$posterior    = posterior_bvarGIG
+      self$last_draw    = specification_bvarMGIG
+      self$posterior    = posterior_bvarMGIG
     }, # END initialize
     
     #' @description
@@ -372,7 +372,7 @@ specify_posterior_bvarGIG = R6::R6Class(
     #' 
     #' @examples 
     #' data(us_fiscal_lsuw)
-    #' specification  = specify_bvarGIG$new(us_fiscal_lsuw)
+    #' specification  = specify_bvarMGIG$new(us_fiscal_lsuw)
     #' set.seed(123)
     #' # posterior       = estimate(specification, 50)
     #' # posterior$get_posterior()
@@ -382,7 +382,7 @@ specify_posterior_bvarGIG = R6::R6Class(
     }, # END get_posterior
     
     #' @description
-    #' Returns an object of class \code{BVARGIG} with the last draw of the 
+    #' Returns an object of class \code{BVARMGIG} with the last draw of the 
     #' current MCMC run as the starting value to be passed to the continuation 
     #' of the MCMC estimation using \code{estimate()}.
     #' 
@@ -390,7 +390,7 @@ specify_posterior_bvarGIG = R6::R6Class(
     #' data(us_fiscal_lsuw)
     #' 
     #' # specify the model and set seed
-    #' specification  = specify_bvarGIG$new(us_fiscal_lsuw, p = 1)
+    #' specification  = specify_bvarMGIG$new(us_fiscal_lsuw, p = 1)
     #' set.seed(123)
     #' 
     #' # run the burn-in
