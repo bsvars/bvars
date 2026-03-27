@@ -82,34 +82,27 @@
 #' @examples
 #' # simple workflow
 #' ############################################################
-#' # upload data
-#' data(us_fiscal_lsuw)
-#' 
-#' # specify the model and set seed
-#' specification  = specify_bvarMGIG$new(us_fiscal_lsuw, p = 1)
-#' set.seed(123)
-#' 
-#' # run the burn-in
-#' burn_in        = estimate(specification, 5)
-#' 
-#' # estimate the model
-#' posterior      = estimate(burn_in, 10)
+#' spec = specify_bvarMGIG$new(us_fiscal_lsuw)   # specify the model
+#' burn = estimate(spec, 5)                      # run the burn-in
+#' post = estimate(burn, 10)                     # estimate the model
 #' 
 #' # workflow with the pipe |>
 #' ############################################################
-#' set.seed(123)
 #' us_fiscal_lsuw |>
-#'   specify_bvarMGIG$new(p = 1) |>
+#'   specify_bvarMGIG$new() |>
 #'   estimate(S = 5) |> 
-#'   estimate(S = 10) -> posterior
-#' 
+#'   estimate(S = 10) -> post
+#'
 #' @export
 estimate.BVARMGIG <- function(specification, S, thin = 1, show_progress = TRUE) {
   
   # get the inputs to estimation
-  prior               = specification$prior$get_prior()
-  starting_values     = specification$starting_values$get_starting_values()
-  data_matrices       = specification$data_matrices$get_data_matrices()
+  prior               = specification$get_prior()
+  starting_values     = specification$get_starting_values()
+  data_matrices       = specification$get_data_matrices()
+  centred_sv          = specification$get_centred_sv()
+  normal              = specification$get_normal()
+  homoskedastic       = specification$get_homoskedastic()
   
   # estimation
   qqq   = .Call(
@@ -119,6 +112,9 @@ estimate.BVARMGIG <- function(specification, S, thin = 1, show_progress = TRUE) 
     data_matrices$X, 
     prior, 
     starting_values, 
+    homoskedastic, 
+    centred_sv,
+    normal,
     thin, 
     show_progress
   )
@@ -147,6 +143,9 @@ estimate.PosteriorBVARMGIG <- function(specification, S, thin = 1, show_progress
   prior               = specification$last_draw$prior$get_prior()
   starting_values     = specification$last_draw$starting_values$get_starting_values()
   data_matrices       = specification$last_draw$data_matrices$get_data_matrices()
+  centred_sv          = specification$last_draw$get_centred_sv()
+  normal              = specification$last_draw$get_normal()
+  homoskedastic       = specification$last_draw$get_homoskedastic()
   
   # estimation
   qqq   = .Call(
@@ -156,6 +155,9 @@ estimate.PosteriorBVARMGIG <- function(specification, S, thin = 1, show_progress
     data_matrices$X, 
     prior, 
     starting_values, 
+    homoskedastic, 
+    centred_sv,
+    normal,
     thin, 
     show_progress
   )
