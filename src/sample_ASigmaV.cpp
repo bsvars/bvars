@@ -84,6 +84,7 @@ arma::field<arma::mat> sample_ASigma(
   
   mat   A_bar_tmp         = Y * Omega_inv * X.t() + prior_A * aux_V_inv;
   mat   V_bar_inv         = X * Omega_inv * X.t() + aux_V_inv;
+  V_bar_inv               = 0.5 * (V_bar_inv + V_bar_inv.t());
   mat   V_bar             = inv_sympd(V_bar_inv);
   mat   A_bar             = A_bar_tmp * V_bar;
   
