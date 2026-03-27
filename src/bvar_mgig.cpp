@@ -4,6 +4,7 @@
 #include "progress.hpp"
 
 #include "sample_ASigmaV.h"
+#include "sample_Omega.h"
 
 using namespace Rcpp;
 using namespace arma;
@@ -17,10 +18,12 @@ Rcpp::List bvar_mgig_cpp(
     const arma::mat&  X,                  // KxT dependent variables
     const Rcpp::List& prior,              // a list of priors
     const Rcpp::List& starting_values,    // a list of starting values
+    const bool        homoskedastic = true, 
+    const bool        centred_sv = false, // otherwise non-centred stochastic volatility
+    const bool        normal = true,      // otherwise Student-t
     const int         thin = 100,         // introduce thinning
     const bool        show_progress = true
 ) {
-  
   std::string oo = "";
   if ( thin != 1 ) {
     oo      = bsvars::ordinal(thin) + " ";
@@ -30,10 +33,10 @@ Rcpp::List bvar_mgig_cpp(
   vec prog_rep_points = arma::round(arma::linspace(0, S, 50));
   if (show_progress) {
     Rcout << "**************************************************|" << endl;
-    Rcout << "bvarGIGs: Bayesian Vector Autoregressions         |" << endl;
+    Rcout << "bvars: Bayesian Vector Autoregressions            |" << endl;
     Rcout << "          with Flexible Prior Distributions       |" << endl;
     Rcout << "**************************************************|" << endl;
-    Rcout << " Gibbs sampler for the BVAR model                 |" << endl;
+    Rcout << " Gibbs sampler for the BVAR model with MGIG prior |" << endl;
     Rcout << "**************************************************|" << endl;
     Rcout << " Progress of the MCMC simulation for " << S << " draws" << endl;
     Rcout << "    Every " << oo << "draw is saved via MCMC thinning" << endl;
@@ -46,32 +49,103 @@ Rcpp::List bvar_mgig_cpp(
   const int K         = X.n_rows;
   const int T         = Y.n_cols;
   
-  mat   aux_A         = as<mat>(starting_values["A"]);
-  mat   aux_Sigma     = as<mat>(starting_values["Sigma"]);
-  mat   aux_Sigma_inv = inv_sympd(aux_Sigma);
-  mat   aux_V         = as<mat>(starting_values["V"]);
-  mat   aux_V_inv     = inv_sympd(aux_V);
-  vec   aux_Omega_diag_inv(T, fill::ones);
-    
+  mat     aux_A         = as<mat>(starting_values["A"]);
+  mat     aux_Sigma     = as<mat>(starting_values["Sigma"]);
+  mat     aux_Sigma_inv = inv_sympd(aux_Sigma);
+  mat     aux_V         = as<mat>(starting_values["V"]);
+  mat     aux_V_inv     = inv_sympd(aux_V);
+  vec     aux_h         = as<vec>(starting_values["h"]);
+  double  aux_rho       = as<double>(starting_values["rho"]);
+  double  aux_omega     = as<double>(starting_values["omega"]);
+  double  aux_sigma2v   = as<double>(starting_values["sigma2v"]);
+  uvec    aux_S         = as<uvec>(starting_values["S"]);
+  double  aux_sigma2_omega = as<double>(starting_values["sigma2_omega"]);
+  double  aux_s_        = as<double>(starting_values["s_"]);
+  vec     aux_lambda    = as<vec>(starting_values["lambda"]);
+  double  aux_df        = as<double>(starting_values["df"]);
+  vec     aux_sigma2(T);
+  vec     aux_hetero_inv(T, fill::ones);
+  mat     U;
+  
+  if ( !homoskedastic & centred_sv ) {
+    aux_sigma2 = exp(aux_h);
+    aux_hetero_inv = 1 / aux_sigma2 % aux_lambda;
+  } else if ( !homoskedastic & !centred_sv ) {
+    aux_sigma2 = exp(aux_omega * aux_h);
+    aux_hetero_inv = 1 / aux_sigma2 % aux_lambda;
+  }
+  
   const int   SS      = floor(S / thin);
   
   cube  posterior_A(N, K, SS);
   cube  posterior_Sigma(N, N, SS);
   cube  posterior_V(K, K, SS);
+  mat   posterior_h(T, SS);
+  vec   posterior_rho(SS);
+  vec   posterior_omega(SS);
+  vec   posterior_sigma2v(SS);
+  umat  posterior_S(T, SS);
+  vec   posterior_sigma2_omega(SS);
+  vec   posterior_s_(SS);
+  mat   posterior_sigma2(T, SS);
+  mat   posterior_lambda(T, SS);
+  vec   posterior_df(SS);
   
+  // the initial value for the adaptive_scale is set to the negative inverse of 
+  // Hessian for the posterior log_kenel for df evaluated at df = 30
+  double    adaptive_scale      = abs(pow(0.25 * T * R::psigamma(15, 1) - T * 29 * pow(28, -2) - 2 * pow(29, -2), -1));
+  const vec adptive_alpha_gamma = as<vec>(NumericVector::create(0.44, 0.6));
   int   ss = 0;
   
+  // parameters of the SV auxiliary mixture
+  mat aux_mix = sv_aux_mix (N);
+  
   for (int s=0; s<S; s++) {
+    // Rcout << " s: " << s << endl;
     
     // Increment progress bar
     if (any(prog_rep_points == s)) p.increment();
     // Check for user interrupts
     if (s % 200 == 0) checkUserInterrupt();
     
+    if ( !normal ) {
+      List df_tmp     = sample_df ( aux_df, adaptive_scale, aux_lambda, s, adptive_alpha_gamma );
+      aux_df          = as<double>(df_tmp["aux_df"]);
+      adaptive_scale  = as<double>(df_tmp["adaptive_scale"]);
+      
+      aux_lambda      = sample_lambda ( aux_df, T, N );
+      aux_hetero_inv  = aux_sigma2 % aux_lambda;
+    }
+    
+    List sv_n;
+    if (!homoskedastic) {
+
+      if ( centred_sv ) {
+        sv_n          = svar_ce1( aux_h, aux_rho, aux_omega, aux_sigma2v, aux_sigma2_omega, aux_s_, aux_S, U, prior, aux_mix, true );
+      } else {
+        sv_n          = svar_nc1( aux_h, aux_rho, aux_omega, aux_sigma2v, aux_sigma2_omega, aux_s_, aux_S, U, prior, aux_mix, true );
+      }
+
+      aux_h           = as<vec>(sv_n["aux_h"]);
+      aux_S           = as<uvec>(sv_n["aux_S"]);
+      aux_rho         = as<double>(sv_n["aux_rho"]);
+      aux_omega       = as<double>(sv_n["aux_omega"]);
+      aux_sigma2v     = as<double>(sv_n["aux_sigma2v"]);
+      aux_sigma2_omega = as<double>(sv_n["aux_sigma2_omega"]);
+      aux_s_          = as<double>(sv_n["aux_s_"]);
+
+      if ( centred_sv ) {
+        aux_sigma2    = exp(aux_h);
+      } else {
+        aux_sigma2    = exp(aux_omega * aux_h);
+      }
+      aux_hetero_inv  = aux_sigma2 % aux_lambda;
+    }
     aux_V                 = sample_V_mgig( aux_V, aux_A, aux_Sigma_inv, prior );
     aux_V_inv             = inv_sympd(aux_V);
     
-    field<mat> aux_ASigma = sample_ASigma( Y, X, aux_V_inv, aux_Omega_diag_inv, prior );
+    // Rcout << " aux_Omega_diag_inv: " << aux_hetero_inv.t() << endl;
+    field<mat> aux_ASigma = sample_ASigma( Y, X, aux_V_inv, aux_hetero_inv, prior );
     aux_A                 = aux_ASigma(0);
     aux_Sigma             = aux_ASigma(1);
     
@@ -79,6 +153,16 @@ Rcpp::List bvar_mgig_cpp(
       posterior_A.slice(ss)     = aux_A;
       posterior_Sigma.slice(ss) = aux_Sigma;
       posterior_V.slice(ss)     = aux_V;
+      posterior_sigma2.col(ss)  = aux_sigma2;
+      posterior_h.col(ss)       = aux_h;
+      posterior_S.col(ss)       = aux_S;
+      posterior_rho(ss)         = aux_rho;
+      posterior_omega(ss)       = aux_omega;
+      posterior_sigma2v(ss)     = aux_sigma2v;
+      posterior_sigma2_omega(ss) = aux_sigma2_omega;
+      posterior_s_(ss)          = aux_s_;
+      posterior_lambda.col(ss)  = aux_lambda;
+      posterior_df(ss)          = aux_df;
       ss++;
     }
   } // END s loop
@@ -87,12 +171,32 @@ Rcpp::List bvar_mgig_cpp(
     _["last_draw"]  = List::create(
       _["A"]        = aux_A,
       _["Sigma"]    = aux_Sigma,
-      _["V"]        = aux_V
+      _["V"]        = aux_V,
+      _["sigma2"]   = aux_sigma2,
+      _["h"]        = aux_h,
+      _["S"]        = aux_S,
+      _["rho"]      = aux_rho,
+      _["omega"]    = aux_omega,
+      _["sigma2v"]  = aux_sigma2v,
+      _["sigma2_omega"] = aux_sigma2_omega,
+      _["s_"]       = aux_s_,
+      _["lambda"]   = aux_lambda,
+      _["df"]       = aux_df
     ),
     _["posterior"]  = List::create(
       _["A"]        = posterior_A,
       _["Sigma"]    = posterior_Sigma,
-      _["V"]        = posterior_V
+      _["V"]        = posterior_V,
+      _["sigma2"]   = posterior_sigma2,
+      _["h"]        = posterior_h,
+      _["S"]        = posterior_S,
+      _["rho"]      = posterior_rho,
+      _["omega"]    = posterior_omega,
+      _["sigma2v"]  = posterior_sigma2v,
+      _["sigma2_omega"] = posterior_sigma2_omega,
+      _["s_"]       = posterior_s_,
+      _["lambda"]   = posterior_lambda,
+      _["df"]       = posterior_df
     )
   );
 } // END bvar_mgig_cpp
