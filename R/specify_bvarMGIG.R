@@ -44,6 +44,14 @@ specify_prior_bvarMGIG = R6::R6Class(
     #' prior covariance \eqn{V}
     lambda   = numeric(),
     
+    #' @field sv_a a positive scalar, the shape parameter of the gamma prior in 
+    #' the hierarchical prior for the common stochastic volatility. 
+    sv_a     = numeric(),
+    
+    #' @field sv_s a positive scalar, the scale parameter of the gamma prior in 
+    #' the hierarchical prior for the common stochastic volatility.
+    sv_s     = numeric(),
+    
     #' @description
     #' Create a new prior specification \code{PriorBVARMGIG}.
     #' @param N a positive integer - the number of dependent variables in the model.
@@ -52,13 +60,15 @@ specify_prior_bvarMGIG = R6::R6Class(
     #' @param stationary an \code{N} logical vector - its element set to 
     #' \code{FALSE} sets the prior mean for the autoregressive parameters of the 
     #' \code{N}th equation to the white noise process, otherwise to random walk.
+    #' @param is_homoskedastic a logical scalar - if \code{TRUE} the model assumes 
+    #' homoskedastic errors, otherwise it assumes stochastic volatility.
     #' @return A new prior specification \code{PriorBVARMGIG}.
     #' @examples 
     #' # a prior for 3-variable example with one lag and stationary data
     #' prior = specify_prior_bvarMGIG$new(N = 3, p = 1, stationary = rep(TRUE, 3))
     #' prior$A # show autoregressive prior mean
     #' 
-    initialize = function(N, p, d = 0, stationary = rep(FALSE, N)){
+    initialize = function(N, p, d = 0, stationary = rep(FALSE, N), is_homoskedastic = TRUE){
       stopifnot("Argument N must be a positive integer number." = N > 0 & N %% 1 == 0)
       stopifnot("Argument p must be a positive integer number." = p > 0 & p %% 1 == 0)
       stopifnot("Argument d must be a non-negative integer number." = d >= 0 & d %% 1 == 0)
@@ -71,6 +81,12 @@ specify_prior_bvarMGIG = R6::R6Class(
       self$Psi      = diag(K)
       self$Gamma    = diag(K)
       self$lambda   = N + 1
+      self$sv_a     = NA
+      self$sv_s     = NA
+      if (!is_homoskedastic) {
+        self$sv_a   = 1
+        self$sv_s   = 0.1
+      }
     }, # END initialize
     
     #' @description
@@ -89,7 +105,9 @@ specify_prior_bvarMGIG = R6::R6Class(
         nu       = self$nu,
         Psi      = self$Psi,
         Gamma    = self$Gamma,
-        lambda   = self$lambda
+        lambda   = self$lambda,
+        sv_a     = self$sv_a,
+        sv_s     = self$sv_s
       )
     } # END get_prior
     
@@ -105,7 +123,7 @@ specify_prior_bvarMGIG = R6::R6Class(
 #' 
 #' @examples 
 #' # starting values for a 3-variable BVAR model.
-#' sv = specify_starting_values_bvarMGIG$new(N = 3, p = 1)
+#' sv = specify_starting_values_bvarMGIG$new(N = 3, p = 4, T = 100)
 #' 
 #' @export
 specify_starting_values_bvarMGIG = R6::R6Class(
@@ -126,25 +144,82 @@ specify_starting_values_bvarMGIG = R6::R6Class(
     #' for matrix \eqn{A}. 
     V         = matrix(),
     
+    #' @field h an \code{T}-vector with the starting values of the 
+    #' log-volatility processes.
+    h             = numeric(),
+    
+    #' @field rho a scalalr for the SV autoregressive parameter.
+    rho           = numeric(),
+    
+    #' @field omega a scalar for the SV process conditional standard deviation.
+    omega         = numeric(),
+    
+    #' @field sigma2v a scalar for SV process conditional variances.
+    sigma2v       = numeric(),
+    
+    #' @field S a \code{T} integer vector with the auxiliary mixture 
+    #' component indicator.
+    S             = numeric(),
+    
+    #' @field sigma2_omega a scalar for the variance of the zero-mean 
+    #' normal prior for \eqn{\omega}.
+    sigma2_omega  = numeric(),
+    
+    #' @field s_ a positive scalar with the scale of the gamma prior of the 
+    #' hierarchical prior for \eqn{\sigma^2_{\omega}}.
+    s_            = numeric(),
+    
+    #' @field lambda a \code{T}-vetor of starting values for latent variable.
+    lambda        = numeric(),
+    
+    #' @field df a scalar greater than 2 with the starting value 
+    #' for the degrees of freedom parameter of the Student-t 
+    #' conditional distribution of error term.
+    df            = numeric(),
+    
     #' @description
     #' Create new starting values \code{StartingValuesBVARMGIG}.
     #' @param N a positive integer - the number of dependent variables in the model.
     #' @param p a positive integer - the autoregressive lag order of the BVAR model.
+    #' @param T a positive integer - the number of time periods in the data.
     #' @param d a positive integer - the number of \code{exogenous} variables in the model.
+    #' @param is_homoskedastic a logical scalar - if \code{TRUE} the model assumes 
+    #' homoskedastic errors, otherwise it assumes stochastic volatility.
+    #' @param is_normal a logical scalar - if \code{TRUE} the model assumes normal 
+    #' error term, otherwise, it assumes Student-t errors.
     #' @return Starting values \code{StartingValuesBVARMGIG}.
     #' @examples 
     #' # starting values for a 3-variable BVAR model
-    #' sv = specify_starting_values_bvarMGIG$new(N = 3, p = 4)
+    #' sv = specify_starting_values_bvarMGIG$new(N = 3, p = 4, T = 100)
     #' 
-    initialize = function(N, p, d = 0){
+    initialize = function(
+      N, 
+      p, 
+      T,
+      d = 0, 
+      is_homoskedastic = TRUE, 
+      is_normal = TRUE
+    ){
       stopifnot("Argument N must be a positive integer number." = N > 0 & N %% 1 == 0)
       stopifnot("Argument p must be a positive integer number." = p > 0 & p %% 1 == 0)
+      stopifnot("Argument T must be a positive integer number." = T > 0 & T %% 1 == 0)
       stopifnot("Argument d must be a non-negative integer number." = d >= 0 & d %% 1 == 0)
       
       K                   = N * p + 1 + d
       self$A              = cbind(diag(runif(N)), matrix(0, N, K - N))
       self$Sigma          = diag(rgamma(N, 1))
       self$V              = diag(rgamma(K, 1))
+      
+      self$h              = rnorm(T, sd = .01)
+      self$rho            = .5
+      self$omega          = .1
+      self$sigma2v        = .1^2
+      self$S              = rep(1, T)
+      self$sigma2_omega   = 1
+      self$s_             = 0.05
+      
+      self$lambda         = rep(1, T)
+      self$df             = 30
     }, # END initialize
     
     #' @description
@@ -152,14 +227,23 @@ specify_starting_values_bvarMGIG = R6::R6Class(
     #' 
     #' @examples 
     #' # starting values for a 3-variable BVAR model
-    #' sv = specify_starting_values_bvarMGIG$new(N = 3, p = 1)
+    #' sv = specify_starting_values_bvarMGIG$new(N = 3, p = 4, T = 100)
     #' sv$get_starting_values()   # show starting values as list
     #' 
     get_starting_values   = function(){
       list(
         A                 = self$A,
         Sigma             = self$Sigma,
-        V                 = self$V
+        V                 = self$V,
+        h                 = self$h,
+        rho               = self$rho,
+        omega             = self$omega,
+        sigma2v           = self$sigma2v,
+        S                 = self$S,
+        sigma2_omega      = self$sigma2_omega,
+        s_                = self$s_,
+        lambda            = self$lambda,
+        df                = self$df
       )
     }, # END get_starting_values
     
@@ -175,7 +259,7 @@ specify_starting_values_bvarMGIG = R6::R6Class(
     #' 
     #' @examples 
     #' # starting values for a 3-variable BVAR model
-    #' sv = specify_starting_values_bvarMGIG$new(N = 3, p = 1)
+    #' sv = specify_starting_values_bvarMGIG$new(N = 3, p = 4, T = 100)
     #' 
     #' # Modify the starting values by:
     #' sv_list = sv$get_starting_values()   # getting them as list
@@ -186,6 +270,15 @@ specify_starting_values_bvarMGIG = R6::R6Class(
       self$A            = last_draw$A
       self$Sigma        = last_draw$Sigma
       self$V            = last_draw$V
+      self$h            = last_draw$h
+      self$rho          = last_draw$rho
+      self$omega        = last_draw$omega
+      self$sigma2v      = last_draw$sigma2v
+      self$S            = last_draw$S
+      self$sigma2_omega = last_draw$sigma2_omega
+      self$s_           = last_draw$s_
+      self$lambda       = last_draw$lambda
+      self$df           = last_draw$df
     } # END set_starting_values
   ) # END public
 ) # END specify_starting_values_bvarMGIG
@@ -198,15 +291,17 @@ specify_starting_values_bvarMGIG = R6::R6Class(
 #' The class \code{BVARMGIG} presents complete specification for the BVAR model.
 #' 
 #' @examples 
-#' data(us_fiscal_lsuw)
-#' spec = specify_bvarMGIG$new(
-#'    data = us_fiscal_lsuw,
-#'    p = 4
-#' )
+#' spec = specify_bvarMGIG$new(us_fiscal_lsuw)
 #' 
 #' @export
 specify_bvarMGIG = R6::R6Class(
   "BVARMGIG",
+  
+  private = list(
+    normal        = TRUE,
+    homoskedastic = TRUE,
+    centred_sv    = FALSE
+  ), # END private
   
   public = list(
     
@@ -227,6 +322,14 @@ specify_bvarMGIG = R6::R6Class(
     #' @param data a \code{(T+p)xN} matrix with time series data.
     #' @param p a positive integer providing model's autoregressive lag order.
     #' @param exogenous a \code{(T+p)xd} matrix of exogenous variables. 
+    #' @param common_volatility a character string specifying the common volatility 
+    #' component of the error term covariance matrix. It can take three values: 
+    #' \code{homoskedastic} - the model assumes homoskedastic errors, 
+    #' \code{ncSV} - the model assumes non-centred stochastic volatility, and 
+    #' \code{cSV} - the model assumes centred stochastic volatility.
+    #' @param distribution a character string specifying the conditional distribution 
+    #' of structural shocks. Value \code{"norm"} sets it to the normal distribution, 
+    #' while value \code{"t"} sets the Student-t distribution.
     #' @param stationary an \code{N} logical vector - its element set to
     #' \code{FALSE} sets the prior mean for the autoregressive parameters of the 
     #' \code{N}th equation to the white noise process, otherwise to random walk.
@@ -235,11 +338,21 @@ specify_bvarMGIG = R6::R6Class(
     data,
     p = 1L,
     exogenous = NULL,
+    common_volatility = c("homoskedastic", "ncSV", "cSV"),
+    distribution = c("norm","t"),
     stationary = rep(FALSE, ncol(data))
     ) {
       stopifnot("Argument p has to be a positive integer." = ((p %% 1) == 0 & p > 0))
       self$p     = p
       
+      common_volatility = match.arg(common_volatility)
+      private$homoskedastic  = common_volatility == "homoskedastic"
+      if (common_volatility == "cSV") {
+        private$centred_sv = TRUE
+      }
+      
+      distribution      = match.arg(distribution)
+      private$normal    = distribution == "norm"
       TT            = nrow(data)
       T             = TT - self$p
       N             = ncol(data)
@@ -249,35 +362,61 @@ specify_bvarMGIG = R6::R6Class(
       }
       K             = N * p + 1 + d
       
-      self$data_matrices   = specify_data_matrices$new(data, p, exogenous)
-      self$prior           = specify_prior_bvarMGIG$new(N, p, d, stationary)
-      self$starting_values = specify_starting_values_bvarMGIG$new(N, self$p, d)
+      self$data_matrices   = bsvars::specify_data_matrices$new(data, p, exogenous)
+      self$prior           = specify_prior_bvarMGIG$new(N, p, d, stationary, private$homoskedastic)
+      self$starting_values = specify_starting_values_bvarMGIG$new(N, self$p, T, d, private$homoskedastic, private$normal)
     }, # END initialize
+    
+    #' @description
+    #' Returns the logical value of whether the conditional shock distribution is normal.
+    #' 
+    #' @examples 
+    #' spec = specify_bvarMGIG$new(us_fiscal_lsuw)
+    #' spec$get_normal()
+    #' 
+    get_normal = function() {
+      private$normal
+    }, # END get_normal
+    
+    #' @description
+    #' Returns the logical value of whether the common volatility is homoskedastic.
+    #' 
+    #' @examples 
+    #' spec = specify_bvarMGIG$new(us_fiscal_lsuw)
+    #' spec$get_homoskedastic()
+    #' 
+    get_homoskedastic = function() {
+      private$homoskedastic
+    }, # END get_homoskedastic
+    
+    #' @description
+    #' Returns the logical value of whether the common volatility is centred 
+    #' Stochastic Volatility
+    #' 
+    #' @examples 
+    #' spec = specify_bvarMGIG$new(us_fiscal_lsuw)
+    #' spec$get_centred_sv()
+    #' 
+    get_centred_sv = function() {
+      private$centred_sv
+    }, # END get_centred_sv
     
     #' @description
     #' Returns the data matrices as the \code{DataMatricesBSVAR} object.
     #' 
     #' @examples 
-    #' data(us_fiscal_lsuw)
-    #' spec = specify_bvarMGIG$new(
-    #'    data = us_fiscal_lsuw,
-    #'    p = 4
-    #' )
+    #' spec = specify_bvarMGIG$new(us_fiscal_lsuw)
     #' spec$get_data_matrices()
     #' 
     get_data_matrices = function() {
-      self$data_matrices$clone()
+      self$data_matrices$get_data_matrices()
     }, # END get_data_matrices
     
     #' @description
     #' Returns the prior specification as the \code{PriorBVARMGIG} object.
     #' 
     #' @examples 
-    #' data(us_fiscal_lsuw)
-    #' spec = specify_bvarMGIG$new(
-    #'    data = us_fiscal_lsuw,
-    #'    p = 4
-    #' )
+    #' spec = specify_bvarMGIG$new(us_fiscal_lsuw)
     #' spec$get_prior()
     #' 
     get_prior = function() {
@@ -288,11 +427,7 @@ specify_bvarMGIG = R6::R6Class(
     #' Returns the starting values as the \code{StartingValuesBVARMGIG} object.
     #' 
     #' @examples 
-    #' data(us_fiscal_lsuw)
-    #' spec = specify_bvarMGIG$new(
-    #'    data = us_fiscal_lsuw,
-    #'    p = 4
-    #' )
+    #' spec = specify_bvarMGIG$new(us_fiscal_lsuw)
     #' spec$get_starting_values()
     #' 
     get_starting_values = function() {
@@ -300,16 +435,6 @@ specify_bvarMGIG = R6::R6Class(
     } # END get_starting_values
   ) # END public
 ) # END specify_bvarMGIG
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -329,11 +454,9 @@ specify_bvarMGIG = R6::R6Class(
 #' 
 #' @examples 
 #' # This is a function that is used within estimate()
-#' data(us_fiscal_lsuw)
-#' specification  = specify_bvarMGIG$new(us_fiscal_lsuw, p = 1)
-#' set.seed(123)
-#' # posterior       = estimate(specification, 50)
-#' # class(posterior)
+#' spec = specify_bvarMGIG$new(us_fiscal_lsuw)
+#' post = estimate(spec, 5)
+#' class(post)
 #' 
 #' @export
 specify_posterior_bvarMGIG = R6::R6Class(
@@ -371,11 +494,9 @@ specify_posterior_bvarMGIG = R6::R6Class(
     #' \code{A}, \code{Sigma}, and \code{V}.
     #' 
     #' @examples 
-    #' data(us_fiscal_lsuw)
-    #' specification  = specify_bvarMGIG$new(us_fiscal_lsuw)
-    #' set.seed(123)
-    #' # posterior       = estimate(specification, 50)
-    #' # posterior$get_posterior()
+    #' spec = specify_bvarMGIG$new(us_fiscal_lsuw)
+    #' post = estimate(spec, 5)
+    #' post$get_posterior()
     #' 
     get_posterior       = function(){
       self$posterior
@@ -387,18 +508,9 @@ specify_posterior_bvarMGIG = R6::R6Class(
     #' of the MCMC estimation using \code{estimate()}.
     #' 
     #' @examples
-    #' data(us_fiscal_lsuw)
-    #' 
-    #' # specify the model and set seed
-    #' specification  = specify_bvarMGIG$new(us_fiscal_lsuw, p = 1)
-    #' set.seed(123)
-    #' 
-    #' # run the burn-in
-    #' # burn_in        = estimate(specification, 10)
-    #' 
-    #' # estimate the model
-    #' # posterior      = estimate(burn_in, 10)
-    #' 
+    #' spec = specify_bvarMGIG$new(us_fiscal_lsuw)
+    #' burn = estimate(spec, 5)
+    #' post = estimate(burn, 5)
     get_last_draw      = function(){
       self$last_draw$clone()
     } # END get_last_draw
