@@ -104,8 +104,9 @@
 #' @docType package
 #' @useDynLib bvars, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
-#' @importFrom bsvars estimate forecast
+#' @importFrom bsvars estimate forecast specify_data_matrices
 #' @importFrom R6 R6Class
+#' @importFrom RcppTN rtn
 #' @import bsvars
 #' @import RcppArmadillo
 #' @import RcppProgress
@@ -132,25 +133,15 @@
 #' @examples
 #' # simple workflow
 #' ############################################################
-#' # upload data
-#' data(us_fiscal_lsuw)
-#' 
-#' # specify the model and set seed
-#' specification  = specify_bvarMGIG$new(us_fiscal_lsuw, p = 1)
-#' set.seed(123)
-#' 
-#' # run the burn-in
-#' burn_in        = estimate(specification, 5)
-#' 
-#' # estimate the model
-#' posterior      = estimate(burn_in, 10)
+#' spec = specify_bvarMGIG$new(us_fiscal_lsuw)   # specify the model
+#' burn = estimate(spec, 5)                      # run the burn-in
+#' post = estimate(burn, 10)                     # estimate the model
 #' 
 #' # workflow with the pipe |>
 #' ############################################################
-#' set.seed(123)
 #' us_fiscal_lsuw |>
-#'   specify_bvarMGIG$new(p = 1) |>
+#'   specify_bvarMGIG$new() |>
 #'   estimate(S = 5) |> 
-#'   estimate(S = 10) -> posterior
+#'   estimate(S = 10) -> post
 #'   
 '_PACKAGE'
