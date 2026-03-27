@@ -7,22 +7,38 @@
 The class \code{BVARMGIG} presents complete specification for the BVAR model.
 }
 \examples{
-data(us_fiscal_lsuw)
-spec = specify_bvarMGIG$new(
-   data = us_fiscal_lsuw,
-   p = 4
-)
+spec = specify_bvarMGIG$new(us_fiscal_lsuw)
+
+
+## ------------------------------------------------
+## Method `specify_bvarMGIG$get_normal`
+## ------------------------------------------------
+
+spec = specify_bvarMGIG$new(us_fiscal_lsuw)
+spec$get_normal()
+
+
+## ------------------------------------------------
+## Method `specify_bvarMGIG$get_homoskedastic`
+## ------------------------------------------------
+
+spec = specify_bvarMGIG$new(us_fiscal_lsuw)
+spec$get_homoskedastic()
+
+
+## ------------------------------------------------
+## Method `specify_bvarMGIG$get_centred_sv`
+## ------------------------------------------------
+
+spec = specify_bvarMGIG$new(us_fiscal_lsuw)
+spec$get_centred_sv()
 
 
 ## ------------------------------------------------
 ## Method `specify_bvarMGIG$get_data_matrices`
 ## ------------------------------------------------
 
-data(us_fiscal_lsuw)
-spec = specify_bvarMGIG$new(
-   data = us_fiscal_lsuw,
-   p = 4
-)
+spec = specify_bvarMGIG$new(us_fiscal_lsuw)
 spec$get_data_matrices()
 
 
@@ -30,11 +46,7 @@ spec$get_data_matrices()
 ## Method `specify_bvarMGIG$get_prior`
 ## ------------------------------------------------
 
-data(us_fiscal_lsuw)
-spec = specify_bvarMGIG$new(
-   data = us_fiscal_lsuw,
-   p = 4
-)
+spec = specify_bvarMGIG$new(us_fiscal_lsuw)
 spec$get_prior()
 
 
@@ -42,11 +54,7 @@ spec$get_prior()
 ## Method `specify_bvarMGIG$get_starting_values`
 ## ------------------------------------------------
 
-data(us_fiscal_lsuw)
-spec = specify_bvarMGIG$new(
-   data = us_fiscal_lsuw,
-   p = 4
-)
+spec = specify_bvarMGIG$new(us_fiscal_lsuw)
 spec$get_starting_values()
 
 }
@@ -67,6 +75,9 @@ spec$get_starting_values()
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-BVARMGIG-new}{\code{specify_bvarMGIG$new()}}
+\item \href{#method-BVARMGIG-get_normal}{\code{specify_bvarMGIG$get_normal()}}
+\item \href{#method-BVARMGIG-get_homoskedastic}{\code{specify_bvarMGIG$get_homoskedastic()}}
+\item \href{#method-BVARMGIG-get_centred_sv}{\code{specify_bvarMGIG$get_centred_sv()}}
 \item \href{#method-BVARMGIG-get_data_matrices}{\code{specify_bvarMGIG$get_data_matrices()}}
 \item \href{#method-BVARMGIG-get_prior}{\code{specify_bvarMGIG$get_prior()}}
 \item \href{#method-BVARMGIG-get_starting_values}{\code{specify_bvarMGIG$get_starting_values()}}
@@ -83,6 +94,8 @@ Create a new specification of the \code{BVARMGIG} model.
   data,
   p = 1L,
   exogenous = NULL,
+  common_volatility = c("homoskedastic", "ncSV", "cSV"),
+  distribution = c("norm", "t"),
   stationary = rep(FALSE, ncol(data))
 )}\if{html}{\out{</div>}}
 }
@@ -96,6 +109,16 @@ Create a new specification of the \code{BVARMGIG} model.
 
 \item{\code{exogenous}}{a \code{(T+p)xd} matrix of exogenous variables.}
 
+\item{\code{common_volatility}}{a character string specifying the common volatility 
+component of the error term covariance matrix. It can take three values: 
+\code{homoskedastic} - the model assumes homoskedastic errors, 
+\code{ncSV} - the model assumes non-centred stochastic volatility, and 
+\code{cSV} - the model assumes centred stochastic volatility.}
+
+\item{\code{distribution}}{a character string specifying the conditional distribution 
+of structural shocks. Value \code{"norm"} sets it to the normal distribution, 
+while value \code{"t"} sets the Student-t distribution.}
+
 \item{\code{stationary}}{an \code{N} logical vector - its element set to
 \code{FALSE} sets the prior mean for the autoregressive parameters of the 
 \code{N}th equation to the white noise process, otherwise to random walk.}
@@ -105,6 +128,67 @@ Create a new specification of the \code{BVARMGIG} model.
 \subsection{Returns}{
 A new complete specification for the \code{BVARMGIG} model.
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-BVARMGIG-get_normal"></a>}}
+\if{latex}{\out{\hypertarget{method-BVARMGIG-get_normal}{}}}
+\subsection{Method \code{get_normal()}}{
+Returns the logical value of whether the conditional shock distribution is normal.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{specify_bvarMGIG$get_normal()}\if{html}{\out{</div>}}
+}
+
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{spec = specify_bvarMGIG$new(us_fiscal_lsuw)
+spec$get_normal()
+
+}
+\if{html}{\out{</div>}}
+
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-BVARMGIG-get_homoskedastic"></a>}}
+\if{latex}{\out{\hypertarget{method-BVARMGIG-get_homoskedastic}{}}}
+\subsection{Method \code{get_homoskedastic()}}{
+Returns the logical value of whether the common volatility is homoskedastic.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{specify_bvarMGIG$get_homoskedastic()}\if{html}{\out{</div>}}
+}
+
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{spec = specify_bvarMGIG$new(us_fiscal_lsuw)
+spec$get_homoskedastic()
+
+}
+\if{html}{\out{</div>}}
+
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-BVARMGIG-get_centred_sv"></a>}}
+\if{latex}{\out{\hypertarget{method-BVARMGIG-get_centred_sv}{}}}
+\subsection{Method \code{get_centred_sv()}}{
+Returns the logical value of whether the common volatility is centred 
+Stochastic Volatility
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{specify_bvarMGIG$get_centred_sv()}\if{html}{\out{</div>}}
+}
+
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{spec = specify_bvarMGIG$new(us_fiscal_lsuw)
+spec$get_centred_sv()
+
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BVARMGIG-get_data_matrices"></a>}}
@@ -117,11 +201,7 @@ Returns the data matrices as the \code{DataMatricesBSVAR} object.
 
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{data(us_fiscal_lsuw)
-spec = specify_bvarMGIG$new(
-   data = us_fiscal_lsuw,
-   p = 4
-)
+\preformatted{spec = specify_bvarMGIG$new(us_fiscal_lsuw)
 spec$get_data_matrices()
 
 }
@@ -141,11 +221,7 @@ Returns the prior specification as the \code{PriorBVARMGIG} object.
 
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{data(us_fiscal_lsuw)
-spec = specify_bvarMGIG$new(
-   data = us_fiscal_lsuw,
-   p = 4
-)
+\preformatted{spec = specify_bvarMGIG$new(us_fiscal_lsuw)
 spec$get_prior()
 
 }
@@ -165,11 +241,7 @@ Returns the starting values as the \code{StartingValuesBVARMGIG} object.
 
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{data(us_fiscal_lsuw)
-spec = specify_bvarMGIG$new(
-   data = us_fiscal_lsuw,
-   p = 4
-)
+\preformatted{spec = specify_bvarMGIG$new(us_fiscal_lsuw)
 spec$get_starting_values()
 
 }

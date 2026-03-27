@@ -12,40 +12,27 @@ Note that due to the thinning of the MCMC output the starting value in element
 }
 \examples{
 # This is a function that is used within estimate()
-data(us_fiscal_lsuw)
-specification  = specify_bvarMGIG$new(us_fiscal_lsuw, p = 1)
-set.seed(123)
-# posterior       = estimate(specification, 50)
-# class(posterior)
+spec = specify_bvarMGIG$new(us_fiscal_lsuw)
+post = estimate(spec, 5)
+class(post)
 
 
 ## ------------------------------------------------
 ## Method `specify_posterior_bvarMGIG$get_posterior`
 ## ------------------------------------------------
 
-data(us_fiscal_lsuw)
-specification  = specify_bvarMGIG$new(us_fiscal_lsuw)
-set.seed(123)
-# posterior       = estimate(specification, 50)
-# posterior$get_posterior()
+spec = specify_bvarMGIG$new(us_fiscal_lsuw)
+post = estimate(spec, 5)
+post$get_posterior()
 
 
 ## ------------------------------------------------
 ## Method `specify_posterior_bvarMGIG$get_last_draw`
 ## ------------------------------------------------
 
-data(us_fiscal_lsuw)
-
-# specify the model and set seed
-specification  = specify_bvarMGIG$new(us_fiscal_lsuw, p = 1)
-set.seed(123)
-
-# run the burn-in
-# burn_in        = estimate(specification, 10)
-
-# estimate the model
-# posterior      = estimate(burn_in, 10)
-
+spec = specify_bvarMGIG$new(us_fiscal_lsuw)
+burn = estimate(spec, 5)
+post = estimate(burn, 5)
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -104,11 +91,9 @@ Returns a list containing Bayesian estimation output collected in elements
 
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{data(us_fiscal_lsuw)
-specification  = specify_bvarMGIG$new(us_fiscal_lsuw)
-set.seed(123)
-# posterior       = estimate(specification, 50)
-# posterior$get_posterior()
+\preformatted{spec = specify_bvarMGIG$new(us_fiscal_lsuw)
+post = estimate(spec, 5)
+post$get_posterior()
 
 }
 \if{html}{\out{</div>}}
@@ -129,18 +114,9 @@ of the MCMC estimation using \code{estimate()}.
 
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{data(us_fiscal_lsuw)
-
-# specify the model and set seed
-specification  = specify_bvarMGIG$new(us_fiscal_lsuw, p = 1)
-set.seed(123)
-
-# run the burn-in
-# burn_in        = estimate(specification, 10)
-
-# estimate the model
-# posterior      = estimate(burn_in, 10)
-
+\preformatted{spec = specify_bvarMGIG$new(us_fiscal_lsuw)
+burn = estimate(spec, 5)
+post = estimate(burn, 5)
 }
 \if{html}{\out{</div>}}
 

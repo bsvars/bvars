@@ -8,7 +8,7 @@ The class \code{StartingValuesBVARMGIG} presents starting values for the BVAR mo
 }
 \examples{
 # starting values for a 3-variable BVAR model.
-sv = specify_starting_values_bvarMGIG$new(N = 3, p = 1)
+sv = specify_starting_values_bvarMGIG$new(N = 3, p = 4, T = 100)
 
 
 ## ------------------------------------------------
@@ -16,7 +16,7 @@ sv = specify_starting_values_bvarMGIG$new(N = 3, p = 1)
 ## ------------------------------------------------
 
 # starting values for a 3-variable BVAR model
-sv = specify_starting_values_bvarMGIG$new(N = 3, p = 4)
+sv = specify_starting_values_bvarMGIG$new(N = 3, p = 4, T = 100)
 
 
 ## ------------------------------------------------
@@ -24,7 +24,7 @@ sv = specify_starting_values_bvarMGIG$new(N = 3, p = 4)
 ## ------------------------------------------------
 
 # starting values for a 3-variable BVAR model
-sv = specify_starting_values_bvarMGIG$new(N = 3, p = 1)
+sv = specify_starting_values_bvarMGIG$new(N = 3, p = 4, T = 100)
 sv$get_starting_values()   # show starting values as list
 
 
@@ -33,7 +33,7 @@ sv$get_starting_values()   # show starting values as list
 ## ------------------------------------------------
 
 # starting values for a 3-variable BVAR model
-sv = specify_starting_values_bvarMGIG$new(N = 3, p = 1)
+sv = specify_starting_values_bvarMGIG$new(N = 3, p = 4, T = 100)
 
 # Modify the starting values by:
 sv_list = sv$get_starting_values()   # getting them as list
@@ -53,6 +53,30 @@ covariance \eqn{\Sigma}.}
 \item{\code{V}}{a \code{KxK} matrix of starting values for the prior 
 equation-specific covariance \eqn{V} of the hierarchical prior distribution
 for matrix \eqn{A}.}
+
+\item{\code{h}}{an \code{T}-vector with the starting values of the 
+log-volatility processes.}
+
+\item{\code{rho}}{a scalalr for the SV autoregressive parameter.}
+
+\item{\code{omega}}{a scalar for the SV process conditional standard deviation.}
+
+\item{\code{sigma2v}}{a scalar for SV process conditional variances.}
+
+\item{\code{S}}{a \code{T} integer vector with the auxiliary mixture 
+component indicator.}
+
+\item{\code{sigma2_omega}}{a scalar for the variance of the zero-mean 
+normal prior for \eqn{\omega}.}
+
+\item{\code{s_}}{a positive scalar with the scale of the gamma prior of the 
+hierarchical prior for \eqn{\sigma^2_{\omega}}.}
+
+\item{\code{lambda}}{a \code{T}-vetor of starting values for latent variable.}
+
+\item{\code{df}}{a scalar greater than 2 with the starting value 
+for the degrees of freedom parameter of the Student-t 
+conditional distribution of error term.}
 }
 \if{html}{\out{</div>}}
 }
@@ -71,7 +95,14 @@ for matrix \eqn{A}.}
 \subsection{Method \code{new()}}{
 Create new starting values \code{StartingValuesBVARMGIG}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{specify_starting_values_bvarMGIG$new(N, p, d = 0)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{specify_starting_values_bvarMGIG$new(
+  N,
+  p,
+  T,
+  d = 0,
+  is_homoskedastic = TRUE,
+  is_normal = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -81,7 +112,15 @@ Create new starting values \code{StartingValuesBVARMGIG}.
 
 \item{\code{p}}{a positive integer - the autoregressive lag order of the BVAR model.}
 
+\item{\code{T}}{a positive integer - the number of time periods in the data.}
+
 \item{\code{d}}{a positive integer - the number of \code{exogenous} variables in the model.}
+
+\item{\code{is_homoskedastic}}{a logical scalar - if \code{TRUE} the model assumes 
+homoskedastic errors, otherwise it assumes stochastic volatility.}
+
+\item{\code{is_normal}}{a logical scalar - if \code{TRUE} the model assumes normal 
+error term, otherwise, it assumes Student-t errors.}
 }
 \if{html}{\out{</div>}}
 }
@@ -91,7 +130,7 @@ Starting values \code{StartingValuesBVARMGIG}.
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
 \preformatted{# starting values for a 3-variable BVAR model
-sv = specify_starting_values_bvarMGIG$new(N = 3, p = 4)
+sv = specify_starting_values_bvarMGIG$new(N = 3, p = 4, T = 100)
 
 }
 \if{html}{\out{</div>}}
@@ -111,7 +150,7 @@ Returns the elements of the starting values \code{StartingValuesBVARMGIG} as a \
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
 \preformatted{# starting values for a 3-variable BVAR model
-sv = specify_starting_values_bvarMGIG$new(N = 3, p = 1)
+sv = specify_starting_values_bvarMGIG$new(N = 3, p = 4, T = 100)
 sv$get_starting_values()   # show starting values as list
 
 }
@@ -147,7 +186,7 @@ continuation of the MCMC estimation using \code{estimate()}.
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
 \preformatted{# starting values for a 3-variable BVAR model
-sv = specify_starting_values_bvarMGIG$new(N = 3, p = 1)
+sv = specify_starting_values_bvarMGIG$new(N = 3, p = 4, T = 100)
 
 # Modify the starting values by:
 sv_list = sv$get_starting_values()   # getting them as list

@@ -55,6 +55,12 @@ covariance \eqn{V}}
 \item{\code{lambda}}{a positive scalar shape parameter \eqn{\lambda_0} of the 
 matrix generalized inverse Gaussian distribution for the equation-specific 
 prior covariance \eqn{V}}
+
+\item{\code{sv_a}}{a positive scalar, the shape parameter of the gamma prior in 
+the hierarchical prior for the common stochastic volatility.}
+
+\item{\code{sv_s}}{a positive scalar, the scale parameter of the gamma prior in 
+the hierarchical prior for the common stochastic volatility.}
 }
 \if{html}{\out{</div>}}
 }
@@ -72,7 +78,13 @@ prior covariance \eqn{V}}
 \subsection{Method \code{new()}}{
 Create a new prior specification \code{PriorBVARMGIG}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{specify_prior_bvarMGIG$new(N, p, d = 0, stationary = rep(FALSE, N))}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{specify_prior_bvarMGIG$new(
+  N,
+  p,
+  d = 0,
+  stationary = rep(FALSE, N),
+  is_homoskedastic = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -87,6 +99,9 @@ Create a new prior specification \code{PriorBVARMGIG}.
 \item{\code{stationary}}{an \code{N} logical vector - its element set to 
 \code{FALSE} sets the prior mean for the autoregressive parameters of the 
 \code{N}th equation to the white noise process, otherwise to random walk.}
+
+\item{\code{is_homoskedastic}}{a logical scalar - if \code{TRUE} the model assumes 
+homoskedastic errors, otherwise it assumes stochastic volatility.}
 }
 \if{html}{\out{</div>}}
 }
