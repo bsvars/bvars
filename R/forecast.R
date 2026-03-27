@@ -33,30 +33,19 @@
 #' Tomasz Woźniak \email{wozniak.tom@pm.me}
 #' 
 #' @examples
-#' # upload data
-#' data(us_fiscal_lsuw)
-#' 
-#' # specify the model and set seed
-#' set.seed(123)
-#' specification  = specify_bvarMGIG$new(us_fiscal_lsuw, p = 1)
-#' 
-#' # run the burn-in
-#' burn_in        = estimate(specification, 5)
-#' 
-#' # estimate the model
-#' posterior      = estimate(burn_in, 10)
-#' 
-#' # sample from predictive density 1 year ahead
-#' predictive     = forecast(posterior, 4)
+#' spec = specify_bvarMGIG$new(us_fiscal_lsuw)   # specify the model
+#' burn = estimate(spec, 5)                      # run the burn-in
+#' post = estimate(burn, 5)                     # estimate the model
+#' pred = forecast(post, 4)                      # forecast 1 year ahead
 #' 
 #' # workflow with the pipe |>
 #' ############################################################
 #' set.seed(123)
 #' us_fiscal_lsuw |>
-#'   specify_bvarMGIG$new(p = 1) |>
+#'   specify_bvarMGIG$new() |>
 #'   estimate(S = 5) |> 
-#'   estimate(S = 10) |> 
-#'   forecast(horizon = 4) -> predictive
+#'   estimate(S = 5) |> 
+#'   forecast(horizon = 4) -> pred
 #' 
 #' @export
 forecast.PosteriorBVARMGIG = function(
