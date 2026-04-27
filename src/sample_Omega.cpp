@@ -83,7 +83,7 @@ Rcpp::List sample_df (
 
 // [[Rcpp::interfaces(cpp)]]
 // [[Rcpp::export]]
-arma::mat sv_aux_mix (
+arma::mat sv_aux_mix_n (
     const int N
 ) {
   

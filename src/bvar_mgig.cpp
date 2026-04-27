@@ -18,6 +18,7 @@ Rcpp::List bvar_mgig_cpp(
     const arma::mat&  X,                  // KxT dependent variables
     const Rcpp::List& prior,              // a list of priors
     const Rcpp::List& starting_values,    // a list of starting values
+    const arma::mat&  sv_aux_mix,         // provide the selected auxiliary mixture components
     const bool        homoskedastic = true, 
     const bool        centred_sv = false, // otherwise non-centred stochastic volatility
     const bool        normal = true,      // otherwise Student-t
@@ -98,7 +99,10 @@ Rcpp::List bvar_mgig_cpp(
   int   ss = 0;
   
   // parameters of the SV auxiliary mixture
-  mat aux_mix = sv_aux_mix (N);
+  mat aux_mix         = sv_aux_mix;
+  if (N > 100) {
+    aux_mix           = sv_aux_mix_n (N);
+  }
   
   for (int s=0; s<S; s++) {
     // Rcout << " s: " << s << endl;

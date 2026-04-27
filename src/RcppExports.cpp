@@ -15,8 +15,8 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // bvar_mgig_cpp
-Rcpp::List bvar_mgig_cpp(const int& S, const arma::mat& Y, const arma::mat& X, const Rcpp::List& prior, const Rcpp::List& starting_values, const bool homoskedastic, const bool centred_sv, const bool normal, const int thin, const bool show_progress);
-static SEXP _bvars_bvar_mgig_cpp_try(SEXP SSEXP, SEXP YSEXP, SEXP XSEXP, SEXP priorSEXP, SEXP starting_valuesSEXP, SEXP homoskedasticSEXP, SEXP centred_svSEXP, SEXP normalSEXP, SEXP thinSEXP, SEXP show_progressSEXP) {
+Rcpp::List bvar_mgig_cpp(const int& S, const arma::mat& Y, const arma::mat& X, const Rcpp::List& prior, const Rcpp::List& starting_values, const arma::mat& sv_aux_mix, const bool homoskedastic, const bool centred_sv, const bool normal, const int thin, const bool show_progress);
+static SEXP _bvars_bvar_mgig_cpp_try(SEXP SSEXP, SEXP YSEXP, SEXP XSEXP, SEXP priorSEXP, SEXP starting_valuesSEXP, SEXP sv_aux_mixSEXP, SEXP homoskedasticSEXP, SEXP centred_svSEXP, SEXP normalSEXP, SEXP thinSEXP, SEXP show_progressSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< const int& >::type S(SSEXP);
@@ -24,20 +24,21 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const arma::mat& >::type X(XSEXP);
     Rcpp::traits::input_parameter< const Rcpp::List& >::type prior(priorSEXP);
     Rcpp::traits::input_parameter< const Rcpp::List& >::type starting_values(starting_valuesSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type sv_aux_mix(sv_aux_mixSEXP);
     Rcpp::traits::input_parameter< const bool >::type homoskedastic(homoskedasticSEXP);
     Rcpp::traits::input_parameter< const bool >::type centred_sv(centred_svSEXP);
     Rcpp::traits::input_parameter< const bool >::type normal(normalSEXP);
     Rcpp::traits::input_parameter< const int >::type thin(thinSEXP);
     Rcpp::traits::input_parameter< const bool >::type show_progress(show_progressSEXP);
-    rcpp_result_gen = Rcpp::wrap(bvar_mgig_cpp(S, Y, X, prior, starting_values, homoskedastic, centred_sv, normal, thin, show_progress));
+    rcpp_result_gen = Rcpp::wrap(bvar_mgig_cpp(S, Y, X, prior, starting_values, sv_aux_mix, homoskedastic, centred_sv, normal, thin, show_progress));
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP _bvars_bvar_mgig_cpp(SEXP SSEXP, SEXP YSEXP, SEXP XSEXP, SEXP priorSEXP, SEXP starting_valuesSEXP, SEXP homoskedasticSEXP, SEXP centred_svSEXP, SEXP normalSEXP, SEXP thinSEXP, SEXP show_progressSEXP) {
+RcppExport SEXP _bvars_bvar_mgig_cpp(SEXP SSEXP, SEXP YSEXP, SEXP XSEXP, SEXP priorSEXP, SEXP starting_valuesSEXP, SEXP sv_aux_mixSEXP, SEXP homoskedasticSEXP, SEXP centred_svSEXP, SEXP normalSEXP, SEXP thinSEXP, SEXP show_progressSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(_bvars_bvar_mgig_cpp_try(SSEXP, YSEXP, XSEXP, priorSEXP, starting_valuesSEXP, homoskedasticSEXP, centred_svSEXP, normalSEXP, thinSEXP, show_progressSEXP));
+        rcpp_result_gen = PROTECT(_bvars_bvar_mgig_cpp_try(SSEXP, YSEXP, XSEXP, priorSEXP, starting_valuesSEXP, sv_aux_mixSEXP, homoskedasticSEXP, centred_svSEXP, normalSEXP, thinSEXP, show_progressSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -480,21 +481,21 @@ RcppExport SEXP _bvars_sample_df(SEXP aux_dfSEXP, SEXP adaptive_scaleSEXP, SEXP 
     UNPROTECT(1);
     return rcpp_result_gen;
 }
-// sv_aux_mix
-arma::mat sv_aux_mix(const int N);
-static SEXP _bvars_sv_aux_mix_try(SEXP NSEXP) {
+// sv_aux_mix_n
+arma::mat sv_aux_mix_n(const int N);
+static SEXP _bvars_sv_aux_mix_n_try(SEXP NSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< const int >::type N(NSEXP);
-    rcpp_result_gen = Rcpp::wrap(sv_aux_mix(N));
+    rcpp_result_gen = Rcpp::wrap(sv_aux_mix_n(N));
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP _bvars_sv_aux_mix(SEXP NSEXP) {
+RcppExport SEXP _bvars_sv_aux_mix_n(SEXP NSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(_bvars_sv_aux_mix_try(NSEXP));
+        rcpp_result_gen = PROTECT(_bvars_sv_aux_mix_n_try(NSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -642,7 +643,7 @@ RcppExport SEXP _bvars_svar_ce1(SEXP aux_hSEXP, SEXP aux_rhoSEXP, SEXP aux_omega
 static int _bvars_RcppExport_validate(const char* sig) { 
     static std::set<std::string> signatures;
     if (signatures.empty()) {
-        signatures.insert("Rcpp::List(*bvar_mgig_cpp)(const int&,const arma::mat&,const arma::mat&,const Rcpp::List&,const Rcpp::List&,const bool,const bool,const bool,const int,const bool)");
+        signatures.insert("Rcpp::List(*bvar_mgig_cpp)(const int&,const arma::mat&,const arma::mat&,const Rcpp::List&,const Rcpp::List&,const arma::mat&,const bool,const bool,const bool,const int,const bool)");
         signatures.insert("Rcpp::List(*forecast_bvarGIG)(arma::cube&,arma::cube&,arma::cube&,arma::vec&,arma::mat&,arma::mat&,const int&)");
         signatures.insert("arma::vec(*rig2)(const int,const double,const double)");
         signatures.insert("arma::mat(*do_rmatnorm1)(const arma::mat&,const arma::mat&,const arma::mat&)");
@@ -653,7 +654,7 @@ static int _bvars_RcppExport_validate(const char* sig) {
         signatures.insert("arma::vec(*sample_lambda)(const double&,const int&,const int&)");
         signatures.insert("double(*log_kernel_df)(const double&,const arma::vec&)");
         signatures.insert("Rcpp::List(*sample_df)(double&,double&,const arma::vec&,const int&,const arma::vec&)");
-        signatures.insert("arma::mat(*sv_aux_mix)(const int)");
+        signatures.insert("arma::mat(*sv_aux_mix_n)(const int)");
         signatures.insert("arma::vec(*find_mixture_indicator_cdf)(const arma::vec&,const arma::mat&)");
         signatures.insert("Rcpp::List(*svar_nc1)(arma::vec&,double&,double&,double&,double&,double&,arma::uvec&,const arma::vec&,const Rcpp::List&,const arma::mat&,bool)");
         signatures.insert("Rcpp::List(*svar_ce1)(arma::vec&,double&,double&,double&,double&,double&,arma::uvec&,const arma::vec&,const Rcpp::List&,const arma::mat&,bool)");
@@ -674,7 +675,7 @@ RcppExport SEXP _bvars_RcppExport_registerCCallable() {
     R_RegisterCCallable("bvars", "_bvars_sample_lambda", (DL_FUNC)_bvars_sample_lambda_try);
     R_RegisterCCallable("bvars", "_bvars_log_kernel_df", (DL_FUNC)_bvars_log_kernel_df_try);
     R_RegisterCCallable("bvars", "_bvars_sample_df", (DL_FUNC)_bvars_sample_df_try);
-    R_RegisterCCallable("bvars", "_bvars_sv_aux_mix", (DL_FUNC)_bvars_sv_aux_mix_try);
+    R_RegisterCCallable("bvars", "_bvars_sv_aux_mix_n", (DL_FUNC)_bvars_sv_aux_mix_n_try);
     R_RegisterCCallable("bvars", "_bvars_find_mixture_indicator_cdf", (DL_FUNC)_bvars_find_mixture_indicator_cdf_try);
     R_RegisterCCallable("bvars", "_bvars_svar_nc1", (DL_FUNC)_bvars_svar_nc1_try);
     R_RegisterCCallable("bvars", "_bvars_svar_ce1", (DL_FUNC)_bvars_svar_ce1_try);
@@ -683,7 +684,7 @@ RcppExport SEXP _bvars_RcppExport_registerCCallable() {
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_bvars_bvar_mgig_cpp", (DL_FUNC) &_bvars_bvar_mgig_cpp, 10},
+    {"_bvars_bvar_mgig_cpp", (DL_FUNC) &_bvars_bvar_mgig_cpp, 11},
     {"_bvars_forecast_bvarGIG", (DL_FUNC) &_bvars_forecast_bvarGIG, 7},
     {"_bvars_rig2", (DL_FUNC) &_bvars_rig2, 3},
     {"_bvars_do_rinvwishart", (DL_FUNC) &_bvars_do_rinvwishart, 2},
@@ -698,7 +699,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_bvars_sample_lambda", (DL_FUNC) &_bvars_sample_lambda, 3},
     {"_bvars_log_kernel_df", (DL_FUNC) &_bvars_log_kernel_df, 2},
     {"_bvars_sample_df", (DL_FUNC) &_bvars_sample_df, 5},
-    {"_bvars_sv_aux_mix", (DL_FUNC) &_bvars_sv_aux_mix, 1},
+    {"_bvars_sv_aux_mix_n", (DL_FUNC) &_bvars_sv_aux_mix_n, 1},
     {"_bvars_find_mixture_indicator_cdf", (DL_FUNC) &_bvars_find_mixture_indicator_cdf, 2},
     {"_bvars_svar_nc1", (DL_FUNC) &_bvars_svar_nc1, 11},
     {"_bvars_svar_ce1", (DL_FUNC) &_bvars_svar_ce1, 11},

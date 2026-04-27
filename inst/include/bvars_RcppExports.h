@@ -25,17 +25,17 @@ namespace bvars {
         }
     }
 
-    inline Rcpp::List bvar_mgig_cpp(const int& S, const arma::mat& Y, const arma::mat& X, const Rcpp::List& prior, const Rcpp::List& starting_values, const bool homoskedastic = true, const bool centred_sv = false, const bool normal = true, const int thin = 100, const bool show_progress = true) {
-        typedef SEXP(*Ptr_bvar_mgig_cpp)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
+    inline Rcpp::List bvar_mgig_cpp(const int& S, const arma::mat& Y, const arma::mat& X, const Rcpp::List& prior, const Rcpp::List& starting_values, const arma::mat& sv_aux_mix, const bool homoskedastic = true, const bool centred_sv = false, const bool normal = true, const int thin = 100, const bool show_progress = true) {
+        typedef SEXP(*Ptr_bvar_mgig_cpp)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_bvar_mgig_cpp p_bvar_mgig_cpp = NULL;
         if (p_bvar_mgig_cpp == NULL) {
-            validateSignature("Rcpp::List(*bvar_mgig_cpp)(const int&,const arma::mat&,const arma::mat&,const Rcpp::List&,const Rcpp::List&,const bool,const bool,const bool,const int,const bool)");
+            validateSignature("Rcpp::List(*bvar_mgig_cpp)(const int&,const arma::mat&,const arma::mat&,const Rcpp::List&,const Rcpp::List&,const arma::mat&,const bool,const bool,const bool,const int,const bool)");
             p_bvar_mgig_cpp = (Ptr_bvar_mgig_cpp)R_GetCCallable("bvars", "_bvars_bvar_mgig_cpp");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_bvar_mgig_cpp(Shield<SEXP>(Rcpp::wrap(S)), Shield<SEXP>(Rcpp::wrap(Y)), Shield<SEXP>(Rcpp::wrap(X)), Shield<SEXP>(Rcpp::wrap(prior)), Shield<SEXP>(Rcpp::wrap(starting_values)), Shield<SEXP>(Rcpp::wrap(homoskedastic)), Shield<SEXP>(Rcpp::wrap(centred_sv)), Shield<SEXP>(Rcpp::wrap(normal)), Shield<SEXP>(Rcpp::wrap(thin)), Shield<SEXP>(Rcpp::wrap(show_progress)));
+            rcpp_result_gen = p_bvar_mgig_cpp(Shield<SEXP>(Rcpp::wrap(S)), Shield<SEXP>(Rcpp::wrap(Y)), Shield<SEXP>(Rcpp::wrap(X)), Shield<SEXP>(Rcpp::wrap(prior)), Shield<SEXP>(Rcpp::wrap(starting_values)), Shield<SEXP>(Rcpp::wrap(sv_aux_mix)), Shield<SEXP>(Rcpp::wrap(homoskedastic)), Shield<SEXP>(Rcpp::wrap(centred_sv)), Shield<SEXP>(Rcpp::wrap(normal)), Shield<SEXP>(Rcpp::wrap(thin)), Shield<SEXP>(Rcpp::wrap(show_progress)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
@@ -256,17 +256,17 @@ namespace bvars {
         return Rcpp::as<Rcpp::List >(rcpp_result_gen);
     }
 
-    inline arma::mat sv_aux_mix(const int N) {
-        typedef SEXP(*Ptr_sv_aux_mix)(SEXP);
-        static Ptr_sv_aux_mix p_sv_aux_mix = NULL;
-        if (p_sv_aux_mix == NULL) {
-            validateSignature("arma::mat(*sv_aux_mix)(const int)");
-            p_sv_aux_mix = (Ptr_sv_aux_mix)R_GetCCallable("bvars", "_bvars_sv_aux_mix");
+    inline arma::mat sv_aux_mix_n(const int N) {
+        typedef SEXP(*Ptr_sv_aux_mix_n)(SEXP);
+        static Ptr_sv_aux_mix_n p_sv_aux_mix_n = NULL;
+        if (p_sv_aux_mix_n == NULL) {
+            validateSignature("arma::mat(*sv_aux_mix_n)(const int)");
+            p_sv_aux_mix_n = (Ptr_sv_aux_mix_n)R_GetCCallable("bvars", "_bvars_sv_aux_mix_n");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_sv_aux_mix(Shield<SEXP>(Rcpp::wrap(N)));
+            rcpp_result_gen = p_sv_aux_mix_n(Shield<SEXP>(Rcpp::wrap(N)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();

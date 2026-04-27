@@ -27,7 +27,7 @@ Rcpp::List sample_df (
 );
 
 
-arma::mat sv_aux_mix (
+arma::mat sv_aux_mix_n (
     const int N
 );
 
