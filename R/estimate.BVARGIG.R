@@ -103,6 +103,9 @@ estimate.BVARMGIG <- function(specification, S, thin = 1, show_progress = TRUE) 
   centred_sv          = specification$get_centred_sv()
   normal              = specification$get_normal()
   homoskedastic       = specification$get_homoskedastic()
+  N                   = dim(data_matrices$Y)[1]
+  aux_mix             = matrix(NA, 3, 10)
+  if (N <= 100) {aux_mix = sv_aux_mix[,,N]}
   
   # estimation
   qqq   = .Call(
@@ -112,6 +115,7 @@ estimate.BVARMGIG <- function(specification, S, thin = 1, show_progress = TRUE) 
     data_matrices$X, 
     prior, 
     starting_values, 
+    aux_mix,
     homoskedastic, 
     centred_sv,
     normal,
@@ -146,6 +150,9 @@ estimate.PosteriorBVARMGIG <- function(specification, S, thin = 1, show_progress
   centred_sv          = specification$last_draw$get_centred_sv()
   normal              = specification$last_draw$get_normal()
   homoskedastic       = specification$last_draw$get_homoskedastic()
+  N                   = dim(data_matrices$Y)[1]
+  aux_mix             = matrix(NA, 3, 10)
+  if (N <= 100) {aux_mix = sv_aux_mix[,,N]}
   
   # estimation
   qqq   = .Call(
@@ -155,6 +162,7 @@ estimate.PosteriorBVARMGIG <- function(specification, S, thin = 1, show_progress
     data_matrices$X, 
     prior, 
     starting_values, 
+    aux_mix,
     homoskedastic, 
     centred_sv,
     normal,
