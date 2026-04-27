@@ -65,3 +65,4 @@ docs
 *.o
 src/nicerig2.o
 src/bvarNWish.so
+.positai
