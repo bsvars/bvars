@@ -7,18 +7,21 @@ using namespace Rcpp;
 using namespace arma;
 
 
+
 // [[Rcpp::interfaces(cpp)]]
 // [[Rcpp::export]]
 arma::vec sample_lambda (
-    const double&   aux_df,
-    const int&      T,
-    const int&      N
+    double&     aux_df,
+    arma::mat&  U           // NxT
 ) {
   
+  const int T         = U.n_cols;
+  const int N         = U.n_rows;
+  U.each_col()       /= sum(U, 1);        // normalisation E[u] = 1
   double  nu_lambda   = aux_df + N;
-  double  s_lambda    = nu_lambda - 2;
-  vec     aux_lambda = chi2rnd(nu_lambda, T);
-  aux_lambda = s_lambda / aux_lambda;
+  vec     s_lambda    = trans(sum(square(U))) + nu_lambda - 2;
+  vec     aux_lambda  = chi2rnd(nu_lambda, T);
+  aux_lambda          = s_lambda / aux_lambda;
   
   return aux_lambda;
 } // END sample_lambda

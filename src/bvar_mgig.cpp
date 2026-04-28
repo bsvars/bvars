@@ -145,8 +145,9 @@ Rcpp::List bvar_mgig_cpp(
       }
       aux_hetero_inv  = aux_sigma2 % aux_lambda;
     }
-    aux_V                 = sample_V_mgig( aux_V, aux_A, aux_Sigma_inv, prior );
-    aux_V_inv             = inv_sympd(aux_V);
+    
+    // aux_V                 = sample_V_mgig( aux_V, aux_A, aux_Sigma_inv, prior );
+    // aux_V_inv             = inv_sympd(aux_V);
     
     // Rcout << " aux_Omega_diag_inv: " << aux_hetero_inv.t() << endl;
     field<mat> aux_ASigma = sample_ASigma( Y, X, aux_V_inv, aux_hetero_inv, prior );

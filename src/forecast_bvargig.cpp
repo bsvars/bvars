@@ -11,7 +11,7 @@ using namespace arma;
 Rcpp::List forecast_bvarGIG (
     arma::cube&   posterior_Sigma,    // (N, N, S)
     arma::cube&   posterior_A,        // (N, K, S)
-    arma::cube&   forecast_sigma2,    // (N, horizon, S)
+    arma::mat&    forecast_sigma2,    // (horizon, S)
     arma::vec&    X_T,                // (K)
     arma::mat&    exogenous_forecast, // (horizon, d)
     arma::mat&    cond_forecast,     // (horizon, N)
@@ -52,7 +52,7 @@ Rcpp::List forecast_bvarGIG (
       int   nonf_no           = nonf_el.n_elem;
       
       out_forecast_mean.slice(s).col(h) = posterior_A.slice(s) * Xt;
-      SigmaT.slice(h)         = posterior_Sigma.slice(s);
+      SigmaT.slice(h)         = forecast_sigma2(h, s) * posterior_Sigma.slice(s);
       
       if ( nonf_no == N ) {
         forecasts.slice(s).col(h) = mvnrnd( out_forecast_mean.slice(s).col(h), SigmaT.slice(h) );
@@ -80,3 +80,43 @@ Rcpp::List forecast_bvarGIG (
   );
 } // END forecast_bvarGIG
 
+
+// [[Rcpp::interfaces(cpp)]]
+// [[Rcpp::export]]
+arma::mat forecast_sigma2_sv1 (
+    arma::vec&    posterior_h_T,      // S
+    arma::vec&    posterior_rho,      // S
+    arma::vec&    posterior_omega,    // S
+    const int&    horizon
+) {
+  
+  const int S = posterior_rho.n_elem;
+  mat       forecasts_sigma2(horizon, S);
+  vec       ht = posterior_h_T;
+  
+  for (int h=0; h<horizon; h++) {
+    ht        = posterior_omega % (posterior_rho % ht + randn(S));
+    forecasts_sigma2.row(h) = trans(exp(ht));
+  } // END h loop
+  
+  return forecasts_sigma2;
+} // END forecast_sigma2_sv1
+
+
+
+// [[Rcpp::interfaces(cpp)]]
+// [[Rcpp::export]]
+arma::mat forecast_lambda_t1 (
+    arma::vec&    posterior_df,
+    const int&    horizon
+) {
+  
+  const int       S = posterior_df.n_cols;
+  mat             forecasts_lambda(horizon, S);
+  forecasts_lambda.each_row() += trans(posterior_df) - 2;
+  for (int h=0; h<horizon; h++) {
+    forecasts_lambda.row(h)   /= trans(chi2rnd( posterior_df ));
+  }
+  
+  return forecasts_lambda;
+} // END forecast_lambda_t1

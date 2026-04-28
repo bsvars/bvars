@@ -6,9 +6,8 @@
 
 
 arma::vec sample_lambda (
-    const double&   aux_df,
-    const int&      T,
-    const int&      N
+    double&     aux_df,
+    arma::mat&  U           // NxT
 );
 
 
