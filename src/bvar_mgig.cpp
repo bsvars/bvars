@@ -66,7 +66,7 @@ Rcpp::List bvar_mgig_cpp(
   double  aux_df        = as<double>(starting_values["df"]);
   vec     aux_sigma2(T);
   vec     aux_hetero_inv(T, fill::ones);
-  mat     U;
+  mat     U = Y - aux_A * X;
   
   if ( !homoskedastic & centred_sv ) {
     aux_sigma2 = exp(aux_h);
@@ -117,7 +117,7 @@ Rcpp::List bvar_mgig_cpp(
       aux_df          = as<double>(df_tmp["aux_df"]);
       adaptive_scale  = as<double>(df_tmp["adaptive_scale"]);
       
-      aux_lambda      = sample_lambda ( aux_df, T, N );
+      aux_lambda      = sample_lambda ( aux_df, U );
       aux_hetero_inv  = aux_sigma2 % aux_lambda;
     }
     
@@ -153,6 +153,7 @@ Rcpp::List bvar_mgig_cpp(
     field<mat> aux_ASigma = sample_ASigma( Y, X, aux_V_inv, aux_hetero_inv, prior );
     aux_A                 = aux_ASigma(0);
     aux_Sigma             = aux_ASigma(1);
+    U                     = Y - aux_A * X;
     
     if (s % thin == 0) {
       posterior_A.slice(ss)     = aux_A;
