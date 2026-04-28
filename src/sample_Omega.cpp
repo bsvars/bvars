@@ -90,9 +90,13 @@ arma::mat sv_aux_mix_n (
   // Computes the probabilities, means, and variances of the 10-component 
   // auxiliary mixture to approximate the log-chi-squared distribution with N 
   // degrees of freedom, adapting th one by Omori et al. (2007)
+  double  NN = N;
+  mat     data(1, 1e6);
+  for (int n=0; n<N; n++) {
+    rowvec nn(1e6, fill::randn);
+    data += log(square(nn)) / NN;
+  }
   
-  mat nn(N, N * 1e6, fill::randn);
-  mat data = mean(log(square(nn)));
   gmm_diag model;
   model.learn(data, 10, maha_dist, random_subset, 50, 50, 1e-10, false);
   mat out(3, 10);
