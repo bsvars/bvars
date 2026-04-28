@@ -91,14 +91,14 @@ suggestions and requests are warmly welcome!
 \examples{
 # simple workflow
 ############################################################
-spec = specify_bvarMGIG$new(us_fiscal_lsuw)   # specify the model
+spec = specify_bvar$new(us_fiscal_lsuw)   # specify the model
 burn = estimate(spec, 5)                      # run the burn-in
 post = estimate(burn, 10)                     # estimate the model
 
 # workflow with the pipe |>
 ############################################################
 us_fiscal_lsuw |>
-  specify_bvarMGIG$new() |>
+  specify_bvar$new() |>
   estimate(S = 5) |> 
   estimate(S = 10) -> post
   
