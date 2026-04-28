@@ -6,10 +6,10 @@
 #' \pkg{bvarPANELs} at forecast horizons from 1 to \code{horizon} specified as 
 #' an argument of the function.
 #' 
-#' @method forecast PosteriorBVARMGIG
+#' @method forecast PosteriorBVAR
 #' 
 #' @param posterior posterior estimation outcome - an object of class 
-#' \code{PosteriorBVARMGIG} obtained by running the \code{estimate} function.
+#' \code{PosteriorBVAR} obtained by running the \code{estimate} function.
 #' @param horizon a positive integer, specifying the forecasting horizon.
 #' @param exogenous_forecast a matrix of dimension \code{horizon x d} containing 
 #' forecasted values of the exogenous variables. 
@@ -33,7 +33,7 @@
 #' Tomasz Woźniak \email{wozniak.tom@pm.me}
 #' 
 #' @examples
-#' spec = specify_bvarMGIG$new(us_fiscal_lsuw)   # specify the model
+#' spec = specify_bvar$new(us_fiscal_lsuw)   # specify the model
 #' burn = estimate(spec, 5)                      # run the burn-in
 #' post = estimate(burn, 5)                     # estimate the model
 #' pred = forecast(post, 4)                      # forecast 1 year ahead
@@ -42,13 +42,13 @@
 #' ############################################################
 #' set.seed(123)
 #' us_fiscal_lsuw |>
-#'   specify_bvarMGIG$new() |>
+#'   specify_bvar$new() |>
 #'   estimate(S = 5) |> 
 #'   estimate(S = 5) |> 
 #'   forecast(horizon = 4) -> pred
 #' 
 #' @export
-forecast.PosteriorBVARMGIG = function(
+forecast.PosteriorBVAR = function(
     posterior, 
     horizon = 1, 
     exogenous_forecast = NULL,
@@ -60,6 +60,8 @@ forecast.PosteriorBVARMGIG = function(
   T               = ncol(posterior$last_draw$data_matrices$X)
   X_T             = posterior$last_draw$data_matrices$X[,T]
   Y               = posterior$last_draw$data_matrices$Y
+  homoskedastic   = posterior$last_draw$get_homoskedastic()
+  normal          = posterior$last_draw$get_normal()
   
   N               = dim(posterior_Sigma)[1]
   K               = length(X_T)
@@ -96,13 +98,32 @@ forecast.PosteriorBVARMGIG = function(
   }
   
   # forecast volatility
-  forecast_sigma2   = array(1, c(N, horizon, S))
+  forecast_sigma2   = matrix(1, horizon, S)
+  if (!homoskedastic) {
+    posterior_h_T   = posterior$posterior$h[T,]
+    posterior_rho   = posterior$posterior$rho
+    posterior_omega = posterior$posterior$omega
+    
+    forecast_sigma2 = .Call(`_bvars_forecast_sigma2_sv1`, 
+                            posterior_h_T, posterior_rho, posterior_omega, horizon
+                      ) # END .Call
+  }
   
+  # forecast Student-t
+  forecast_lambda   = matrix(1, horizon, S)
+  if (!normal) {
+    posterior_df    = posterior$posterior$df
+    forecast_lambda = .Call(`_bvars_forecast_lambda_t1`, 
+                            posterior_df, horizon
+                      ) # END .Call
+  }
+  forecast_sigma2 = forecast_sigma2 * forecast_lambda
+      
   # perform forecasting
   fore        = .Call(`_bvars_forecast_bvarGIG`, 
                       posterior_Sigma,
                       posterior_A,
-                      forecast_sigma2,    # (N, horizon, S)
+                      forecast_sigma2,    # (horizon, S)
                       X_T,
                       exogenous_forecast,
                       conditional_forecast,
