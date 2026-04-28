@@ -14,4 +14,19 @@ Rcpp::List forecast_bvarGIG (
     const int&    horizon
 );
 
+
+arma::mat forecast_sigma2_sv1 (
+    arma::vec&    posterior_h_T,      // S
+    arma::vec&    posterior_rho,      // S
+    arma::vec&    posterior_omega,    // S
+    const int&    horizon
+);
+
+
+arma::mat forecast_lambda_t1 (
+    arma::vec&    posterior_df,
+    const int&    horizon
+);
+  
+  
 #endif  // _FORECAST_BVARGIG_H_
