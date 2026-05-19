@@ -12,14 +12,14 @@ using namespace arma;
 // [[Rcpp::export]]
 arma::vec sample_lambda (
     double&     aux_df,
-    arma::mat&  U           // NxT
+    arma::vec&  U,
+    const int   N
 ) {
   
-  const int T         = U.n_cols;
-  const int N         = U.n_rows;
-  U.each_col()       /= sum(U, 1);        // normalisation E[u] = 1
+  const int T         = U.n_elem;
+  U                  /= accu(U) / T;        // normalisation E[u] = 1
   double  nu_lambda   = aux_df + N;
-  vec     s_lambda    = trans(sum(square(U))) + nu_lambda - 2;
+  vec     s_lambda    = U + aux_df - 2;
   vec     aux_lambda  = chi2rnd(nu_lambda, T);
   aux_lambda          = s_lambda / aux_lambda;
   
@@ -153,14 +153,18 @@ Rcpp::List svar_nc1 (
     const arma::vec&  u,
     const Rcpp::List& prior,
     const arma::mat&  aux_mix,          // 3x10 matrix with the parameters of the auxiliary mixture rows: 1-probs, 2-means, 3-vars
-    bool              sample_s_ = true
+    bool              sample_s_ = true,
+    bool              debug = false
 ) {
+  
+  if (debug) Rcout << " sv init" << endl;
   // sampler for the non-centred parameterisation of the SV process
-  const double        ccc     = 0.000000001;      // a constant to make log((u+ccc)^2) feasible
+  // const double        ccc     = 0.000000001;      // a constant to make log((u+ccc)^2) feasible
   
   // sample h and omega of the non-centered SV including ASIS step
+  if (debug) Rcout << " sample h and omega" << endl;
   const int     T = u.n_rows;
-  const vec     U = log(pow(u + ccc, 2));
+  const vec     U = u;
   
   const double  prior_sv_a_ = prior["sv_a"];
   const double  prior_sv_s_ = prior["sv_s"];
@@ -170,6 +174,7 @@ Rcpp::List svar_nc1 (
   mat           HH_rho  = H_rho.t() * H_rho;
   
   // sample auxiliary mixture states aux_S
+  if (debug) Rcout << " sample S" << endl;
   const vec   mixprob   = find_mixture_indicator_cdf(U - aux_omega * aux_h, aux_mix);
   aux_S                 = bsvars::inverse_transform_sampling(mixprob, T);
   
@@ -181,17 +186,20 @@ Rcpp::List svar_nc1 (
   }
   
   // sample aux_s_n
+  if (debug) Rcout << " sample s_" << endl;
   if ( sample_s_ ) {
     aux_s_               = (prior_sv_s_ + 2 * aux_sigma2_omega)/chi2rnd(3 + 2 * prior_sv_a_);
   }
   
   // sample aux_sigma2_omega
+  if (debug) Rcout << " sample sigma2_omega" << endl;
   aux_sigma2_omega      = bsvars::do_rgig1( prior_sv_a_-0.5, pow(aux_omega,2), 2/aux_s_ );
   
   // sample aux_rho
+  if (debug) Rcout << " sample rho" << endl;
   vec       hm1         = aux_h.subvec(0,T-2);
-  double    aux_rho_var = as_scalar(pow(hm1*hm1.t(), -1));
-  double    aux_rho_mean = as_scalar(aux_rho_var * hm1 * aux_h.subvec(1,T-1).t());
+  double    aux_rho_var = as_scalar(pow(hm1.t()*hm1, -1));
+  double    aux_rho_mean = as_scalar(aux_rho_var * hm1.t() * aux_h.subvec(1,T-1));
   double    upper_bound = pow(1 - aux_sigma2_omega, 0.5);
   aux_rho               = RcppTN::rtn1(aux_rho_mean, pow(aux_rho_var, 0.5),-upper_bound,upper_bound);
   
@@ -201,16 +209,19 @@ Rcpp::List svar_nc1 (
   HH_rho                = H_rho_new.t() * H_rho_new;
   
   // sample aux_omega
+  if (debug) Rcout << " sample omega" << endl;
   double    V_omega_inv = 1/( as_scalar(aux_h.t() * diagmat(sigma_S_inv) * aux_h) + pow(aux_sigma2_omega, -1) );
-  double    omega_bar   = as_scalar(aux_h.t() * diagmat(sigma_S_inv) * (U - alpha_S));
+  double    omega_bar   = as_scalar(aux_h.t() * diagmat(sigma_S_inv) * (U - alpha_S.t()));
   double    omega_aux   = randn( distr_param(V_omega_inv*omega_bar, sqrt(V_omega_inv) ));
   
   // sample aux_h
+  if (debug) Rcout << " sample h" << endl;
   mat       V_h         = pow(omega_aux, 2) * diagmat(sigma_S_inv) + HH_rho;
-  vec       h_bar       = omega_aux * diagmat(sigma_S_inv) * (U - alpha_S);
+  vec       h_bar       = omega_aux * diagmat(sigma_S_inv) * (U - alpha_S.t());
   vec       h_aux       = bsvars::precision_sampler_ar1( V_h.diag(), V_h(1, 0), h_bar);
   
   // ASIS
+  if (debug) Rcout << " ASIS" << endl;
   vec       aux_h_tilde = omega_aux * h_aux;
   double    hHHh        = as_scalar( aux_h_tilde.t() * HH_rho * aux_h_tilde );
   aux_sigma2v           = bsvars::do_rgig1( -0.5*(T-1), hHHh, 1/aux_sigma2_omega );
@@ -256,11 +267,11 @@ Rcpp::List svar_ce1 (
     bool                sample_s_ = true
 ) {
   // sampler for the centred parameterisation of the SV process
-  const double        ccc     = 0.000000001;      // a constant to make log((u+ccc)^2) feasible
+  // const double        ccc     = 0.000000001;      // a constant to make log((u+ccc)^2) feasible
   
   // sample h and omega of the non-centered SV including ASIS step
   const int     T = u.n_elem;
-  const vec     U = log(pow(u + ccc, 2));
+  const vec     U = u;
   
   const double  prior_sv_a_ = prior["sv_a"];
   const double  prior_sv_s_ = prior["sv_s"];
@@ -305,7 +316,7 @@ Rcpp::List svar_ce1 (
   
   // sample aux_h
   mat       V_h         = diagmat(sigma_S_inv) + (HH_rho / aux_sigma2v);
-  vec       h_bar       = diagmat(sigma_S_inv) * (U - alpha_S);
+  vec       h_bar       = diagmat(sigma_S_inv) * (U - alpha_S.t());
   aux_h                 = bsvars::precision_sampler_ar1( V_h.diag(), V_h(1, 0), h_bar);
   
   return List::create(

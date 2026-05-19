@@ -7,7 +7,8 @@
 
 arma::vec sample_lambda (
     double&     aux_df,
-    arma::mat&  U           // NxT
+    arma::vec&  U,
+    const int   N
 );
 
 
@@ -48,7 +49,8 @@ Rcpp::List svar_nc1 (
     const arma::vec&  u,
     const Rcpp::List& prior,
     const arma::mat&  aux_mix,          // 3x10 matrix with the parameters of the auxiliary mixture rows: 1-probs, 2-means, 3-vars
-    bool              sample_s_ = true
+    bool              sample_s_ = true,
+    bool              debug = false
 );
 
 
