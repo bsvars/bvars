@@ -25,6 +25,9 @@ Rcpp::List bvar_mgig_cpp(
     const int         thin = 100,         // introduce thinning
     const bool        show_progress = true
 ) {
+  
+  bool debug = false;
+  
   std::string oo = "";
   if ( thin != 1 ) {
     oo      = bsvars::ordinal(thin) + " ";
@@ -46,6 +49,7 @@ Rcpp::List bvar_mgig_cpp(
   }
   Progress p(50, show_progress);
   
+  if (debug) Rcout << " initialisation" << endl;
   const int N         = Y.n_rows;
   const int K         = X.n_rows;
   const int T         = Y.n_cols;
@@ -64,18 +68,22 @@ Rcpp::List bvar_mgig_cpp(
   double  aux_s_        = as<double>(starting_values["s_"]);
   vec     aux_lambda    = as<vec>(starting_values["lambda"]);
   double  aux_df        = as<double>(starting_values["df"]);
-  vec     aux_sigma2(T);
+  vec     aux_sigma2(T, fill::ones);
   vec     aux_hetero_inv(T, fill::ones);
   mat     U = Y - aux_A * X;
+  mat     aux_L = chol(aux_Sigma, "lower");
+  mat     U_std = solve(trimatl(aux_L), U);
+  vec     u = trans(sum(U_std)) / N;
   
   if ( !homoskedastic & centred_sv ) {
     aux_sigma2 = exp(aux_h);
-    aux_hetero_inv = 1 / aux_sigma2 % aux_lambda;
+    aux_hetero_inv = 1 / (aux_sigma2 % aux_lambda);
   } else if ( !homoskedastic & !centred_sv ) {
     aux_sigma2 = exp(aux_omega * aux_h);
-    aux_hetero_inv = 1 / aux_sigma2 % aux_lambda;
+    aux_hetero_inv = 1 / (aux_sigma2 % aux_lambda);
   }
   
+  if (debug) Rcout << " post init" << endl;
   const int   SS      = floor(S / thin);
   
   cube  posterior_A(N, K, SS);
@@ -99,35 +107,44 @@ Rcpp::List bvar_mgig_cpp(
   int   ss = 0;
   
   // parameters of the SV auxiliary mixture
+  if (debug) Rcout << " auxiliary mix" << endl;
   mat aux_mix         = sv_aux_mix;
   if (N > 100) {
     aux_mix           = sv_aux_mix_n (N);
   }
   
   for (int s=0; s<S; s++) {
-    // Rcout << " s: " << s << endl;
+    if (debug) Rcout << " s:" << s << endl;
     
     // Increment progress bar
     if (any(prog_rep_points == s)) p.increment();
     // Check for user interrupts
     if (s % 200 == 0) checkUserInterrupt();
     
+    if (debug) Rcout << " sample lambda" << endl;
     if ( !normal ) {
       List df_tmp     = sample_df ( aux_df, adaptive_scale, aux_lambda, s, adptive_alpha_gamma );
       aux_df          = as<double>(df_tmp["aux_df"]);
       adaptive_scale  = as<double>(df_tmp["adaptive_scale"]);
       
-      aux_lambda      = sample_lambda ( aux_df, U );
-      aux_hetero_inv  = aux_sigma2 % aux_lambda;
+      U_std           = sum(square( solve(trimatl(aux_L), U) ));
+      U_std          /= trans(aux_sigma2);
+      u               = trans(sum(U_std));
+      aux_lambda      = sample_lambda ( aux_df, u , N);
+      aux_hetero_inv  = 1 / (aux_sigma2 % aux_lambda);
     }
     
+    if (debug) Rcout << " sample sv" << endl;
     List sv_n;
     if (!homoskedastic) {
-
+      
+      U_std           = solve(trimatl(aux_L), U);
+      U_std.each_row() /= trans(sqrt(aux_lambda));
+      u               = trans(sum( log(square(U_std)) )) / N;
       if ( centred_sv ) {
-        sv_n          = svar_ce1( aux_h, aux_rho, aux_omega, aux_sigma2v, aux_sigma2_omega, aux_s_, aux_S, U, prior, aux_mix, true );
+        sv_n          = svar_ce1( aux_h, aux_rho, aux_omega, aux_sigma2v, aux_sigma2_omega, aux_s_, aux_S, u, prior, aux_mix, true);
       } else {
-        sv_n          = svar_nc1( aux_h, aux_rho, aux_omega, aux_sigma2v, aux_sigma2_omega, aux_s_, aux_S, U, prior, aux_mix, true );
+        sv_n          = svar_nc1( aux_h, aux_rho, aux_omega, aux_sigma2v, aux_sigma2_omega, aux_s_, aux_S, u, prior, aux_mix, true, debug );
       }
 
       aux_h           = as<vec>(sv_n["aux_h"]);
@@ -143,18 +160,22 @@ Rcpp::List bvar_mgig_cpp(
       } else {
         aux_sigma2    = exp(aux_omega * aux_h);
       }
-      aux_hetero_inv  = aux_sigma2 % aux_lambda;
+      aux_hetero_inv  = 1 / (aux_sigma2 % aux_lambda);
     }
     
+    // if (debug) Rcout << " sample V" << endl;
     // aux_V                 = sample_V_mgig( aux_V, aux_A, aux_Sigma_inv, prior );
     // aux_V_inv             = inv_sympd(aux_V);
     
-    // Rcout << " aux_Omega_diag_inv: " << aux_hetero_inv.t() << endl;
+    if (debug) Rcout << " sample ASigma" << endl;
+    if (debug) Rcout << " aux_hetero_inv" << min(aux_hetero_inv) << endl;
     field<mat> aux_ASigma = sample_ASigma( Y, X, aux_V_inv, aux_hetero_inv, prior );
     aux_A                 = aux_ASigma(0);
     aux_Sigma             = aux_ASigma(1);
+    aux_L                 = chol(aux_Sigma, "lower");
     U                     = Y - aux_A * X;
     
+    if (debug) Rcout << " store post " << endl;
     if (s % thin == 0) {
       posterior_A.slice(ss)     = aux_A;
       posterior_Sigma.slice(ss) = aux_Sigma;
