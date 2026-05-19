@@ -111,7 +111,7 @@ arma::mat forecast_lambda_t1 (
     const int&    horizon
 ) {
   
-  const int       S = posterior_df.n_cols;
+  const int       S = posterior_df.n_elem;
   mat             forecasts_lambda(horizon, S);
   forecasts_lambda.each_row() += trans(posterior_df) - 2;
   for (int h=0; h<horizon; h++) {
