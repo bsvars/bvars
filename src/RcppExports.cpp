@@ -445,21 +445,22 @@ RcppExport SEXP _bvars_sample_ASigma(SEXP YSEXP, SEXP XSEXP, SEXP aux_V_invSEXP,
     return rcpp_result_gen;
 }
 // sample_lambda
-arma::vec sample_lambda(double& aux_df, arma::mat& U);
-static SEXP _bvars_sample_lambda_try(SEXP aux_dfSEXP, SEXP USEXP) {
+arma::vec sample_lambda(double& aux_df, arma::vec& U, const int N);
+static SEXP _bvars_sample_lambda_try(SEXP aux_dfSEXP, SEXP USEXP, SEXP NSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< double& >::type aux_df(aux_dfSEXP);
-    Rcpp::traits::input_parameter< arma::mat& >::type U(USEXP);
-    rcpp_result_gen = Rcpp::wrap(sample_lambda(aux_df, U));
+    Rcpp::traits::input_parameter< arma::vec& >::type U(USEXP);
+    Rcpp::traits::input_parameter< const int >::type N(NSEXP);
+    rcpp_result_gen = Rcpp::wrap(sample_lambda(aux_df, U, N));
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP _bvars_sample_lambda(SEXP aux_dfSEXP, SEXP USEXP) {
+RcppExport SEXP _bvars_sample_lambda(SEXP aux_dfSEXP, SEXP USEXP, SEXP NSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(_bvars_sample_lambda_try(aux_dfSEXP, USEXP));
+        rcpp_result_gen = PROTECT(_bvars_sample_lambda_try(aux_dfSEXP, USEXP, NSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -622,8 +623,8 @@ RcppExport SEXP _bvars_find_mixture_indicator_cdf(SEXP datanormSEXP, SEXP aux_mi
     return rcpp_result_gen;
 }
 // svar_nc1
-Rcpp::List svar_nc1(arma::vec& aux_h, double& aux_rho, double& aux_omega, double& aux_sigma2v, double& aux_sigma2_omega, double& aux_s_, arma::uvec& aux_S, const arma::vec& u, const Rcpp::List& prior, const arma::mat& aux_mix, bool sample_s_);
-static SEXP _bvars_svar_nc1_try(SEXP aux_hSEXP, SEXP aux_rhoSEXP, SEXP aux_omegaSEXP, SEXP aux_sigma2vSEXP, SEXP aux_sigma2_omegaSEXP, SEXP aux_s_SEXP, SEXP aux_SSEXP, SEXP uSEXP, SEXP priorSEXP, SEXP aux_mixSEXP, SEXP sample_s_SEXP) {
+Rcpp::List svar_nc1(arma::vec& aux_h, double& aux_rho, double& aux_omega, double& aux_sigma2v, double& aux_sigma2_omega, double& aux_s_, arma::uvec& aux_S, const arma::vec& u, const Rcpp::List& prior, const arma::mat& aux_mix, bool sample_s_, bool debug);
+static SEXP _bvars_svar_nc1_try(SEXP aux_hSEXP, SEXP aux_rhoSEXP, SEXP aux_omegaSEXP, SEXP aux_sigma2vSEXP, SEXP aux_sigma2_omegaSEXP, SEXP aux_s_SEXP, SEXP aux_SSEXP, SEXP uSEXP, SEXP priorSEXP, SEXP aux_mixSEXP, SEXP sample_s_SEXP, SEXP debugSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< arma::vec& >::type aux_h(aux_hSEXP);
@@ -637,15 +638,16 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const Rcpp::List& >::type prior(priorSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type aux_mix(aux_mixSEXP);
     Rcpp::traits::input_parameter< bool >::type sample_s_(sample_s_SEXP);
-    rcpp_result_gen = Rcpp::wrap(svar_nc1(aux_h, aux_rho, aux_omega, aux_sigma2v, aux_sigma2_omega, aux_s_, aux_S, u, prior, aux_mix, sample_s_));
+    Rcpp::traits::input_parameter< bool >::type debug(debugSEXP);
+    rcpp_result_gen = Rcpp::wrap(svar_nc1(aux_h, aux_rho, aux_omega, aux_sigma2v, aux_sigma2_omega, aux_s_, aux_S, u, prior, aux_mix, sample_s_, debug));
     return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP _bvars_svar_nc1(SEXP aux_hSEXP, SEXP aux_rhoSEXP, SEXP aux_omegaSEXP, SEXP aux_sigma2vSEXP, SEXP aux_sigma2_omegaSEXP, SEXP aux_s_SEXP, SEXP aux_SSEXP, SEXP uSEXP, SEXP priorSEXP, SEXP aux_mixSEXP, SEXP sample_s_SEXP) {
+RcppExport SEXP _bvars_svar_nc1(SEXP aux_hSEXP, SEXP aux_rhoSEXP, SEXP aux_omegaSEXP, SEXP aux_sigma2vSEXP, SEXP aux_sigma2_omegaSEXP, SEXP aux_s_SEXP, SEXP aux_SSEXP, SEXP uSEXP, SEXP priorSEXP, SEXP aux_mixSEXP, SEXP sample_s_SEXP, SEXP debugSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(_bvars_svar_nc1_try(aux_hSEXP, aux_rhoSEXP, aux_omegaSEXP, aux_sigma2vSEXP, aux_sigma2_omegaSEXP, aux_s_SEXP, aux_SSEXP, uSEXP, priorSEXP, aux_mixSEXP, sample_s_SEXP));
+        rcpp_result_gen = PROTECT(_bvars_svar_nc1_try(aux_hSEXP, aux_rhoSEXP, aux_omegaSEXP, aux_sigma2vSEXP, aux_sigma2_omegaSEXP, aux_s_SEXP, aux_SSEXP, uSEXP, priorSEXP, aux_mixSEXP, sample_s_SEXP, debugSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -724,12 +726,12 @@ static int _bvars_RcppExport_validate(const char* sig) {
         signatures.insert("arma::mat(*sample_V_mgig)(arma::mat&,const arma::mat&,const arma::mat&,const Rcpp::List&)");
         signatures.insert("arma::vec(*sample_V_gig)(const arma::mat&,const arma::mat&,const Rcpp::List&)");
         signatures.insert("arma::field<arma::mat>(*sample_ASigma)(const arma::mat&,const arma::mat&,arma::mat&,arma::vec&,const Rcpp::List&)");
-        signatures.insert("arma::vec(*sample_lambda)(double&,arma::mat&)");
+        signatures.insert("arma::vec(*sample_lambda)(double&,arma::vec&,const int)");
         signatures.insert("double(*log_kernel_df)(const double&,const arma::vec&)");
         signatures.insert("Rcpp::List(*sample_df)(double&,double&,const arma::vec&,const int&,const arma::vec&)");
         signatures.insert("arma::mat(*sv_aux_mix_n)(const int)");
         signatures.insert("arma::vec(*find_mixture_indicator_cdf)(const arma::vec&,const arma::mat&)");
-        signatures.insert("Rcpp::List(*svar_nc1)(arma::vec&,double&,double&,double&,double&,double&,arma::uvec&,const arma::vec&,const Rcpp::List&,const arma::mat&,bool)");
+        signatures.insert("Rcpp::List(*svar_nc1)(arma::vec&,double&,double&,double&,double&,double&,arma::uvec&,const arma::vec&,const Rcpp::List&,const arma::mat&,bool,bool)");
         signatures.insert("Rcpp::List(*svar_ce1)(arma::vec&,double&,double&,double&,double&,double&,arma::uvec&,const arma::vec&,const Rcpp::List&,const arma::mat&,bool)");
     }
     return signatures.find(sig) != signatures.end();
@@ -773,12 +775,12 @@ static const R_CallMethodDef CallEntries[] = {
     {"_bvars_sample_V_mgig", (DL_FUNC) &_bvars_sample_V_mgig, 4},
     {"_bvars_sample_V_gig", (DL_FUNC) &_bvars_sample_V_gig, 3},
     {"_bvars_sample_ASigma", (DL_FUNC) &_bvars_sample_ASigma, 5},
-    {"_bvars_sample_lambda", (DL_FUNC) &_bvars_sample_lambda, 2},
+    {"_bvars_sample_lambda", (DL_FUNC) &_bvars_sample_lambda, 3},
     {"_bvars_log_kernel_df", (DL_FUNC) &_bvars_log_kernel_df, 2},
     {"_bvars_sample_df", (DL_FUNC) &_bvars_sample_df, 5},
     {"_bvars_sv_aux_mix_n", (DL_FUNC) &_bvars_sv_aux_mix_n, 1},
     {"_bvars_find_mixture_indicator_cdf", (DL_FUNC) &_bvars_find_mixture_indicator_cdf, 2},
-    {"_bvars_svar_nc1", (DL_FUNC) &_bvars_svar_nc1, 11},
+    {"_bvars_svar_nc1", (DL_FUNC) &_bvars_svar_nc1, 12},
     {"_bvars_svar_ce1", (DL_FUNC) &_bvars_svar_ce1, 11},
     {"_bvars_RcppExport_registerCCallable", (DL_FUNC) &_bvars_RcppExport_registerCCallable, 0},
     {NULL, NULL, 0}
