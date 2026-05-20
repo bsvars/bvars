@@ -104,7 +104,8 @@
 #' @docType package
 #' @useDynLib bvars, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
-#' @importFrom bsvars estimate forecast specify_data_matrices
+#' @importFrom bsvars estimate specify_data_matrices
+#' @importFrom generics forecast
 #' @importFrom R6 R6Class
 #' @importFrom RcppTN rtn
 #' @import bsvars

@@ -5,14 +5,15 @@
 \title{Forecasting using Structural Vector Autoregression}
 \usage{
 \method{forecast}{PosteriorBVAR}(
-  posterior,
+  object,
   horizon = 1,
   exogenous_forecast = NULL,
-  conditional_forecast = NULL
+  conditional_forecast = NULL,
+  ...
 )
 }
 \arguments{
-\item{posterior}{posterior estimation outcome - an object of class 
+\item{object}{posterior estimation outcome - an object of class 
 \code{PosteriorBVAR} obtained by running the \code{estimate} function.}
 
 \item{horizon}{a positive integer, specifying the forecasting horizon.}
@@ -24,6 +25,8 @@ forecasted values of the exogenous variables.}
 for selected variables. It should only contain \code{numeric} or \code{NA} 
 values. The entries with \code{NA} values correspond to the values that are 
 forecasted conditionally on the realisations provided as \code{numeric} values.}
+
+\item{...}{not used}
 }
 \value{
 A list of class \code{Forecasts} containing the

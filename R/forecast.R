@@ -1,4 +1,7 @@
 
+#' @export
+generics::forecast
+
 #' @title Forecasting using Structural Vector Autoregression
 #'
 #' @description Samples from the joint predictive density of all of the dependent 
@@ -8,7 +11,7 @@
 #' 
 #' @method forecast PosteriorBVAR
 #' 
-#' @param posterior posterior estimation outcome - an object of class 
+#' @param object posterior estimation outcome - an object of class 
 #' \code{PosteriorBVAR} obtained by running the \code{estimate} function.
 #' @param horizon a positive integer, specifying the forecasting horizon.
 #' @param exogenous_forecast a matrix of dimension \code{horizon x d} containing 
@@ -17,6 +20,7 @@
 #' for selected variables. It should only contain \code{numeric} or \code{NA} 
 #' values. The entries with \code{NA} values correspond to the values that are 
 #' forecasted conditionally on the realisations provided as \code{numeric} values.
+#' @param ... not used
 #' 
 #' @return A list of class \code{Forecasts} containing the
 #' draws from the predictive density and data. The output list includes element:
@@ -49,23 +53,24 @@
 #' 
 #' @export
 forecast.PosteriorBVAR = function(
-    posterior, 
+    object, 
     horizon = 1, 
     exogenous_forecast = NULL,
-    conditional_forecast = NULL
+    conditional_forecast = NULL,
+    ...
 ) {
   
-  posterior_Sigma = posterior$posterior$Sigma
-  posterior_A     = posterior$posterior$A
-  T               = ncol(posterior$last_draw$data_matrices$X)
-  X_T             = posterior$last_draw$data_matrices$X[,T]
-  Y               = posterior$last_draw$data_matrices$Y
-  homoskedastic   = posterior$last_draw$get_homoskedastic()
-  normal          = posterior$last_draw$get_normal()
+  posterior_Sigma = object$posterior$Sigma
+  posterior_A     = object$posterior$A
+  T               = ncol(object$last_draw$data_matrices$X)
+  X_T             = object$last_draw$data_matrices$X[,T]
+  Y               = object$last_draw$data_matrices$Y
+  homoskedastic   = object$last_draw$get_homoskedastic()
+  normal          = object$last_draw$get_normal()
   
   N               = dim(posterior_Sigma)[1]
   K               = length(X_T)
-  d               = K - N * posterior$last_draw$p - 1
+  d               = K - N * object$last_draw$p - 1
   S               = dim(posterior_Sigma)[3]
   
   # prepare forecasting with exogenous variables
@@ -100,9 +105,9 @@ forecast.PosteriorBVAR = function(
   # forecast volatility
   forecast_sigma2   = matrix(1, horizon, S)
   if (!homoskedastic) {
-    posterior_h_T   = posterior$posterior$h[T,]
-    posterior_rho   = posterior$posterior$rho
-    posterior_omega = posterior$posterior$omega
+    posterior_h_T   = object$posterior$h[T,]
+    posterior_rho   = object$posterior$rho
+    posterior_omega = object$posterior$omega
     
     forecast_sigma2 = .Call(`_bvars_forecast_sigma2_sv1`, 
                             posterior_h_T, posterior_rho, posterior_omega, horizon
@@ -112,7 +117,7 @@ forecast.PosteriorBVAR = function(
   # forecast Student-t
   forecast_lambda   = matrix(1, horizon, S)
   if (!normal) {
-    posterior_df    = posterior$posterior$df
+    posterior_df    = object$posterior$df
     forecast_lambda = .Call(`_bvars_forecast_lambda_t1`, 
                             posterior_df, horizon
                       ) # END .Call

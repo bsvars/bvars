@@ -14,6 +14,7 @@ Depends:
     RcppArmadillo,
     bsvars
 Imports: 
+    generics,
     Rcpp (>= 1.0.14),
     RcppProgress,
     RcppTN,
