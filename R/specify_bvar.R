@@ -77,7 +77,7 @@ specify_prior_bvar = R6::R6Class(
       K             = N * p + 1 + d
       self$A        = cbind(diag(as.numeric(!stationary)), matrix(0, N, K - N))
       self$S        = diag(N)
-      self$nu       = N + 1
+      self$nu       = N + 3       # as in Chan (2020, JBES)
       self$Psi      = diag(K)
       self$Gamma    = diag(K)
       self$lambda   = N + 1
@@ -187,6 +187,13 @@ specify_starting_values_bvar = R6::R6Class(
     #' homoskedastic errors, otherwise it assumes stochastic volatility.
     #' @param is_normal a logical scalar - if \code{TRUE} the model assumes normal 
     #' error term, otherwise, it assumes Student-t errors.
+    #' @param ar_sigma2 a positive \code{N}-vector with the autoregressive variance
+    #' estimates for each variable to be used in the Minnesota prior for the autoregressive
+    #' parameters.
+    #' @param kappa a positive \code{2}-vector with the hyperparameters of
+    #' the Minnesota prior for the autoregressive parameters - the first element 
+    #' is the overall tightness hyperparameter, while the second element is the 
+    #' tightness of the prior on the constant and exogenous variable coefficients.
     #' @return Starting values \code{StartingValuesBVAR}.
     #' @examples 
     #' # starting values for a 3-variable BVAR model
@@ -198,7 +205,9 @@ specify_starting_values_bvar = R6::R6Class(
       T,
       d = 0, 
       is_homoskedastic = TRUE, 
-      is_normal = TRUE
+      is_normal = TRUE,
+      ar_sigma2 = rep(1, N),
+      kappa = c(0.2^2, 10^2)
     ){
       stopifnot("Argument N must be a positive integer number." = N > 0 & N %% 1 == 0)
       stopifnot("Argument p must be a positive integer number." = p > 0 & p %% 1 == 0)
@@ -208,7 +217,7 @@ specify_starting_values_bvar = R6::R6Class(
       K                   = N * p + 1 + d
       self$A              = cbind(diag(runif(N)), matrix(0, N, K - N))
       self$Sigma          = diag(rgamma(N, 1))
-      self$V              = diag(rgamma(K, 1))
+      self$V              = diag(c(kappa[1] / (kronecker(rep(1, p), ar_sigma2) * kronecker((1:p)^2, rep(1, N))), rep(kappa[2], 1 + d)))
       
       self$h              = rnorm(T, sd = .01)
       self$rho            = .5
@@ -362,9 +371,12 @@ specify_bvar = R6::R6Class(
       }
       K             = N * p + 1 + d
       
+      ar_sigma2     = apply(data, 2, function(x){sum(ar(x, aic = FALSE, order.max = 4)$resid^2, na.rm=TRUE) / (dim(data)[1] - 5)})
+      
       self$data_matrices   = bsvars::specify_data_matrices$new(data, p, exogenous)
       self$prior           = specify_prior_bvar$new(N, p, d, stationary, private$homoskedastic)
-      self$starting_values = specify_starting_values_bvar$new(N, self$p, T, d, private$homoskedastic, private$normal)
+      self$starting_values = specify_starting_values_bvar$new(N, self$p, T, d, private$homoskedastic, private$normal, ar_sigma2)
+      
     }, # END initialize
     
     #' @description

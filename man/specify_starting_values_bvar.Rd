@@ -101,7 +101,9 @@ Create new starting values \code{StartingValuesBVAR}.
   T,
   d = 0,
   is_homoskedastic = TRUE,
-  is_normal = TRUE
+  is_normal = TRUE,
+  ar_sigma2 = rep(1, N),
+  kappa = c(0.2^2, 10^2)
 )}\if{html}{\out{</div>}}
 }
 
@@ -121,6 +123,15 @@ homoskedastic errors, otherwise it assumes stochastic volatility.}
 
 \item{\code{is_normal}}{a logical scalar - if \code{TRUE} the model assumes normal 
 error term, otherwise, it assumes Student-t errors.}
+
+\item{\code{ar_sigma2}}{a positive \code{N}-vector with the autoregressive variance
+estimates for each variable to be used in the Minnesota prior for the autoregressive
+parameters.}
+
+\item{\code{kappa}}{a positive \code{2}-vector with the hyperparameters of
+the Minnesota prior for the autoregressive parameters - the first element 
+is the overall tightness hyperparameter, while the second element is the 
+tightness of the prior on the constant and exogenous variable coefficients.}
 }
 \if{html}{\out{</div>}}
 }
