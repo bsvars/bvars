@@ -66,3 +66,5 @@ docs
 src/nicerig2.o
 src/bvarNWish.so
 .positai
+
+inst/varia/
