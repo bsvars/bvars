@@ -1,7 +1,7 @@
 
 #' @title A 20-variable US macroeconomic system for the period 1959 Q4 -- 2013 Q4
 #'
-#' @description A system of 20 US macroeconomic aggregates.
+#' @description A system of 20 US macroeconomic aggregates used by Chan (2020).
 #'
 #' @usage data(us_macro_chan)
 #' 

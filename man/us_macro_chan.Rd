@@ -41,7 +41,7 @@ FRED Economic Database, Federal Reserve Bank of St. Louis,
 data(us_macro_chan)
 }
 \description{
-A system of 20 US macroeconomic aggregates.
+A system of 20 US macroeconomic aggregates used by Chan (2020).
 }
 \examples{
 data(us_macro_chan)   # upload the data
