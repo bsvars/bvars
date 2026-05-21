@@ -7,14 +7,14 @@
 The class \code{BVAR} presents complete specification for the BVAR model.
 }
 \examples{
-spec = specify_bvar$new(us_fiscal_lsuw)
+spec = specify_bvar$new(us_macro_chan)
 
 
 ## ------------------------------------------------
 ## Method `specify_bvar$get_normal`
 ## ------------------------------------------------
 
-spec = specify_bvar$new(us_fiscal_lsuw)
+spec = specify_bvar$new(us_macro_chan)
 spec$get_normal()
 
 
@@ -22,7 +22,7 @@ spec$get_normal()
 ## Method `specify_bvar$get_homoskedastic`
 ## ------------------------------------------------
 
-spec = specify_bvar$new(us_fiscal_lsuw)
+spec = specify_bvar$new(us_macro_chan)
 spec$get_homoskedastic()
 
 
@@ -30,7 +30,7 @@ spec$get_homoskedastic()
 ## Method `specify_bvar$get_centred_sv`
 ## ------------------------------------------------
 
-spec = specify_bvar$new(us_fiscal_lsuw)
+spec = specify_bvar$new(us_macro_chan)
 spec$get_centred_sv()
 
 
@@ -38,7 +38,7 @@ spec$get_centred_sv()
 ## Method `specify_bvar$get_data_matrices`
 ## ------------------------------------------------
 
-spec = specify_bvar$new(us_fiscal_lsuw)
+spec = specify_bvar$new(us_macro_chan)
 spec$get_data_matrices()
 
 
@@ -46,7 +46,7 @@ spec$get_data_matrices()
 ## Method `specify_bvar$get_prior`
 ## ------------------------------------------------
 
-spec = specify_bvar$new(us_fiscal_lsuw)
+spec = specify_bvar$new(us_macro_chan)
 spec$get_prior()
 
 
@@ -54,7 +54,7 @@ spec$get_prior()
 ## Method `specify_bvar$get_starting_values`
 ## ------------------------------------------------
 
-spec = specify_bvar$new(us_fiscal_lsuw)
+spec = specify_bvar$new(us_macro_chan)
 spec$get_starting_values()
 
 }
@@ -140,7 +140,7 @@ Returns the logical value of whether the conditional shock distribution is norma
 
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{spec = specify_bvar$new(us_fiscal_lsuw)
+\preformatted{spec = specify_bvar$new(us_macro_chan)
 spec$get_normal()
 
 }
@@ -160,7 +160,7 @@ Returns the logical value of whether the common volatility is homoskedastic.
 
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{spec = specify_bvar$new(us_fiscal_lsuw)
+\preformatted{spec = specify_bvar$new(us_macro_chan)
 spec$get_homoskedastic()
 
 }
@@ -181,7 +181,7 @@ Stochastic Volatility
 
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{spec = specify_bvar$new(us_fiscal_lsuw)
+\preformatted{spec = specify_bvar$new(us_macro_chan)
 spec$get_centred_sv()
 
 }
@@ -201,7 +201,7 @@ Returns the data matrices as the \code{DataMatricesBSVAR} object.
 
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{spec = specify_bvar$new(us_fiscal_lsuw)
+\preformatted{spec = specify_bvar$new(us_macro_chan)
 spec$get_data_matrices()
 
 }
@@ -221,7 +221,7 @@ Returns the prior specification as the \code{PriorBVAR} object.
 
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{spec = specify_bvar$new(us_fiscal_lsuw)
+\preformatted{spec = specify_bvar$new(us_macro_chan)
 spec$get_prior()
 
 }
@@ -241,7 +241,7 @@ Returns the starting values as the \code{StartingValuesBVAR} object.
 
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{spec = specify_bvar$new(us_fiscal_lsuw)
+\preformatted{spec = specify_bvar$new(us_macro_chan)
 spec$get_starting_values()
 
 }

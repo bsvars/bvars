@@ -300,7 +300,7 @@ specify_starting_values_bvar = R6::R6Class(
 #' The class \code{BVAR} presents complete specification for the BVAR model.
 #' 
 #' @examples 
-#' spec = specify_bvar$new(us_fiscal_lsuw)
+#' spec = specify_bvar$new(us_macro_chan)
 #' 
 #' @export
 specify_bvar = R6::R6Class(
@@ -383,7 +383,7 @@ specify_bvar = R6::R6Class(
     #' Returns the logical value of whether the conditional shock distribution is normal.
     #' 
     #' @examples 
-    #' spec = specify_bvar$new(us_fiscal_lsuw)
+    #' spec = specify_bvar$new(us_macro_chan)
     #' spec$get_normal()
     #' 
     get_normal = function() {
@@ -394,7 +394,7 @@ specify_bvar = R6::R6Class(
     #' Returns the logical value of whether the common volatility is homoskedastic.
     #' 
     #' @examples 
-    #' spec = specify_bvar$new(us_fiscal_lsuw)
+    #' spec = specify_bvar$new(us_macro_chan)
     #' spec$get_homoskedastic()
     #' 
     get_homoskedastic = function() {
@@ -406,7 +406,7 @@ specify_bvar = R6::R6Class(
     #' Stochastic Volatility
     #' 
     #' @examples 
-    #' spec = specify_bvar$new(us_fiscal_lsuw)
+    #' spec = specify_bvar$new(us_macro_chan)
     #' spec$get_centred_sv()
     #' 
     get_centred_sv = function() {
@@ -417,7 +417,7 @@ specify_bvar = R6::R6Class(
     #' Returns the data matrices as the \code{DataMatricesBSVAR} object.
     #' 
     #' @examples 
-    #' spec = specify_bvar$new(us_fiscal_lsuw)
+    #' spec = specify_bvar$new(us_macro_chan)
     #' spec$get_data_matrices()
     #' 
     get_data_matrices = function() {
@@ -428,7 +428,7 @@ specify_bvar = R6::R6Class(
     #' Returns the prior specification as the \code{PriorBVAR} object.
     #' 
     #' @examples 
-    #' spec = specify_bvar$new(us_fiscal_lsuw)
+    #' spec = specify_bvar$new(us_macro_chan)
     #' spec$get_prior()
     #' 
     get_prior = function() {
@@ -439,7 +439,7 @@ specify_bvar = R6::R6Class(
     #' Returns the starting values as the \code{StartingValuesBVAR} object.
     #' 
     #' @examples 
-    #' spec = specify_bvar$new(us_fiscal_lsuw)
+    #' spec = specify_bvar$new(us_macro_chan)
     #' spec$get_starting_values()
     #' 
     get_starting_values = function() {
@@ -466,7 +466,7 @@ specify_bvar = R6::R6Class(
 #' 
 #' @examples 
 #' # This is a function that is used within estimate()
-#' spec = specify_bvar$new(us_fiscal_lsuw)
+#' spec = specify_bvar$new(us_macro_chan)
 #' post = estimate(spec, 5)
 #' class(post)
 #' 
@@ -506,7 +506,7 @@ specify_posterior_bvar = R6::R6Class(
     #' \code{A}, \code{Sigma}, and \code{V}.
     #' 
     #' @examples 
-    #' spec = specify_bvar$new(us_fiscal_lsuw)
+    #' spec = specify_bvar$new(us_macro_chan)
     #' post = estimate(spec, 5)
     #' post$get_posterior()
     #' 
@@ -520,7 +520,7 @@ specify_posterior_bvar = R6::R6Class(
     #' of the MCMC estimation using \code{estimate()}.
     #' 
     #' @examples
-    #' spec = specify_bvar$new(us_fiscal_lsuw)
+    #' spec = specify_bvar$new(us_macro_chan)
     #' burn = estimate(spec, 5)
     #' post = estimate(burn, 5)
     get_last_draw      = function(){

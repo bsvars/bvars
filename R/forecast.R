@@ -37,7 +37,7 @@ generics::forecast
 #' Tomasz Woźniak \email{wozniak.tom@pm.me}
 #' 
 #' @examples
-#' spec = specify_bvar$new(us_fiscal_lsuw)   # specify the model
+#' spec = specify_bvar$new(us_macro_chan)   # specify the model
 #' burn = estimate(spec, 5)                      # run the burn-in
 #' post = estimate(burn, 5)                     # estimate the model
 #' pred = forecast(post, 4)                      # forecast 1 year ahead
@@ -45,7 +45,7 @@ generics::forecast
 #' # workflow with the pipe |>
 #' ############################################################
 #' set.seed(123)
-#' us_fiscal_lsuw |>
+#' us_macro_chan |>
 #'   specify_bvar$new() |>
 #'   estimate(S = 5) |> 
 #'   estimate(S = 5) |> 

@@ -11,8 +11,8 @@ Description: Bayesian vector autoregressions.
 License: GPL (>= 3)
 Depends: 
     R (>= 4.1.0),
-    RcppArmadillo,
-    bsvars
+    bsvars, 
+    RcppArmadillo
 Imports: 
     generics,
     Rcpp (>= 1.0.14),

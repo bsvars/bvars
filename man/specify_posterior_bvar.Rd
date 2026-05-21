@@ -12,7 +12,7 @@ Note that due to the thinning of the MCMC output the starting value in element
 }
 \examples{
 # This is a function that is used within estimate()
-spec = specify_bvar$new(us_fiscal_lsuw)
+spec = specify_bvar$new(us_macro_chan)
 post = estimate(spec, 5)
 class(post)
 
@@ -21,7 +21,7 @@ class(post)
 ## Method `specify_posterior_bvar$get_posterior`
 ## ------------------------------------------------
 
-spec = specify_bvar$new(us_fiscal_lsuw)
+spec = specify_bvar$new(us_macro_chan)
 post = estimate(spec, 5)
 post$get_posterior()
 
@@ -30,7 +30,7 @@ post$get_posterior()
 ## Method `specify_posterior_bvar$get_last_draw`
 ## ------------------------------------------------
 
-spec = specify_bvar$new(us_fiscal_lsuw)
+spec = specify_bvar$new(us_macro_chan)
 burn = estimate(spec, 5)
 post = estimate(burn, 5)
 }
@@ -91,7 +91,7 @@ Returns a list containing Bayesian estimation output collected in elements
 
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{spec = specify_bvar$new(us_fiscal_lsuw)
+\preformatted{spec = specify_bvar$new(us_macro_chan)
 post = estimate(spec, 5)
 post$get_posterior()
 
@@ -114,7 +114,7 @@ of the MCMC estimation using \code{estimate()}.
 
 \subsection{Examples}{
 \if{html}{\out{<div class="r example copy">}}
-\preformatted{spec = specify_bvar$new(us_fiscal_lsuw)
+\preformatted{spec = specify_bvar$new(us_macro_chan)
 burn = estimate(spec, 5)
 post = estimate(burn, 5)
 }
