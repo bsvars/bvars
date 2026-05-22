@@ -90,12 +90,13 @@
 #' \boldsymbol{\Sigma} \mid \underline{\mathbf{S}}, \underline{\nu} \sim \mathcal{IW}(\underline{\mathbf{S}}, \underline{\nu})
 #' }
 #' with the scale matrix \eqn{\underline{\mathbf{S}}} and degrees of freedom \eqn{\underline{\nu}}.
+#' 
 #' @name bvars-package
 #' @aliases bvars-package bvars
 #' @docType package
 #' @useDynLib bvars, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
-#' @importFrom bsvars estimate specify_data_matrices
+#' @importFrom bsvars estimate specify_data_matrices compute_variance_decompositions
 #' @importFrom generics forecast
 #' @importFrom R6 R6Class
 #' @importFrom RcppTN rtn

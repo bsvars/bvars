@@ -58,6 +58,77 @@ RcppExport SEXP _bvars_bvar_mgig_cpp(SEXP SSEXP, SEXP YSEXP, SEXP XSEXP, SEXP pr
     UNPROTECT(1);
     return rcpp_result_gen;
 }
+// Sigma2B
+arma::cube Sigma2B(arma::cube& posterior_Sigma_c);
+static SEXP _bvars_Sigma2B_try(SEXP posterior_Sigma_cSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< arma::cube& >::type posterior_Sigma_c(posterior_Sigma_cSEXP);
+    rcpp_result_gen = Rcpp::wrap(Sigma2B(posterior_Sigma_c));
+    return rcpp_result_gen;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP _bvars_Sigma2B(SEXP posterior_Sigma_cSEXP) {
+    SEXP rcpp_result_gen;
+    {
+        Rcpp::RNGScope rcpp_rngScope_gen;
+        rcpp_result_gen = PROTECT(_bvars_Sigma2B_try(posterior_Sigma_cSEXP));
+    }
+    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
+    if (rcpp_isInterrupt_gen) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    bool rcpp_isLongjump_gen = Rcpp::internal::isLongjumpSentinel(rcpp_result_gen);
+    if (rcpp_isLongjump_gen) {
+        Rcpp::internal::resumeJump(rcpp_result_gen);
+    }
+    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
+    if (rcpp_isError_gen) {
+        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
+        UNPROTECT(1);
+        (Rf_error)("%s", CHAR(rcpp_msgSEXP_gen));
+    }
+    UNPROTECT(1);
+    return rcpp_result_gen;
+}
+// compute_variance_decompositions
+arma::field<arma::cube> compute_variance_decompositions(arma::cube& posterior_Sigma, arma::cube& posterior_A, const int horizon, const int p);
+static SEXP _bvars_compute_variance_decompositions_try(SEXP posterior_SigmaSEXP, SEXP posterior_ASEXP, SEXP horizonSEXP, SEXP pSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< arma::cube& >::type posterior_Sigma(posterior_SigmaSEXP);
+    Rcpp::traits::input_parameter< arma::cube& >::type posterior_A(posterior_ASEXP);
+    Rcpp::traits::input_parameter< const int >::type horizon(horizonSEXP);
+    Rcpp::traits::input_parameter< const int >::type p(pSEXP);
+    rcpp_result_gen = Rcpp::wrap(compute_variance_decompositions(posterior_Sigma, posterior_A, horizon, p));
+    return rcpp_result_gen;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP _bvars_compute_variance_decompositions(SEXP posterior_SigmaSEXP, SEXP posterior_ASEXP, SEXP horizonSEXP, SEXP pSEXP) {
+    SEXP rcpp_result_gen;
+    {
+        Rcpp::RNGScope rcpp_rngScope_gen;
+        rcpp_result_gen = PROTECT(_bvars_compute_variance_decompositions_try(posterior_SigmaSEXP, posterior_ASEXP, horizonSEXP, pSEXP));
+    }
+    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
+    if (rcpp_isInterrupt_gen) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    bool rcpp_isLongjump_gen = Rcpp::internal::isLongjumpSentinel(rcpp_result_gen);
+    if (rcpp_isLongjump_gen) {
+        Rcpp::internal::resumeJump(rcpp_result_gen);
+    }
+    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
+    if (rcpp_isError_gen) {
+        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
+        UNPROTECT(1);
+        (Rf_error)("%s", CHAR(rcpp_msgSEXP_gen));
+    }
+    UNPROTECT(1);
+    return rcpp_result_gen;
+}
 // forecast_bvarGIG
 Rcpp::List forecast_bvarGIG(arma::cube& posterior_Sigma, arma::cube& posterior_A, arma::mat& forecast_sigma2, arma::vec& X_T, arma::mat& exogenous_forecast, arma::mat& cond_forecast, const int& horizon);
 static SEXP _bvars_forecast_bvarGIG_try(SEXP posterior_SigmaSEXP, SEXP posterior_ASEXP, SEXP forecast_sigma2SEXP, SEXP X_TSEXP, SEXP exogenous_forecastSEXP, SEXP cond_forecastSEXP, SEXP horizonSEXP) {
@@ -517,6 +588,8 @@ static int _bvars_RcppExport_validate(const char* sig) {
     static std::set<std::string> signatures;
     if (signatures.empty()) {
         signatures.insert("Rcpp::List(*bvar_mgig_cpp)(const int&,const arma::mat&,const arma::mat&,const Rcpp::List&,const Rcpp::List&,const arma::mat&,const bool,const bool,const bool,const int,const bool)");
+        signatures.insert("arma::cube(*Sigma2B)(arma::cube&)");
+        signatures.insert("arma::field<arma::cube>(*compute_variance_decompositions)(arma::cube&,arma::cube&,const int,const int)");
         signatures.insert("Rcpp::List(*forecast_bvarGIG)(arma::cube&,arma::cube&,arma::mat&,arma::vec&,arma::mat&,arma::mat&,const int&)");
         signatures.insert("arma::mat(*forecast_sigma2_sv1)(arma::vec&,arma::vec&,arma::vec&,const int&)");
         signatures.insert("arma::mat(*forecast_lambda_t1)(arma::vec&,const int&)");
@@ -536,6 +609,8 @@ static int _bvars_RcppExport_validate(const char* sig) {
 // registerCCallable (register entry points for exported C++ functions)
 RcppExport SEXP _bvars_RcppExport_registerCCallable() { 
     R_RegisterCCallable("bvars", "_bvars_bvar_mgig_cpp", (DL_FUNC)_bvars_bvar_mgig_cpp_try);
+    R_RegisterCCallable("bvars", "_bvars_Sigma2B", (DL_FUNC)_bvars_Sigma2B_try);
+    R_RegisterCCallable("bvars", "_bvars_compute_variance_decompositions", (DL_FUNC)_bvars_compute_variance_decompositions_try);
     R_RegisterCCallable("bvars", "_bvars_forecast_bvarGIG", (DL_FUNC)_bvars_forecast_bvarGIG_try);
     R_RegisterCCallable("bvars", "_bvars_forecast_sigma2_sv1", (DL_FUNC)_bvars_forecast_sigma2_sv1_try);
     R_RegisterCCallable("bvars", "_bvars_forecast_lambda_t1", (DL_FUNC)_bvars_forecast_lambda_t1_try);
@@ -554,6 +629,8 @@ RcppExport SEXP _bvars_RcppExport_registerCCallable() {
 
 static const R_CallMethodDef CallEntries[] = {
     {"_bvars_bvar_mgig_cpp", (DL_FUNC) &_bvars_bvar_mgig_cpp, 11},
+    {"_bvars_Sigma2B", (DL_FUNC) &_bvars_Sigma2B, 1},
+    {"_bvars_compute_variance_decompositions", (DL_FUNC) &_bvars_compute_variance_decompositions, 4},
     {"_bvars_forecast_bvarGIG", (DL_FUNC) &_bvars_forecast_bvarGIG, 7},
     {"_bvars_forecast_sigma2_sv1", (DL_FUNC) &_bvars_forecast_sigma2_sv1, 4},
     {"_bvars_forecast_lambda_t1", (DL_FUNC) &_bvars_forecast_lambda_t1, 2},
