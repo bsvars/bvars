@@ -37,10 +37,10 @@ Rcpp::List bvar_mgig_cpp(
   vec prog_rep_points = arma::round(arma::linspace(0, S, 50));
   if (show_progress) {
     Rcout << "**************************************************|" << endl;
-    Rcout << "bvars: Bayesian Vector Autoregressions            |" << endl;
-    Rcout << "          with Flexible Prior Distributions       |" << endl;
+    Rcout << "bvars: Forecasting with Large                     |" << endl;
+    Rcout << "       Bayesian Vector Autoregressions            |" << endl;
     Rcout << "**************************************************|" << endl;
-    Rcout << " Gibbs sampler for the BVAR model with MGIG prior |" << endl;
+    Rcout << " Gibbs sampler for the BVAR model                 |" << endl;
     Rcout << "**************************************************|" << endl;
     Rcout << " Progress of the MCMC simulation for " << S << " draws" << endl;
     Rcout << "    Every " << oo << "draw is saved via MCMC thinning" << endl;
