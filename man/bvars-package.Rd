@@ -4,7 +4,7 @@
 \name{bvars-package}
 \alias{bvars-package}
 \alias{bvars}
-\title{Bayesian Forecasting with Vector Autoregressions}
+\title{Bayesian Forecasting with Large Vector Autoregressions}
 \description{
 Provides fast and efficient procedures for Bayesian estimation and forecasting 
 using state-of-the-art Vector Autoregressions. This package includes the model 

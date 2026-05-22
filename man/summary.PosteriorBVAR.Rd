@@ -17,12 +17,12 @@ draws from the  posterior distribution of the parameters.}
 \value{
 A list reporting the posterior mean, standard deviations, as well as 5 and 95 
 percentiles of the parameters: autoregressive 
-parameters \eqn{\mathbf{A}}, and the covariance matrix \eqn{\boldfont\Sigma}..
+parameters \eqn{\mathbf{A}}, and the covariance matrix \eqn{\Sigma}..
 }
 \description{
 Provides posterior mean, standard deviations, as well as 5 and 95 
 percentiles of the parameters: autoregressive 
-parameters \eqn{\mathbf{A}}, and the covariance matrix \eqn{\boldfont\Sigma}.
+parameters \eqn{\mathbf{A}}, and the covariance matrix \eqn{\Sigma}.
 }
 \examples{
 # simple workflow
