@@ -1,0 +1,10 @@
+url: http://bsvars.org/bvars/
+template:
+  bootstrap: 5
+
+development:
+  mode: auto
+
+navbar:
+  structure:
+    right: [github]
