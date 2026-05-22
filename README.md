@@ -48,6 +48,8 @@ integrated toolset.
 <a href="https://bsvars.org/bsvarSIGNs/"><img src="https://raw.githubusercontent.com/bsvars/hex/refs/heads/main/bsvarSIGNs/bsvarSIGNs.png" width="120" alt="bsvarSIGNs website" /></a>
 <a href="https://bsvars.org/bpvars/"><img 
 src="https://raw.githubusercontent.com/bsvars/hex/refs/heads/main/bpvars/bpvars.png" width="120" alt="bpvars website" /></a>
+<a href="https://bsvars.org/bvars/"><img 
+src="https://raw.githubusercontent.com/bsvars/hex/refs/heads/main/bvars/bvars.png" width="120" alt="bvars website" /></a>
 <a href="https://bsvars.org/StealLikeBayes/"><img src="https://raw.githubusercontent.com/bsvars/hex/refs/heads/main/StealLikeBayes/StealLikeBayes.png" width="120" alt="StealLikeBayes website" /></a>
 
 ## Features
