@@ -3,7 +3,7 @@
 
 # bvars
 
-An **R** package for Bayesian Forecasting Large with Vector
+An **R** package for Bayesian Forecasting with Large Vector
 Autoregressions
 
 <!-- badges: start -->

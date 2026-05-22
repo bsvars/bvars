@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 
 # bvars
 
-An **R** package for Bayesian Forecasting Large with Vector Autoregressions
+An **R** package for Bayesian Forecasting with Large Vector Autoregressions
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/bsvars/bvars/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bsvars/bvars/actions/workflows/R-CMD-check.yaml)
