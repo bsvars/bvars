@@ -5,9 +5,12 @@ generics::forecast
 #' @title Forecasting using Structural Vector Autoregression
 #'
 #' @description Samples from the joint predictive density of all of the dependent 
-#' variables for models from packages \pkg{bsvars}, \pkg{bsvarSIGNs} or 
-#' \pkg{bvarPANELs} at forecast horizons from 1 to \code{horizon} specified as 
-#' an argument of the function.
+#' variables for the model by Chan (2020) <doi:10.1080/07350015.2018.1451336>, that is, a 
+#' Bayesian Vector Autoregression with Minnesota priors and a flexible structure 
+#' of the error term specification. The latter includes: conditional multivariate 
+#' normal or Student’s t distributions, as well as homoskedastic or heteroskedastic 
+#' specifications with a common volatility modelled by centred or non-centred 
+#' Stochastic Volatility.
 #' 
 #' @method forecast PosteriorBVAR
 #' 

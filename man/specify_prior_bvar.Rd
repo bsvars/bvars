@@ -5,6 +5,58 @@
 \title{R6 Class Representing \code{PriorBVAR}}
 \description{
 The class \code{PriorBVAR} presents a prior specification for the BVAR model.
+
+#' \strong{The Model.} 
+All the BVAR models in this package are specified by two equations, including 
+the reduced form equation:
+\deqn{Y = AX + E}
+where \eqn{Y} is an \code{NxT} matrix of dependent variables, 
+\eqn{X} is a \code{KxT} matrix of explanatory variables, 
+\eqn{E} is an \code{NxT} matrix of reduced form error terms, 
+and \eqn{A} is an \code{NxK} matrix of autoregressive slope coefficients and 
+parameters on deterministic terms in \eqn{X}.
+
+This package assumes that the error matrix follows a matrix normal distribution:
+\deqn{E \mid X \sim \mathcal{MN}_{N \times T}(\mathbf{0}, \mathbf{\Sigma}, \mathbf{\Omega})}
+where \eqn{\Sigma} is the \code{NxN} covariance matrix of the error term at 
+time \eqn{t}, and \eqn{\Omega} is a \code{TxT} diagonal matrix.
+
+The diagonal elements of \eqn{\Omega} determine the specification of the error
+term covariance structure. Specifically, the error term at time \eqn{t} follows 
+the multivariate normal distribution 
+\deqn{e_t \sim \mathcal{N}_N(\mathbf{0}, \sigma_t^2\lambda_t \mathbf{\Sigma})} 
+where the scalar processes \eqn{\sigma_t^2} and \eqn{\lambda_t} determine the
+diagonal elements of \eqn{\Omega}. The process \eqn{\sigma_t^2} specifies 
+conditional variance and includes three options:
+\describe{
+ \item{\eqn{\sigma_t^2 = 1}}{homoskedastic error term}
+ \item{\eqn{\sigma_t^2}}{estimated and following non-centred stochastic volatility}
+ \item{\eqn{\sigma_t^2}}{estimated and following centred stochastic volatility}
+}
+The process \eqn{\lambda_t} specifies the conditional distribution of the error 
+term and includes two options:
+\describe{
+ \item{\eqn{\lambda_t = 1}}{Gaussian error term specification}
+ \item{\eqn{\lambda_t}}{estimated and following a priori an inverse gamma 2 
+       distribution \eqn{\mathcal{IG}2(\nu - 2, \nu)}, where \eqn{\nu > 2} is 
+       a degrees of freedom parameter}
+}
+
+\strong{Prior distributions.}
+The autoregressive matrix \eqn{A} is assigned matrix-variate normal distribution:
+\deqn{
+\mathbf{A} \mid \underline{\mathbf{A}}, \mathbf{V}, \boldsymbol{\Sigma}
+\sim \mathcal{MN}_{N \times K}(\underline{\mathbf{A}}, \boldsymbol{\Sigma}, \mathbf{V})
+}
+with the mean matrix \eqn{\underline{\mathbf{A}}}, and covariance matrices 
+\eqn{\boldsymbol{\Sigma}_{N\times N}} and \eqn{\mathbf{V}_{K\times K}} 
+defining the row- and column-covariance structures. 
+
+This is complemented by the inverse Wishart prior for the error term covariance \eqn{\boldsymbol{\Sigma}}:
+\deqn{
+\boldsymbol{\Sigma} \mid \underline{\mathbf{S}}, \underline{\nu} \sim \mathcal{IW}(\underline{\mathbf{S}}, \underline{\nu})
+}
+with the scale matrix \eqn{\underline{\mathbf{S}}} and degrees of freedom \eqn{\underline{\nu}}.
 }
 \examples{
 prior = specify_prior_bvar$new(N = 3, p = 1)  # a prior for 3-variable example with one lag
