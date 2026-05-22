@@ -1,7 +1,7 @@
 #  #####################################################################################
 #  R package bvars by Rui Liu, Andres Ramirez Hassan and Tomasz Woźniak Copyright (C) 2026
 #
-#  This file is part of the R package bvars: Forecasting with  Large Bayesian Vector Autoregressions
+#  This file is part of the R package bvars: Forecasting with Large Bayesian Vector Autoregressions
 #
 #  The R package bvars is free software: you can redistribute it
 #  and/or modify it under the terms of the GNU General Public License

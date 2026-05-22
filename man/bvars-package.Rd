@@ -99,6 +99,14 @@ Chan (2020) Large Bayesian VARs: A Flexible Kronecker Error Covariance Structure
 Journal of Business and Economic Statistics, 38(1), 68--79,
 <doi:10.1080/07350015.2018.1451336>.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{http://bsvars.org/bvars/}
+  \item Report bugs at \url{https://github.com/bsvars/bvars/issues}
+}
+
+}
 \author{
 Rui Liu \email{rl3023@columbia.edu}, 
 Andres Ramirez Hassan \email{aramir21@gmail.com}, 
