@@ -100,6 +100,7 @@
 #' @importFrom generics forecast
 #' @importFrom R6 R6Class
 #' @importFrom RcppTN rtn
+#' @importFrom stats quantile sd
 #' @import RcppArmadillo
 #' @import RcppProgress
 #' 
