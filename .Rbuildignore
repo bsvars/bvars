@@ -6,3 +6,6 @@
 ^\.positai$
 ^\.claude$
 ^inst/varia$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
