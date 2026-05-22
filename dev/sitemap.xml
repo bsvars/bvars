@@ -1,0 +1,20 @@
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>http://bsvars.org/bvars/dev/LICENSE.html</loc></url>
+<url><loc>http://bsvars.org/bvars/dev/authors.html</loc></url>
+<url><loc>http://bsvars.org/bvars/dev/index.html</loc></url>
+<url><loc>http://bsvars.org/bvars/dev/reference/bvars-package.html</loc></url>
+<url><loc>http://bsvars.org/bvars/dev/reference/compute_variance_decompositions.PosteriorBVAR.html</loc></url>
+<url><loc>http://bsvars.org/bvars/dev/reference/estimate.BVAR.html</loc></url>
+<url><loc>http://bsvars.org/bvars/dev/reference/estimate.PosteriorBVAR.html</loc></url>
+<url><loc>http://bsvars.org/bvars/dev/reference/forecast.PosteriorBVAR.html</loc></url>
+<url><loc>http://bsvars.org/bvars/dev/reference/index.html</loc></url>
+<url><loc>http://bsvars.org/bvars/dev/reference/reexports.html</loc></url>
+<url><loc>http://bsvars.org/bvars/dev/reference/rmatnorm1.html</loc></url>
+<url><loc>http://bsvars.org/bvars/dev/reference/specify_bvar.html</loc></url>
+<url><loc>http://bsvars.org/bvars/dev/reference/specify_posterior_bvar.html</loc></url>
+<url><loc>http://bsvars.org/bvars/dev/reference/specify_prior_bvar.html</loc></url>
+<url><loc>http://bsvars.org/bvars/dev/reference/specify_starting_values_bvar.html</loc></url>
+<url><loc>http://bsvars.org/bvars/dev/reference/summary.PosteriorBVAR.html</loc></url>
+<url><loc>http://bsvars.org/bvars/dev/reference/us_macro_chan.html</loc></url>
+</urlset>
+
