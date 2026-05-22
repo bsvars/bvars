@@ -19,15 +19,24 @@
 #  refer to <http://www.gnu.org/licenses/>.
 #  #####################################################################################
 #
-#' @title Bayesian Vector Autoregressions with Flexible Priors
+#' @title Bayesian Forecasting with Vector Autoregressions
 #'
-#' @description Provides fast and efficient procedures for Bayesian analysis of 
-#' vector Autoregressions with flexible priors. This package supports a hierarchical structure for the 
-#' location parameters in BVAR models. In particular, this package allows the row covariance structure of 
-#' the location parameters to follow a matrix generalized inverse Gaussian distribution. 
-#' This specification is flexible enough to encompass many previous approaches aimed at increasing
-#' flexibility in BVAR models, while also allowing for a higher degree of shrinkage. 
-#' Moreover, this package supports a Gibbs sampling algorithm that facilitates posterior inference.
+#' @description 
+#' Provides fast and efficient procedures for Bayesian estimation and forecasting 
+#' using state-of-the-art Vector Autoregressions. This package includes the model 
+#' proposed by Chan (2020) <doi:10.1080/07350015.2018.1451336>, that is, a 
+#' Bayesian Vector Autoregression with Minnesota priors and a flexible structure 
+#' of the error term specification. The latter includes: conditional multivariate 
+#' normal or Student’s t distributions, as well as homoskedastic or heteroskedastic 
+#' specifications with a common volatility modelled by centred or non-centred 
+#' Stochastic Volatility. Additionally, the package facilitates predictive 
+#' analyses using density forecasting and forecast-error variance decompositions. 
+#' All this is complemented by simple workflows, useful plots and summary 
+#' functions, and comprehensive documentation. The 'bvars' package aligns with 
+#' R packages 'bsvars' by Woźniak (2024) <doi:10.32614/CRAN.package.bsvars>, 
+#' 'bsvarSIGNs' by Wang & Woźniak (2025) <doi:10.32614/CRAN.package.bsvarSIGNs>, 
+#' and 'bpvars' by Woźniak (2025) <doi:10.32614/CRAN.package.bpvars> regarding 
+#' objects, workflows, and code structure, and they constitute an integrated toolset.
 #' 
 #' @details 
 #' \strong{Models.} 
@@ -67,14 +76,20 @@
 #' }
 #' 
 #' \strong{Prior distributions.}
+#' The autoregressive matrix \eqn{A} is assigned matrix-variate normal distribution:
 #' \deqn{
 #' \mathbf{A} \mid \underline{\mathbf{A}}, \mathbf{V}, \boldsymbol{\Sigma}
-#' \sim \mathcal{MN}_{K \times N}(\underline{\mathbf{A}}, \mathbf{V}, \boldsymbol{\Sigma})
+#' \sim \mathcal{MN}_{N \times K}(\underline{\mathbf{A}}, \boldsymbol{\Sigma}, \mathbf{V})
 #' }
-#' that is, the location parameters follow a matrix normal distribution with mean matrix 
-#' \eqn{\underline{\mathbf{A}}}, and covariance matrices \eqn{\mathbf{V}_{K\times K}} and 
-#' \eqn{\boldsymbol{\Sigma}_{N\times N}} defining the row and column covariance structures, respectively. (Koop and Korobilis, 2010; Chan, 2020b). 
+#' with the mean matrix \eqn{\underline{\mathbf{A}}}, and covariance matrices 
+#' \eqn{\boldsymbol{\Sigma}_{N\times N}} and \eqn{\mathbf{V}_{K\times K}} 
+#' defining the row- and column-covariance structures. 
 #' 
+#' This is complemented by the inverse Wishart prior for the error term covariance \eqn{\boldsymbol{\Sigma}}:
+#' \deqn{
+#' \boldsymbol{\Sigma} \mid \underline{\mathbf{S}}, \underline{\nu} \sim \mathcal{IW}(\underline{\mathbf{S}}, \underline{\nu})
+#' }
+#' with the scale matrix \eqn{\underline{\mathbf{S}}} and degrees of freedom \eqn{\underline{\nu}}.
 #' @name bvars-package
 #' @aliases bvars-package bvars
 #' @docType package
