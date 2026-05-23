@@ -26,15 +26,14 @@ spec = specify_bvar$new(us_macro_chan)        # specify the model
 burn = estimate(spec, 5)                      # run the burn-in
 post = estimate(burn, 10)                     # estimate the model
 shoc = compute_shocks(post)                   # compute shocks
-plot(shoc)
 
 # workflow with the pipe |>
 ############################################################
 us_macro_chan |>
   specify_bvar$new() |>
-  estimate(S = 5) |> 
+  estimate(S = 5)  |> 
   estimate(S = 10) |> 
-  compute_shocks() |> plot()
+  compute_shocks() -> shoc
 
 }
 \author{
