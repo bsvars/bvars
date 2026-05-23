@@ -88,6 +88,48 @@ namespace bvars {
         return Rcpp::as<arma::field<arma::cube> >(rcpp_result_gen);
     }
 
+    inline arma::cube compute_fitted_values(arma::cube& posterior_A, arma::cube& posterior_Sigma, arma::mat& posterior_sigma2, arma::mat& X) {
+        typedef SEXP(*Ptr_compute_fitted_values)(SEXP,SEXP,SEXP,SEXP);
+        static Ptr_compute_fitted_values p_compute_fitted_values = NULL;
+        if (p_compute_fitted_values == NULL) {
+            validateSignature("arma::cube(*compute_fitted_values)(arma::cube&,arma::cube&,arma::mat&,arma::mat&)");
+            p_compute_fitted_values = (Ptr_compute_fitted_values)R_GetCCallable("bvars", "_bvars_compute_fitted_values");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_compute_fitted_values(Shield<SEXP>(Rcpp::wrap(posterior_A)), Shield<SEXP>(Rcpp::wrap(posterior_Sigma)), Shield<SEXP>(Rcpp::wrap(posterior_sigma2)), Shield<SEXP>(Rcpp::wrap(X)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<arma::cube >(rcpp_result_gen);
+    }
+
+    inline arma::cube compute_shocks(arma::cube& posterior_A, arma::mat& Y, arma::mat& X) {
+        typedef SEXP(*Ptr_compute_shocks)(SEXP,SEXP,SEXP);
+        static Ptr_compute_shocks p_compute_shocks = NULL;
+        if (p_compute_shocks == NULL) {
+            validateSignature("arma::cube(*compute_shocks)(arma::cube&,arma::mat&,arma::mat&)");
+            p_compute_shocks = (Ptr_compute_shocks)R_GetCCallable("bvars", "_bvars_compute_shocks");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_compute_shocks(Shield<SEXP>(Rcpp::wrap(posterior_A)), Shield<SEXP>(Rcpp::wrap(Y)), Shield<SEXP>(Rcpp::wrap(X)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<arma::cube >(rcpp_result_gen);
+    }
+
     inline Rcpp::List forecast_bvarGIG(arma::cube& posterior_Sigma, arma::cube& posterior_A, arma::mat& forecast_sigma2, arma::vec& X_T, arma::mat& exogenous_forecast, arma::mat& cond_forecast, const int& horizon) {
         typedef SEXP(*Ptr_forecast_bvarGIG)(SEXP,SEXP,SEXP,SEXP,SEXP,SEXP,SEXP);
         static Ptr_forecast_bvarGIG p_forecast_bvarGIG = NULL;

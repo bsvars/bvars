@@ -95,7 +95,7 @@
 #' @docType package
 #' @useDynLib bvars, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
-#' @importFrom bsvars estimate specify_data_matrices compute_variance_decompositions
+#' @importFrom bsvars estimate specify_data_matrices compute_variance_decompositions compute_fitted_values
 #' @importFrom generics forecast
 #' @importFrom R6 R6Class
 #' @importFrom RcppTN rtn
