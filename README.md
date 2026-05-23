@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# bvars
+# bvars <a href="http://bsvars.org/bvars/"><img src="man/figures/logo.png" align="right" height="139" alt="bvars website" /></a>
 
 An **R** package for Bayesian Forecasting with Large Vector
 Autoregressions
@@ -49,7 +49,7 @@ integrated toolset.
 <a href="https://bsvars.org/bpvars/"><img 
 src="https://raw.githubusercontent.com/bsvars/hex/refs/heads/main/bpvars/bpvars.png" width="120" alt="bpvars website" /></a>
 <a href="https://bsvars.org/bvars/"><img 
-src="https://raw.githubusercontent.com/bsvars/hex/refs/heads/main/bvars/bvars.png" width="120" alt="bvars website" /></a>
+src="man/figures/logo.png" width="120" alt="bvars website" /></a>
 <a href="https://bsvars.org/StealLikeBayes/"><img src="https://raw.githubusercontent.com/bsvars/hex/refs/heads/main/StealLikeBayes/StealLikeBayes.png" width="120" alt="StealLikeBayes website" /></a>
 
 ## Features
@@ -167,6 +167,20 @@ post |> compute_variance_decompositions(horizon = 6) |> plot()
 ```
 
 Now, you’re ready to analyse your model and forecasts!
+
+#### The hexagonal logo
+
+This beautiful logo can be reproduced in R using [this
+file](https://github.com/bsvars/hex/blob/43e669e6680e3661c0789745342725092fadd21f/bvars/bvars.R).
+
+<p>
+
+</p>
+
+<a href="https://bsvars.org/bvars/"><img src="man/figures/logo.png" height="400" alt="bvars website" /></a>
+<p>
+
+</p>
 
 ## Resources
 
