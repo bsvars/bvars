@@ -38,7 +38,7 @@ website](https://raw.githubusercontent.com/bsvars/hex/refs/heads/main/bsvarSIGNs
 [![bpvars
 website](https://raw.githubusercontent.com/bsvars/hex/refs/heads/main/bpvars/bpvars.png)](https://bsvars.org/bpvars/)
 [![bvars
-website](https://raw.githubusercontent.com/bsvars/hex/refs/heads/main/bvars/bvars.png)](https://bsvars.org/bvars/)
+website](reference/figures/logo.png)](https://bsvars.org/bvars/)
 [![StealLikeBayes
 website](https://raw.githubusercontent.com/bsvars/hex/refs/heads/main/StealLikeBayes/StealLikeBayes.png)](https://bsvars.org/StealLikeBayes/)
 
@@ -164,6 +164,14 @@ post |> compute_variance_decompositions(horizon = 6) |> plot()
 ```
 
 Now, you’re ready to analyse your model and forecasts!
+
+#### The hexagonal logo
+
+This beautiful logo can be reproduced in R using [this
+file](https://github.com/bsvars/hex/blob/43e669e6680e3661c0789745342725092fadd21f/bvars/bvars.R).
+
+[![bvars
+website](reference/figures/logo.png)](https://bsvars.org/bvars/)
 
 ## Resources
 

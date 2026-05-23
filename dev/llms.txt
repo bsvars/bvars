@@ -38,7 +38,7 @@ website](https://raw.githubusercontent.com/bsvars/hex/refs/heads/main/bsvarSIGNs
 [![bpvars
 website](https://raw.githubusercontent.com/bsvars/hex/refs/heads/main/bpvars/bpvars.png)](https://bsvars.org/bpvars/)
 [![bvars
-website](https://raw.githubusercontent.com/bsvars/hex/refs/heads/main/bvars/bvars.png)](https://bsvars.org/bvars/)
+website](reference/figures/logo.png)](https://bsvars.org/bvars/)
 [![StealLikeBayes
 website](https://raw.githubusercontent.com/bsvars/hex/refs/heads/main/StealLikeBayes/StealLikeBayes.png)](https://bsvars.org/StealLikeBayes/)
 
@@ -165,6 +165,14 @@ post |> compute_variance_decompositions(horizon = 6) |> plot()
 
 Now, you’re ready to analyse your model and forecasts!
 
+#### The hexagonal logo
+
+This beautiful logo can be reproduced in R using [this
+file](https://github.com/bsvars/hex/blob/43e669e6680e3661c0789745342725092fadd21f/bvars/bvars.R).
+
+[![bvars
+website](reference/figures/logo.png)](https://bsvars.org/bvars/)
+
 ## Resources
 
 - a [reference manual](https://bsvars.org/extra/bvarPANELs_0.2.pdf)
@@ -221,6 +229,15 @@ macroeconomic analyses and programs in **R** and **C++** using **Rcpp**.
 - [`bvars-package`](http://bsvars.org/bvars/dev/reference/bvars-package.md)
   [`bvars`](http://bsvars.org/bvars/dev/reference/bvars-package.md) :
   Bayesian Forecasting with Large Vector Autoregressions
+
+- [`compute_fitted_values(`*`<PosteriorBVAR>`*`)`](http://bsvars.org/bvars/dev/reference/compute_fitted_values.PosteriorBVAR.md)
+  : Computes posterior draws from data predictive density
+
+- [`compute_shocks(`*`<PosteriorBVAR>`*`)`](http://bsvars.org/bvars/dev/reference/compute_shocks.PosteriorBVAR.md)
+  : Computes posterior draws of shocks
+
+- [`compute_shocks()`](http://bsvars.org/bvars/dev/reference/compute_shocks.md)
+  : Computes posterior draws of shocks
 
 - [`compute_variance_decompositions(`*`<PosteriorBVAR>`*`)`](http://bsvars.org/bvars/dev/reference/compute_variance_decompositions.PosteriorBVAR.md)
   : Computes posterior draws of the forecast error variance

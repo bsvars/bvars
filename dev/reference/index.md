@@ -6,6 +6,15 @@
   [`bvars`](http://bsvars.org/bvars/dev/reference/bvars-package.md) :
   Bayesian Forecasting with Large Vector Autoregressions
 
+- [`compute_fitted_values(`*`<PosteriorBVAR>`*`)`](http://bsvars.org/bvars/dev/reference/compute_fitted_values.PosteriorBVAR.md)
+  : Computes posterior draws from data predictive density
+
+- [`compute_shocks(`*`<PosteriorBVAR>`*`)`](http://bsvars.org/bvars/dev/reference/compute_shocks.PosteriorBVAR.md)
+  : Computes posterior draws of shocks
+
+- [`compute_shocks()`](http://bsvars.org/bvars/dev/reference/compute_shocks.md)
+  : Computes posterior draws of shocks
+
 - [`compute_variance_decompositions(`*`<PosteriorBVAR>`*`)`](http://bsvars.org/bvars/dev/reference/compute_variance_decompositions.PosteriorBVAR.md)
   : Computes posterior draws of the forecast error variance
   decomposition
