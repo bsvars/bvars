@@ -211,9 +211,7 @@ Rcpp::List svar_nc1 (
   // sample aux_omega
   if (debug) Rcout << " sample omega" << endl;
   double    V_omega_inv = 1/( as_scalar(aux_h.t() * diagmat(sigma_S_inv) * aux_h) + pow(aux_sigma2_omega, -1) );
-  vec       ualpha      = trans(U.t() - alpha_S);
-  vec       hs          = trans(aux_h.t() * diagmat(sigma_S_inv));//
-  double    omega_bar   = dot(hs, ualpha);
+  double    omega_bar   = as_scalar(aux_h.t() * diagmat(sigma_S_inv) * (U - alpha_S.t()));
   double    omega_aux   = randn( distr_param(V_omega_inv*omega_bar, sqrt(V_omega_inv) ));
   
   // sample aux_h
