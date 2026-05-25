@@ -53,6 +53,7 @@ Rcpp::List bvar_mgig_cpp(
   const int N         = Y.n_rows;
   const int K         = X.n_rows;
   const int T         = Y.n_cols;
+  const double ccc    = 0.000000001;      // a constant to make log((u+ccc)^2) feasible
   
   mat     aux_A         = as<mat>(starting_values["A"]);
   mat     aux_Sigma     = as<mat>(starting_values["Sigma"]);
@@ -140,7 +141,7 @@ Rcpp::List bvar_mgig_cpp(
       
       U_std           = solve(trimatl(aux_L), U);
       U_std.each_row() /= trans(sqrt(aux_lambda));
-      u               = trans(sum( log(square(U_std)) )) / N;
+      u               = trans(sum( log(square(U_std) + ccc) )) / N;
       if ( centred_sv ) {
         sv_n          = svar_ce1( aux_h, aux_rho, aux_omega, aux_sigma2v, aux_sigma2_omega, aux_s_, aux_S, u, prior, aux_mix, true);
       } else {
