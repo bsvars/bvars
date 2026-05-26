@@ -129,8 +129,8 @@ Rcpp::List bvar_mgig_cpp(
       adaptive_scale  = as<double>(df_tmp["adaptive_scale"]);
       
       U_std           = sum(square( solve(trimatl(aux_L), U) ));
-      U_std          /= trans(aux_sigma2);
-      u               = trans(sum(U_std));
+      U_std          /= N * trans(aux_sigma2);
+      u               = trans(U_std);
       aux_lambda      = sample_lambda ( aux_df, u , N);
       aux_hetero_inv  = 1 / (aux_sigma2 % aux_lambda);
     }
