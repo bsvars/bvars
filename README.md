@@ -263,6 +263,8 @@ macroeconomic analyses and programs in **R** and **C++** using **Rcpp**.
 <img src="https://raw.githubusercontent.com/jpswalsh/academicons/refs/heads/master/svg/google-scholar-square.svg" width="40" height="40"/>
 </a> <a href="https://arxiv.org/a/wozniak_t_1">
 <img src="https://raw.githubusercontent.com/jpswalsh/academicons/refs/heads/master/svg/arxiv-square.svg" width="40" height="40"/>
+</a> <a href="https://www.researchgate.net/profile/Tomasz-Wozniak-2">
+<img src="https://raw.githubusercontent.com/jpswalsh/academicons/refs/heads/master/svg/researchgate-square.svg" width="40" height="40"/>
 </a> <a href="https://fosstodon.org/@tomaszwozniak">
 <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/mastodon.svg" width="40" height="40"/>
 </a> <a href="https://bsky.app/profile/tomaszwozniak.bsky.social">
