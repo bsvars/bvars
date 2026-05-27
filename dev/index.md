@@ -239,5 +239,6 @@ macroeconomic analyses and programs in **R** and **C++** using **Rcpp**.
 [![](https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/linkedin.svg)](https://www.linkedin.com/in/tomaszwwozniak)
 [![](https://raw.githubusercontent.com/jpswalsh/academicons/refs/heads/master/svg/google-scholar-square.svg)](https://scholar.google.com/citations?user=2uWpFrYAAAAJ&hl)
 [![](https://raw.githubusercontent.com/jpswalsh/academicons/refs/heads/master/svg/arxiv-square.svg)](https://arxiv.org/a/wozniak_t_1)
+[![](https://raw.githubusercontent.com/jpswalsh/academicons/refs/heads/master/svg/researchgate-square.svg)](https://www.researchgate.net/profile/Tomasz-Wozniak-2)
 [![](https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/mastodon.svg)](https://fosstodon.org/@tomaszwozniak)
 [![](https://upload.wikimedia.org/wikipedia/commons/7/7a/Bluesky_Logo.svg)](https://bsky.app/profile/tomaszwozniak.bsky.social)
