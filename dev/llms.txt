@@ -209,6 +209,26 @@ working on. Thank you!
 
 ## About the authors
 
+**Rui** holds a Master’s degree in Mathematics from the University of
+Melbourne, where her research focused on copula models, and a Master’s
+degree in Statistics from Columbia University. She earned her Bachelor’s
+degree in Mathematics and Economics from the London School of Economics
+and Political Science. She is currently on a temporary break from
+academia and is working in investment banking at Morgan Stanley.
+
+**Andrés** is a Bayesian econometrician whose research focuses on causal
+inference and structural, hierarchical, and mixture models. He develops
+econometric methodology and computational tools in **R** for applied
+econometric analysis.
+
+[![](https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/envelope.svg)](mailto:aramir21@gmail.com)
+[![](https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/github.svg)](https://github.com/aramir21)
+[![](https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/orcid.svg)](https://orcid.org/0000-0002-0467-7903)
+[![](https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/linkedin.svg)](https://linkedin.com/in/andr%C3%A9s%EF%BB%BF%EF%BB%BF-ram%C3%ADrez-hassan-854796a)
+[![](https://raw.githubusercontent.com/jpswalsh/academicons/refs/heads/master/svg/google-scholar-square.svg)](https://scholar.google.com/citations?user=N9yVHl4AAAAJ)
+[![](https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/house.svg)](https://andresramirezhassan-introduction-bayesian-econometrics-gui.share.connect.posit.cloud/)
+[![](https://raw.githubusercontent.com/jpswalsh/academicons/refs/heads/master/svg/ideas-repec-square.svg)](https://ideas.repec.org/f/pra585.html)
+
 **Tomasz** is a Bayesian econometrician and a Senior Lecturer at the
 University of Melbourne. He develops methodology for empirical
 macroeconomic analyses and programs in **R** and **C++** using **Rcpp**.

@@ -4,7 +4,7 @@
 
 - **Rui Liu**. Author. [](https://orcid.org/0009-0008-9348-8581)
 
-- **Andres Ramirez Hassan**. Author.
+- **Andrés Ramirez Hassan**. Author.
   [](https://orcid.org/0000-0002-0467-7903)
 
 - **Tomasz Woźniak**. Author, maintainer.
@@ -21,7 +21,7 @@ with Large Vector Autoregressions*. R package version 0.0.3.9000,
 
     @Manual{,
       title = {bvars: Bayesian Forecasting with Large Vector Autoregressions},
-      author = {Rui Liu and Andres {Ramirez Hassan} and Tomasz Woźniak},
+      author = {Rui Liu and Andrés {Ramirez Hassan} and Tomasz Woźniak},
       year = {2026},
       note = {R package version 0.0.3.9000},
       url = {http://bsvars.org/bvars/},
