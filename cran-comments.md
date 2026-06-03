@@ -6,3 +6,4 @@
 * performed all checks using `usethis::use_release_issue()` and we pass
 * performed all checks using `devtools::check(remote = TRUE, manual = TRUE)` and we pass
 * all checks from `devtools::check_win_devel()` done!
+* GitHub repo actions checking the package all pass.

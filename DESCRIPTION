@@ -11,6 +11,7 @@ Description: Provides fast and efficient procedures for Bayesian estimation and 
 License: GPL (>= 3)
 Depends: 
     R (>= 4.1.0),
+    RcppArmadillo,
     bsvars
 Imports: 
     generics,
