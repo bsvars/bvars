@@ -202,6 +202,10 @@ and for **Linux:** install the standard development packages.
 
 #### Once that’s done:
 
+The newest version of the package can be installed by typing:
+
+    install.packages("bvars")
+
 The developer’s version of the package with the newest features can be
 installed by typing:
 

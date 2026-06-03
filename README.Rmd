@@ -180,6 +180,11 @@ You must have a **cpp** compiler. Follow the instructions from [Section 1.3. by 
 
 #### Once that's done:
 
+The newest version of the package can be installed by typing:
+```
+install.packages("bvars")
+```
+
 The developer's version of the package with the newest features can be installed by typing:
 ```
 devtools::install_github("bsvars/bvars")
