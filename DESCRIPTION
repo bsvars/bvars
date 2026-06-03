@@ -1,11 +1,11 @@
 Package: bvars
 Type: Package
 Title: Bayesian Forecasting with Large Vector Autoregressions
-Version: 0.0.3.9000
-Date: 2026-05-21
+Version: 1.0
+Date: 2026-06-03
 Authors@R: c(person("Rui", "Liu", , "rl3023@columbia.edu", role = c("aut"), comment = c(ORCID = "0009-0008-9348-8581")),
              person("Andrés", "Ramirez Hassan", , "aramir21@gmail.com", role = c("aut"), comment = c(ORCID = "0000-0002-0467-7903")),
-             person("Tomasz", "Woźniak", , "wozniak.tom@pm.me", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-2212-2378")))
+             person("Tomasz", "Woźniak", , "wozniak.tom@pm.me", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0003-2212-2378")))
 Maintainer: Tomasz Woźniak <wozniak.tom@pm.me>
 Description: Provides fast and efficient procedures for Bayesian estimation and forecasting using state-of-the-art Vector Autoregressions. This package includes the model proposed by Chan (2020) <doi:10.1080/07350015.2018.1451336>, that is, a Bayesian Vector Autoregression with Minnesota priors and a flexible structure of the error term specification. The latter includes: conditional multivariate normal or Student’s t distributions, as well as homoskedastic or heteroskedastic specifications with a common volatility modelled by centred or non-centred Stochastic Volatility. Additionally, the package facilitates predictive analyses using density forecasting and forecast-error variance decompositions. All this is complemented by simple workflows, useful plots and summary functions, and comprehensive documentation. The 'bvars' package aligns with R packages 'bsvars' by Woźniak (2024) <doi:10.32614/CRAN.package.bsvars>, 'bsvarSIGNs' by Wang & Woźniak (2025) <doi:10.32614/CRAN.package.bsvarSIGNs>, and 'bpvars' by Woźniak (2025) <doi:10.32614/CRAN.package.bpvars> regarding objects, workflows, and code structure, and they constitute an integrated toolset.
 License: GPL (>= 3)
@@ -25,7 +25,7 @@ LinkingTo:
     RcppProgress,
     RcppTN,
     bsvars
-URL: http://bsvars.org/bvars/
+URL: https://bsvars.org/bvars/
 BugReports: https://github.com/bsvars/bvars/issues
 Encoding: UTF-8
 LazyData: true
