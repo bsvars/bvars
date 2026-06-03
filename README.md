@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# bvars <a href="http://bsvars.org/bvars/"><img src="man/figures/logo.png" align="right" height="139" alt="bvars website" /></a>
+# bvars <a href="https://bsvars.org/bvars/"><img src="man/figures/logo.png" align="right" height="139" alt="bvars website" /></a>
 
 An **R** package for Bayesian Forecasting with Large Vector
 Autoregressions
