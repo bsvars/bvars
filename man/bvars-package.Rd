@@ -102,7 +102,7 @@ Journal of Business and Economic Statistics, 38(1), 68--79,
 \seealso{
 Useful links:
 \itemize{
-  \item \url{http://bsvars.org/bvars/}
+  \item \url{https://bsvars.org/bvars/}
   \item Report bugs at \url{https://github.com/bsvars/bvars/issues}
 }
 
