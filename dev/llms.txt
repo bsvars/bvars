@@ -175,7 +175,8 @@ website](reference/figures/logo.png)](https://bsvars.org/bvars/)
 
 ## Resources
 
-- a [reference manual](https://bsvars.org/extra/bvarPANELs_0.2.pdf)
+- a [reference manual](https://cran.r-project.org/package=bsvars/)
+- **bsvars** on [CRAN](https://cran.r-project.org/package=bsvars)
 - a website of the family of packages [bsvars.org](https://bsvars.org/)
 
 ## Installation
@@ -192,6 +193,12 @@ Tools](https://www.freecodecamp.org/news/install-xcode-command-line-tools/),
 and for **Linux:** install the standard development packages.
 
 #### Once that’s done:
+
+The newest version of the package can be installed by typing:
+
+``` R
+install.packages("bvars")
+```
 
 The developer’s version of the package with the newest features can be
 installed by typing:

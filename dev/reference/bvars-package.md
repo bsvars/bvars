@@ -98,7 +98,7 @@ Structure, Journal of Business and Economic Statistics, 38(1), 68–79,
 
 Useful links:
 
-- <http://bsvars.org/bvars/>
+- <https://bsvars.org/bvars/>
 
 - Report bugs at <https://github.com/bsvars/bvars/issues>
 
