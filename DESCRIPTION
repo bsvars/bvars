@@ -1,7 +1,7 @@
 Package: bvars
 Type: Package
 Title: Bayesian Forecasting with Large Vector Autoregressions
-Version: 1.0
+Version: 1.0.0.9000
 Date: 2026-06-03
 Authors@R: c(person("Rui", "Liu", , "rl3023@columbia.edu", role = c("aut"), comment = c(ORCID = "0009-0008-9348-8581")),
              person("Andrés", "Ramirez Hassan", , "aramir21@gmail.com", role = c("aut"), comment = c(ORCID = "0000-0002-0467-7903")),
