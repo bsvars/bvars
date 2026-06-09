@@ -175,7 +175,8 @@ website](reference/figures/logo.png)](https://bsvars.org/bvars/)
 
 ## Resources
 
-- a [reference manual](https://bsvars.org/extra/bvarPANELs_0.2.pdf)
+- a [reference manual](https://cran.r-project.org/package=bsvars/)
+- **bsvars** on [CRAN](https://cran.r-project.org/package=bsvars)
 - a website of the family of packages [bsvars.org](https://bsvars.org/)
 
 ## Installation
