@@ -7,7 +7,7 @@
 - **Andrés Ramirez Hassan**. Author.
   [](https://orcid.org/0000-0002-0467-7903)
 
-- **Tomasz Woźniak**. Author, maintainer, copyright holder.
+- **Tomasz Woźniak**. Author, maintainer.
   [](https://orcid.org/0000-0003-2212-2378)
 
 ## Citation
