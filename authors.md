@@ -13,7 +13,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/bsvars/bvars/blob/master/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/bsvars/bvars/blob/v1.0/DESCRIPTION)
 
 Liu R, Ramirez Hassan A, Woźniak T (2026). *bvars: Bayesian Forecasting
 with Large Vector Autoregressions*. R package version 1.0,

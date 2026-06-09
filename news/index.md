@@ -2,6 +2,8 @@
 
 ## bvars 1.0
 
+CRAN release: 2026-06-08
+
 The package is under intensive development, and more functionality will
 be provided soon! To see the package
 [ROADMAP](https://github.com/bsvars/bvars/milestones) towards the next
