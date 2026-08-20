@@ -165,10 +165,13 @@ Rcpp::List bvar_mgig_cpp(
     }
     
     if (debug) Rcout << " sample ASigma" << endl;
+    aux_V                   = sample_V_mgig(aux_V, aux_A, aux_Sigma_inv, prior);
+    aux_V_inv               = inv_sympd(aux_V);
     if (debug) Rcout << " aux_hetero_inv" << min(aux_hetero_inv) << endl;
     field<mat> aux_ASigma = sample_ASigma( Y, X, aux_V_inv, aux_hetero_inv, prior );
     aux_A                 = aux_ASigma(0);
     aux_Sigma             = aux_ASigma(1);
+    aux_Sigma_inv         = inv_sympd(aux_Sigma);
     aux_L                 = chol(aux_Sigma, "lower");
     U                     = Y - aux_A * X;
     
