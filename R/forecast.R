@@ -138,13 +138,6 @@ forecast.PosteriorBVAR = function(
                       horizon
   ) # END .Call
   
-  SS                  = dim(fore$forecasts)[3]
-  forecast_covariance = array(NA, c(N, N, horizon, SS))
-  for (s in 1:SS) forecast_covariance[,,,s] = fore$forecast_cov[s,][[1]]
-  fore$forecast_covariance = forecast_covariance
-  
-  fore$Y          = Y
-  class(fore)     = "Forecasts"
-  
+  fore = specify_forecasts$new(fore, Y)
   return(fore)
 } # END forecast.PosteriorBVARGIG
