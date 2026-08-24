@@ -63,6 +63,8 @@ forecast.PosteriorBVAR = function(
     ...
 ) {
   
+  stopifnot("Argument horizon must be a positive integer number." = horizon > 0 & horizon %% 1 == 0)
+  
   posterior_Sigma = object$posterior$Sigma
   posterior_A     = object$posterior$A
   T               = ncol(object$last_draw$data_matrices$X)
