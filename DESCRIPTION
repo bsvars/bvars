@@ -21,8 +21,8 @@ Imports:
     R6
 LinkingTo: 
     Rcpp, 
-    RcppArmadillo,
-    RcppProgress,
+    RcppArmadillo, 
+    RcppProgress, 
     RcppTN,
     bsvars
 URL: https://bsvars.org/bvars/
@@ -30,3 +30,4 @@ BugReports: https://github.com/bsvars/bvars/issues
 Encoding: UTF-8
 LazyData: true
 Config/roxygen2/version: 8.0.0
+Suggests: tinytest
