@@ -12,7 +12,7 @@ sv = specify_starting_values_bvar$new(N = 3, p = 4, T = 100)
 
 
 ## ------------------------------------------------
-## Method `specify_starting_values_bvar$new`
+## Method `StartingValuesBVAR$new()`
 ## ------------------------------------------------
 
 # starting values for a 3-variable BVAR model
@@ -20,7 +20,7 @@ sv = specify_starting_values_bvar$new(N = 3, p = 4, T = 100)
 
 
 ## ------------------------------------------------
-## Method `specify_starting_values_bvar$get_starting_values`
+## Method `StartingValuesBVAR$get_starting_values()`
 ## ------------------------------------------------
 
 # starting values for a 3-variable BVAR model
@@ -29,7 +29,7 @@ sv$get_starting_values()   # show starting values as list
 
 
 ## ------------------------------------------------
-## Method `specify_starting_values_bvar$set_starting_values`
+## Method `StartingValuesBVAR$set_starting_values()`
 ## ------------------------------------------------
 
 # starting values for a 3-variable BVAR model
@@ -42,60 +42,61 @@ sv$set_starting_values(sv_list)      # providing to the class object
 
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{A}}{an \code{NxK} matrix of starting values for the autoregressive 
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{A}}{an \code{NxK} matrix of starting values for the autoregressive 
 matrix \eqn{A}.}
 
-\item{\code{Sigma}}{an \code{NxN} matrix of starting values for the error term 
+    \item{\code{Sigma}}{an \code{NxN} matrix of starting values for the error term 
 covariance \eqn{\Sigma}.}
 
-\item{\code{V}}{a \code{KxK} matrix of starting values for the prior 
+    \item{\code{V}}{a \code{KxK} matrix of starting values for the prior 
 equation-specific covariance \eqn{V} of the hierarchical prior distribution
 for matrix \eqn{A}.}
 
-\item{\code{h}}{an \code{T}-vector with the starting values of the 
+    \item{\code{h}}{an \code{T}-vector with the starting values of the 
 log-volatility processes.}
 
-\item{\code{rho}}{a scalalr for the SV autoregressive parameter.}
+    \item{\code{rho}}{a scalalr for the SV autoregressive parameter.}
 
-\item{\code{omega}}{a scalar for the SV process conditional standard deviation.}
+    \item{\code{omega}}{a scalar for the SV process conditional standard deviation.}
 
-\item{\code{sigma2v}}{a scalar for SV process conditional variances.}
+    \item{\code{sigma2v}}{a scalar for SV process conditional variances.}
 
-\item{\code{S}}{a \code{T} integer vector with the auxiliary mixture 
+    \item{\code{S}}{a \code{T} integer vector with the auxiliary mixture 
 component indicator.}
 
-\item{\code{sigma2_omega}}{a scalar for the variance of the zero-mean 
+    \item{\code{sigma2_omega}}{a scalar for the variance of the zero-mean 
 normal prior for \eqn{\omega}.}
 
-\item{\code{s_}}{a positive scalar with the scale of the gamma prior of the 
+    \item{\code{s_}}{a positive scalar with the scale of the gamma prior of the 
 hierarchical prior for \eqn{\sigma^2_{\omega}}.}
 
-\item{\code{lambda}}{a \code{T}-vetor of starting values for latent variable.}
+    \item{\code{lambda}}{a \code{T}-vetor of starting values for latent variable.}
 
-\item{\code{df}}{a scalar greater than 2 with the starting value 
+    \item{\code{df}}{a scalar greater than 2 with the starting value 
 for the degrees of freedom parameter of the Student-t 
 conditional distribution of error term.}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-StartingValuesBVAR-new}{\code{specify_starting_values_bvar$new()}}
-\item \href{#method-StartingValuesBVAR-get_starting_values}{\code{specify_starting_values_bvar$get_starting_values()}}
-\item \href{#method-StartingValuesBVAR-set_starting_values}{\code{specify_starting_values_bvar$set_starting_values()}}
-\item \href{#method-StartingValuesBVAR-clone}{\code{specify_starting_values_bvar$clone()}}
-}
+  \itemize{
+    \item \href{#method-StartingValuesBVAR-initialize}{\code{StartingValuesBVAR$new()}}
+    \item \href{#method-StartingValuesBVAR-get_starting_values}{\code{StartingValuesBVAR$get_starting_values()}}
+    \item \href{#method-StartingValuesBVAR-set_starting_values}{\code{StartingValuesBVAR$set_starting_values()}}
+    \item \href{#method-StartingValuesBVAR-clone}{\code{StartingValuesBVAR$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-StartingValuesBVAR-new"></a>}}
-\if{latex}{\out{\hypertarget{method-StartingValuesBVAR-new}{}}}
-\subsection{Method \code{new()}}{
-Create new starting values \code{StartingValuesBVAR}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{specify_starting_values_bvar$new(
+\if{html}{\out{<a id="method-StartingValuesBVAR-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-StartingValuesBVAR-initialize}{}}}
+\subsection{\code{StartingValuesBVAR$new()}}{
+  Create new starting values \code{StartingValuesBVAR}.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StartingValuesBVAR$new(
   N,
   p,
   T,
@@ -104,127 +105,118 @@ Create new starting values \code{StartingValuesBVAR}.
   is_normal = TRUE,
   ar_sigma2 = rep(1, N),
   kappa = c(0.2^2, 10^2)
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{N}}{a positive integer - the number of dependent variables in the model.}
-
-\item{\code{p}}{a positive integer - the autoregressive lag order of the BVAR model.}
-
-\item{\code{T}}{a positive integer - the number of time periods in the data.}
-
-\item{\code{d}}{a positive integer - the number of \code{exogenous} variables in the model.}
-
-\item{\code{is_homoskedastic}}{a logical scalar - if \code{TRUE} the model assumes 
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{N}}{a positive integer - the number of dependent variables in the model.}
+      \item{\code{p}}{a positive integer - the autoregressive lag order of the BVAR model.}
+      \item{\code{T}}{a positive integer - the number of time periods in the data.}
+      \item{\code{d}}{a positive integer - the number of \code{exogenous} variables in the model.}
+      \item{\code{is_homoskedastic}}{a logical scalar - if \code{TRUE} the model assumes 
 homoskedastic errors, otherwise it assumes stochastic volatility.}
-
-\item{\code{is_normal}}{a logical scalar - if \code{TRUE} the model assumes normal 
+      \item{\code{is_normal}}{a logical scalar - if \code{TRUE} the model assumes normal 
 error term, otherwise, it assumes Student-t errors.}
-
-\item{\code{ar_sigma2}}{a positive \code{N}-vector with the autoregressive variance
+      \item{\code{ar_sigma2}}{a positive \code{N}-vector with the autoregressive variance
 estimates for each variable to be used in the Minnesota prior for the autoregressive
 parameters.}
-
-\item{\code{kappa}}{a positive \code{2}-vector with the hyperparameters of
+      \item{\code{kappa}}{a positive \code{2}-vector with the hyperparameters of
 the Minnesota prior for the autoregressive parameters - the first element 
 is the overall tightness hyperparameter, while the second element is the 
 tightness of the prior on the constant and exogenous variable coefficients.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-Starting values \code{StartingValuesBVAR}.
-}
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{# starting values for a 3-variable BVAR model
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Starting values \code{StartingValuesBVAR}.
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{# starting values for a 3-variable BVAR model
 sv = specify_starting_values_bvar$new(N = 3, p = 4, T = 100)
-
 }
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-StartingValuesBVAR-get_starting_values"></a>}}
 \if{latex}{\out{\hypertarget{method-StartingValuesBVAR-get_starting_values}{}}}
-\subsection{Method \code{get_starting_values()}}{
-Returns the elements of the starting values \code{StartingValuesBVAR} as a \code{list}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{specify_starting_values_bvar$get_starting_values()}\if{html}{\out{</div>}}
-}
-
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{# starting values for a 3-variable BVAR model
+\subsection{\code{StartingValuesBVAR$get_starting_values()}}{
+  Returns the elements of the starting values \code{StartingValuesBVAR} as a \code{list}.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StartingValuesBVAR$get_starting_values()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{# starting values for a 3-variable BVAR model
 sv = specify_starting_values_bvar$new(N = 3, p = 4, T = 100)
 sv$get_starting_values()   # show starting values as list
-
 }
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-StartingValuesBVAR-set_starting_values"></a>}}
 \if{latex}{\out{\hypertarget{method-StartingValuesBVAR-set_starting_values}{}}}
-\subsection{Method \code{set_starting_values()}}{
-Sets the elements of the starting values \code{StartingValuesBVAR} to 
+\subsection{\code{StartingValuesBVAR$set_starting_values()}}{
+  Sets the elements of the starting values \code{StartingValuesBVAR} to 
 provided values.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{specify_starting_values_bvar$set_starting_values(last_draw)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{last_draw}}{a list containing the last draw of elements \code{A} - 
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StartingValuesBVAR$set_starting_values(last_draw)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{last_draw}}{a list containing the last draw of elements \code{A} - 
 a \code{KxN} matrix, \code{Sigma} - an \code{NxN} matrix, and \code{V} - 
 a \code{KxK} matrix.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-An object of class \code{StartingValuesBVAR} including the 
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    An object of class \code{StartingValuesBVAR} including the 
 last draw of the current MCMC as the starting value to be passed to the 
 continuation of the MCMC estimation using \code{estimate()}.
-}
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{# starting values for a 3-variable BVAR model
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{# starting values for a 3-variable BVAR model
 sv = specify_starting_values_bvar$new(N = 3, p = 4, T = 100)
 
 # Modify the starting values by:
 sv_list = sv$get_starting_values()   # getting them as list
 sv_list$A <- matrix(rnorm(12), 3, 4) # modifying the entry
 sv$set_starting_values(sv_list)      # providing to the class object
-
 }
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-StartingValuesBVAR-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-StartingValuesBVAR-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{specify_starting_values_bvar$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{StartingValuesBVAR$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StartingValuesBVAR$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

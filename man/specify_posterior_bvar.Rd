@@ -18,7 +18,7 @@ class(post)
 
 
 ## ------------------------------------------------
-## Method `specify_posterior_bvar$get_posterior`
+## Method `PosteriorBVAR$get_posterior()`
 ## ------------------------------------------------
 
 spec = specify_bvar$new(us_macro_chan)
@@ -27,7 +27,7 @@ post$get_posterior()
 
 
 ## ------------------------------------------------
-## Method `specify_posterior_bvar$get_last_draw`
+## Method `PosteriorBVAR$get_last_draw()`
 ## ------------------------------------------------
 
 spec = specify_bvar$new(us_macro_chan)
@@ -35,109 +35,111 @@ burn = estimate(spec, 5)
 post = estimate(burn, 5)
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{last_draw}}{an object of class \code{BVAR} with the last draw of 
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{last_draw}}{an object of class \code{BVAR} with the last draw of 
 the current MCMC run as the starting value to be passed to the 
 continuation of the MCMC estimation using \code{estimate()}.}
 
-\item{\code{posterior}}{a list containing Bayesian estimation output collected 
+    \item{\code{posterior}}{a list containing Bayesian estimation output collected 
 in elements \code{A},  \code{Sigma}, and \code{V}.}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-PosteriorBVAR-new}{\code{specify_posterior_bvar$new()}}
-\item \href{#method-PosteriorBVAR-get_posterior}{\code{specify_posterior_bvar$get_posterior()}}
-\item \href{#method-PosteriorBVAR-get_last_draw}{\code{specify_posterior_bvar$get_last_draw()}}
-\item \href{#method-PosteriorBVAR-clone}{\code{specify_posterior_bvar$clone()}}
-}
+  \itemize{
+    \item \href{#method-PosteriorBVAR-initialize}{\code{PosteriorBVAR$new()}}
+    \item \href{#method-PosteriorBVAR-get_posterior}{\code{PosteriorBVAR$get_posterior()}}
+    \item \href{#method-PosteriorBVAR-get_last_draw}{\code{PosteriorBVAR$get_last_draw()}}
+    \item \href{#method-PosteriorBVAR-clone}{\code{PosteriorBVAR$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-PosteriorBVAR-new"></a>}}
-\if{latex}{\out{\hypertarget{method-PosteriorBVAR-new}{}}}
-\subsection{Method \code{new()}}{
-Create a new posterior output \code{PosteriorBVAR}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{specify_posterior_bvar$new(specification_bvar, posterior_bvar)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{specification_bvar}}{an object of class \code{BVAR} with the 
+\if{html}{\out{<a id="method-PosteriorBVAR-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-PosteriorBVAR-initialize}{}}}
+\subsection{\code{PosteriorBVAR$new()}}{
+  Create a new posterior output \code{PosteriorBVAR}.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{PosteriorBVAR$new(specification_bvar, posterior_bvar)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{specification_bvar}}{an object of class \code{BVAR} with the 
 last draw of the current MCMC run as the starting value.}
-
-\item{\code{posterior_bvar}}{a list containing Bayesian estimation output 
+      \item{\code{posterior_bvar}}{a list containing Bayesian estimation output 
 collected in elements \code{A}, \code{Sigma}, and \code{V}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A posterior output \code{PosteriorBVAR}.
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A posterior output \code{PosteriorBVAR}.
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-PosteriorBVAR-get_posterior"></a>}}
 \if{latex}{\out{\hypertarget{method-PosteriorBVAR-get_posterior}{}}}
-\subsection{Method \code{get_posterior()}}{
-Returns a list containing Bayesian estimation output collected in elements 
+\subsection{\code{PosteriorBVAR$get_posterior()}}{
+  Returns a list containing Bayesian estimation output collected in elements 
 \code{A}, \code{Sigma}, and \code{V}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{specify_posterior_bvar$get_posterior()}\if{html}{\out{</div>}}
-}
-
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{spec = specify_bvar$new(us_macro_chan)
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{PosteriorBVAR$get_posterior()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{spec = specify_bvar$new(us_macro_chan)
 post = estimate(spec, 5)
 post$get_posterior()
-
 }
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-PosteriorBVAR-get_last_draw"></a>}}
 \if{latex}{\out{\hypertarget{method-PosteriorBVAR-get_last_draw}{}}}
-\subsection{Method \code{get_last_draw()}}{
-Returns an object of class \code{BVAR} with the last draw of the 
+\subsection{\code{PosteriorBVAR$get_last_draw()}}{
+  Returns an object of class \code{BVAR} with the last draw of the 
 current MCMC run as the starting value to be passed to the continuation 
 of the MCMC estimation using \code{estimate()}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{specify_posterior_bvar$get_last_draw()}\if{html}{\out{</div>}}
-}
-
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{spec = specify_bvar$new(us_macro_chan)
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{PosteriorBVAR$get_last_draw()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{spec = specify_bvar$new(us_macro_chan)
 burn = estimate(spec, 5)
 post = estimate(burn, 5)
 }
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-PosteriorBVAR-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-PosteriorBVAR-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{specify_posterior_bvar$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{PosteriorBVAR$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{PosteriorBVAR$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

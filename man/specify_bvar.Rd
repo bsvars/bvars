@@ -11,7 +11,7 @@ spec = specify_bvar$new(us_macro_chan)
 
 
 ## ------------------------------------------------
-## Method `specify_bvar$get_normal`
+## Method `BVAR$get_normal()`
 ## ------------------------------------------------
 
 spec = specify_bvar$new(us_macro_chan)
@@ -19,7 +19,7 @@ spec$get_normal()
 
 
 ## ------------------------------------------------
-## Method `specify_bvar$get_homoskedastic`
+## Method `BVAR$get_homoskedastic()`
 ## ------------------------------------------------
 
 spec = specify_bvar$new(us_macro_chan)
@@ -27,7 +27,7 @@ spec$get_homoskedastic()
 
 
 ## ------------------------------------------------
-## Method `specify_bvar$get_centred_sv`
+## Method `BVAR$get_centred_sv()`
 ## ------------------------------------------------
 
 spec = specify_bvar$new(us_macro_chan)
@@ -35,7 +35,7 @@ spec$get_centred_sv()
 
 
 ## ------------------------------------------------
-## Method `specify_bvar$get_data_matrices`
+## Method `BVAR$get_data_matrices()`
 ## ------------------------------------------------
 
 spec = specify_bvar$new(us_macro_chan)
@@ -43,7 +43,7 @@ spec$get_data_matrices()
 
 
 ## ------------------------------------------------
-## Method `specify_bvar$get_prior`
+## Method `BVAR$get_prior()`
 ## ------------------------------------------------
 
 spec = specify_bvar$new(us_macro_chan)
@@ -51,7 +51,7 @@ spec$get_prior()
 
 
 ## ------------------------------------------------
-## Method `specify_bvar$get_starting_values`
+## Method `BVAR$get_starting_values()`
 ## ------------------------------------------------
 
 spec = specify_bvar$new(us_macro_chan)
@@ -59,212 +59,205 @@ spec$get_starting_values()
 
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{p}}{a non-negative integer specifying the autoregressive lag order of the model.}
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{p}}{a non-negative integer specifying the autoregressive lag order of the model.}
 
-\item{\code{prior}}{an object \code{PriorBVAR} with the prior specification.}
+    \item{\code{prior}}{an object \code{PriorBVAR} with the prior specification.}
 
-\item{\code{data_matrices}}{an object \code{DataMatricesBSVAR} with the data matrices.}
+    \item{\code{data_matrices}}{an object \code{DataMatricesBSVAR} with the data matrices.}
 
-\item{\code{starting_values}}{an object \code{StartingValuesBVAR} with the starting values.}
-}
-\if{html}{\out{</div>}}
+    \item{\code{starting_values}}{an object \code{StartingValuesBVAR} with the starting values.}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-BVAR-new}{\code{specify_bvar$new()}}
-\item \href{#method-BVAR-get_normal}{\code{specify_bvar$get_normal()}}
-\item \href{#method-BVAR-get_homoskedastic}{\code{specify_bvar$get_homoskedastic()}}
-\item \href{#method-BVAR-get_centred_sv}{\code{specify_bvar$get_centred_sv()}}
-\item \href{#method-BVAR-get_data_matrices}{\code{specify_bvar$get_data_matrices()}}
-\item \href{#method-BVAR-get_prior}{\code{specify_bvar$get_prior()}}
-\item \href{#method-BVAR-get_starting_values}{\code{specify_bvar$get_starting_values()}}
-\item \href{#method-BVAR-clone}{\code{specify_bvar$clone()}}
-}
+  \itemize{
+    \item \href{#method-BVAR-initialize}{\code{BVAR$new()}}
+    \item \href{#method-BVAR-get_normal}{\code{BVAR$get_normal()}}
+    \item \href{#method-BVAR-get_homoskedastic}{\code{BVAR$get_homoskedastic()}}
+    \item \href{#method-BVAR-get_centred_sv}{\code{BVAR$get_centred_sv()}}
+    \item \href{#method-BVAR-get_data_matrices}{\code{BVAR$get_data_matrices()}}
+    \item \href{#method-BVAR-get_prior}{\code{BVAR$get_prior()}}
+    \item \href{#method-BVAR-get_starting_values}{\code{BVAR$get_starting_values()}}
+    \item \href{#method-BVAR-clone}{\code{BVAR$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-BVAR-new"></a>}}
-\if{latex}{\out{\hypertarget{method-BVAR-new}{}}}
-\subsection{Method \code{new()}}{
-Create a new specification of the \code{BVAR} model.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{specify_bvar$new(
+\if{html}{\out{<a id="method-BVAR-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-BVAR-initialize}{}}}
+\subsection{\code{BVAR$new()}}{
+  Create a new specification of the \code{BVAR} model.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{BVAR$new(
   data,
   p = 1L,
   exogenous = NULL,
   common_volatility = c("homoskedastic", "ncSV", "cSV"),
   distribution = c("norm", "t"),
   stationary = rep(FALSE, ncol(data))
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{data}}{a \code{(T+p)xN} matrix with time series data.}
-
-\item{\code{p}}{a positive integer providing model's autoregressive lag order.}
-
-\item{\code{exogenous}}{a \code{(T+p)xd} matrix of exogenous variables.}
-
-\item{\code{common_volatility}}{a character string specifying the common volatility 
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{data}}{a \code{(T+p)xN} matrix with time series data.}
+      \item{\code{p}}{a positive integer providing model's autoregressive lag order.}
+      \item{\code{exogenous}}{a \code{(T+p)xd} matrix of exogenous variables.}
+      \item{\code{common_volatility}}{a character string specifying the common volatility 
 component of the error term covariance matrix. It can take three values: 
 \code{homoskedastic} - the model assumes homoskedastic errors, 
 \code{ncSV} - the model assumes non-centred stochastic volatility, and 
 \code{cSV} - the model assumes centred stochastic volatility.}
-
-\item{\code{distribution}}{a character string specifying the conditional distribution 
+      \item{\code{distribution}}{a character string specifying the conditional distribution 
 of structural shocks. Value \code{"norm"} sets it to the normal distribution, 
 while value \code{"t"} sets the Student-t distribution.}
-
-\item{\code{stationary}}{an \code{N} logical vector - its element set to
+      \item{\code{stationary}}{an \code{N} logical vector - its element set to
 \code{FALSE} sets the prior mean for the autoregressive parameters of the 
 \code{N}th equation to the white noise process, otherwise to random walk.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A new complete specification for the \code{BVAR} model.
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A new complete specification for the \code{BVAR} model.
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BVAR-get_normal"></a>}}
 \if{latex}{\out{\hypertarget{method-BVAR-get_normal}{}}}
-\subsection{Method \code{get_normal()}}{
-Returns the logical value of whether the conditional shock distribution is normal.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{specify_bvar$get_normal()}\if{html}{\out{</div>}}
-}
-
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{spec = specify_bvar$new(us_macro_chan)
+\subsection{\code{BVAR$get_normal()}}{
+  Returns the logical value of whether the conditional shock distribution is normal.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{BVAR$get_normal()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{spec = specify_bvar$new(us_macro_chan)
 spec$get_normal()
-
 }
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BVAR-get_homoskedastic"></a>}}
 \if{latex}{\out{\hypertarget{method-BVAR-get_homoskedastic}{}}}
-\subsection{Method \code{get_homoskedastic()}}{
-Returns the logical value of whether the common volatility is homoskedastic.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{specify_bvar$get_homoskedastic()}\if{html}{\out{</div>}}
-}
-
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{spec = specify_bvar$new(us_macro_chan)
+\subsection{\code{BVAR$get_homoskedastic()}}{
+  Returns the logical value of whether the common volatility is homoskedastic.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{BVAR$get_homoskedastic()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{spec = specify_bvar$new(us_macro_chan)
 spec$get_homoskedastic()
-
 }
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BVAR-get_centred_sv"></a>}}
 \if{latex}{\out{\hypertarget{method-BVAR-get_centred_sv}{}}}
-\subsection{Method \code{get_centred_sv()}}{
-Returns the logical value of whether the common volatility is centred 
+\subsection{\code{BVAR$get_centred_sv()}}{
+  Returns the logical value of whether the common volatility is centred 
 Stochastic Volatility
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{specify_bvar$get_centred_sv()}\if{html}{\out{</div>}}
-}
-
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{spec = specify_bvar$new(us_macro_chan)
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{BVAR$get_centred_sv()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{spec = specify_bvar$new(us_macro_chan)
 spec$get_centred_sv()
-
 }
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BVAR-get_data_matrices"></a>}}
 \if{latex}{\out{\hypertarget{method-BVAR-get_data_matrices}{}}}
-\subsection{Method \code{get_data_matrices()}}{
-Returns the data matrices as the \code{DataMatricesBSVAR} object.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{specify_bvar$get_data_matrices()}\if{html}{\out{</div>}}
-}
-
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{spec = specify_bvar$new(us_macro_chan)
+\subsection{\code{BVAR$get_data_matrices()}}{
+  Returns the data matrices as the \code{DataMatricesBSVAR} object.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{BVAR$get_data_matrices()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{spec = specify_bvar$new(us_macro_chan)
 spec$get_data_matrices()
-
 }
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BVAR-get_prior"></a>}}
 \if{latex}{\out{\hypertarget{method-BVAR-get_prior}{}}}
-\subsection{Method \code{get_prior()}}{
-Returns the prior specification as the \code{PriorBVAR} object.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{specify_bvar$get_prior()}\if{html}{\out{</div>}}
-}
-
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{spec = specify_bvar$new(us_macro_chan)
+\subsection{\code{BVAR$get_prior()}}{
+  Returns the prior specification as the \code{PriorBVAR} object.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{BVAR$get_prior()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{spec = specify_bvar$new(us_macro_chan)
 spec$get_prior()
-
 }
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BVAR-get_starting_values"></a>}}
 \if{latex}{\out{\hypertarget{method-BVAR-get_starting_values}{}}}
-\subsection{Method \code{get_starting_values()}}{
-Returns the starting values as the \code{StartingValuesBVAR} object.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{specify_bvar$get_starting_values()}\if{html}{\out{</div>}}
-}
-
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{spec = specify_bvar$new(us_macro_chan)
+\subsection{\code{BVAR$get_starting_values()}}{
+  Returns the starting values as the \code{StartingValuesBVAR} object.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{BVAR$get_starting_values()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{spec = specify_bvar$new(us_macro_chan)
 spec$get_starting_values()
-
 }
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BVAR-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-BVAR-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{specify_bvar$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{BVAR$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{BVAR$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }
