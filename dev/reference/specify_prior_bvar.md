@@ -112,27 +112,21 @@ scale matrix \\\underline{\mathbf{S}}\\ and degrees of freedom
 
 ### Public methods
 
-- [`specify_prior_bvar$new()`](#method-PriorBVAR-new)
+- [`PriorBVAR$new()`](#method-PriorBVAR-initialize)
 
-- [`specify_prior_bvar$get_prior()`](#method-PriorBVAR-get_prior)
+- [`PriorBVAR$get_prior()`](#method-PriorBVAR-get_prior)
 
-- [`specify_prior_bvar$clone()`](#method-PriorBVAR-clone)
+- [`PriorBVAR$clone()`](#method-PriorBVAR-clone)
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `PriorBVAR$new()`
 
 Create a new prior specification `PriorBVAR`.
 
 #### Usage
 
-    specify_prior_bvar$new(
-      N,
-      p,
-      d = 0,
-      stationary = rep(FALSE, N),
-      is_homoskedastic = TRUE
-    )
+    PriorBVAR$new(N, p, d = 0, stationary = rep(FALSE, N), is_homoskedastic = TRUE)
 
 #### Arguments
 
@@ -171,13 +165,13 @@ A new prior specification `PriorBVAR`.
 
 ------------------------------------------------------------------------
 
-### Method `get_prior()`
+### `PriorBVAR$get_prior()`
 
 Returns the elements of the prior specification `PriorBVAR` as a `list`.
 
 #### Usage
 
-    specify_prior_bvar$get_prior()
+    PriorBVAR$get_prior()
 
 #### Examples
 
@@ -187,13 +181,13 @@ Returns the elements of the prior specification `PriorBVAR` as a `list`.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `PriorBVAR$clone()`
 
 The objects of this class are cloneable with this method.
 
 #### Usage
 
-    specify_prior_bvar$clone(deep = FALSE)
+    PriorBVAR$clone(deep = FALSE)
 
 #### Arguments
 
@@ -213,7 +207,7 @@ prior$A                                        # show autoregressive prior mean
 
 
 ## ------------------------------------------------
-## Method `specify_prior_bvar$new`
+## Method `PriorBVAR$new()`
 ## ------------------------------------------------
 
 # a prior for 3-variable example with one lag and stationary data
@@ -226,7 +220,7 @@ prior$A # show autoregressive prior mean
 
 
 ## ------------------------------------------------
-## Method `specify_prior_bvar$get_prior`
+## Method `PriorBVAR$get_prior()`
 ## ------------------------------------------------
 
 # a prior for 3-variable example with four lags

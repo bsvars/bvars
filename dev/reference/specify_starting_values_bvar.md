@@ -66,23 +66,23 @@ model.
 
 ### Public methods
 
-- [`specify_starting_values_bvar$new()`](#method-StartingValuesBVAR-new)
+- [`StartingValuesBVAR$new()`](#method-StartingValuesBVAR-initialize)
 
-- [`specify_starting_values_bvar$get_starting_values()`](#method-StartingValuesBVAR-get_starting_values)
+- [`StartingValuesBVAR$get_starting_values()`](#method-StartingValuesBVAR-get_starting_values)
 
-- [`specify_starting_values_bvar$set_starting_values()`](#method-StartingValuesBVAR-set_starting_values)
+- [`StartingValuesBVAR$set_starting_values()`](#method-StartingValuesBVAR-set_starting_values)
 
-- [`specify_starting_values_bvar$clone()`](#method-StartingValuesBVAR-clone)
+- [`StartingValuesBVAR$clone()`](#method-StartingValuesBVAR-clone)
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `StartingValuesBVAR$new()`
 
 Create new starting values `StartingValuesBVAR`.
 
 #### Usage
 
-    specify_starting_values_bvar$new(
+    StartingValuesBVAR$new(
       N,
       p,
       T,
@@ -145,14 +145,14 @@ Starting values `StartingValuesBVAR`.
 
 ------------------------------------------------------------------------
 
-### Method `get_starting_values()`
+### `StartingValuesBVAR$get_starting_values()`
 
 Returns the elements of the starting values `StartingValuesBVAR` as a
 `list`.
 
 #### Usage
 
-    specify_starting_values_bvar$get_starting_values()
+    StartingValuesBVAR$get_starting_values()
 
 #### Examples
 
@@ -162,14 +162,14 @@ Returns the elements of the starting values `StartingValuesBVAR` as a
 
 ------------------------------------------------------------------------
 
-### Method `set_starting_values()`
+### `StartingValuesBVAR$set_starting_values()`
 
 Sets the elements of the starting values `StartingValuesBVAR` to
 provided values.
 
 #### Usage
 
-    specify_starting_values_bvar$set_starting_values(last_draw)
+    StartingValuesBVAR$set_starting_values(last_draw)
 
 #### Arguments
 
@@ -197,13 +197,13 @@ the MCMC estimation using
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `StartingValuesBVAR$clone()`
 
 The objects of this class are cloneable with this method.
 
 #### Usage
 
-    specify_starting_values_bvar$clone(deep = FALSE)
+    StartingValuesBVAR$clone(deep = FALSE)
 
 #### Arguments
 
@@ -219,7 +219,7 @@ sv = specify_starting_values_bvar$new(N = 3, p = 4, T = 100)
 
 
 ## ------------------------------------------------
-## Method `specify_starting_values_bvar$new`
+## Method `StartingValuesBVAR$new()`
 ## ------------------------------------------------
 
 # starting values for a 3-variable BVAR model
@@ -227,7 +227,7 @@ sv = specify_starting_values_bvar$new(N = 3, p = 4, T = 100)
 
 
 ## ------------------------------------------------
-## Method `specify_starting_values_bvar$get_starting_values`
+## Method `StartingValuesBVAR$get_starting_values()`
 ## ------------------------------------------------
 
 # starting values for a 3-variable BVAR model
@@ -332,7 +332,7 @@ sv$get_starting_values()   # show starting values as list
 
 
 ## ------------------------------------------------
-## Method `specify_starting_values_bvar$set_starting_values`
+## Method `StartingValuesBVAR$set_starting_values()`
 ## ------------------------------------------------
 
 # starting values for a 3-variable BVAR model

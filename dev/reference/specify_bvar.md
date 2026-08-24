@@ -25,31 +25,31 @@ The class `BVAR` presents complete specification for the BVAR model.
 
 ### Public methods
 
-- [`specify_bvar$new()`](#method-BVAR-new)
+- [`BVAR$new()`](#method-BVAR-initialize)
 
-- [`specify_bvar$get_normal()`](#method-BVAR-get_normal)
+- [`BVAR$get_normal()`](#method-BVAR-get_normal)
 
-- [`specify_bvar$get_homoskedastic()`](#method-BVAR-get_homoskedastic)
+- [`BVAR$get_homoskedastic()`](#method-BVAR-get_homoskedastic)
 
-- [`specify_bvar$get_centred_sv()`](#method-BVAR-get_centred_sv)
+- [`BVAR$get_centred_sv()`](#method-BVAR-get_centred_sv)
 
-- [`specify_bvar$get_data_matrices()`](#method-BVAR-get_data_matrices)
+- [`BVAR$get_data_matrices()`](#method-BVAR-get_data_matrices)
 
-- [`specify_bvar$get_prior()`](#method-BVAR-get_prior)
+- [`BVAR$get_prior()`](#method-BVAR-get_prior)
 
-- [`specify_bvar$get_starting_values()`](#method-BVAR-get_starting_values)
+- [`BVAR$get_starting_values()`](#method-BVAR-get_starting_values)
 
-- [`specify_bvar$clone()`](#method-BVAR-clone)
+- [`BVAR$clone()`](#method-BVAR-clone)
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `BVAR$new()`
 
 Create a new specification of the `BVAR` model.
 
 #### Usage
 
-    specify_bvar$new(
+    BVAR$new(
       data,
       p = 1L,
       exogenous = NULL,
@@ -98,14 +98,14 @@ A new complete specification for the `BVAR` model.
 
 ------------------------------------------------------------------------
 
-### Method `get_normal()`
+### `BVAR$get_normal()`
 
 Returns the logical value of whether the conditional shock distribution
 is normal.
 
 #### Usage
 
-    specify_bvar$get_normal()
+    BVAR$get_normal()
 
 #### Examples
 
@@ -114,14 +114,14 @@ is normal.
 
 ------------------------------------------------------------------------
 
-### Method `get_homoskedastic()`
+### `BVAR$get_homoskedastic()`
 
 Returns the logical value of whether the common volatility is
 homoskedastic.
 
 #### Usage
 
-    specify_bvar$get_homoskedastic()
+    BVAR$get_homoskedastic()
 
 #### Examples
 
@@ -130,14 +130,14 @@ homoskedastic.
 
 ------------------------------------------------------------------------
 
-### Method `get_centred_sv()`
+### `BVAR$get_centred_sv()`
 
 Returns the logical value of whether the common volatility is centred
 Stochastic Volatility
 
 #### Usage
 
-    specify_bvar$get_centred_sv()
+    BVAR$get_centred_sv()
 
 #### Examples
 
@@ -146,13 +146,13 @@ Stochastic Volatility
 
 ------------------------------------------------------------------------
 
-### Method `get_data_matrices()`
+### `BVAR$get_data_matrices()`
 
 Returns the data matrices as the `DataMatricesBSVAR` object.
 
 #### Usage
 
-    specify_bvar$get_data_matrices()
+    BVAR$get_data_matrices()
 
 #### Examples
 
@@ -161,13 +161,13 @@ Returns the data matrices as the `DataMatricesBSVAR` object.
 
 ------------------------------------------------------------------------
 
-### Method `get_prior()`
+### `BVAR$get_prior()`
 
 Returns the prior specification as the `PriorBVAR` object.
 
 #### Usage
 
-    specify_bvar$get_prior()
+    BVAR$get_prior()
 
 #### Examples
 
@@ -176,13 +176,13 @@ Returns the prior specification as the `PriorBVAR` object.
 
 ------------------------------------------------------------------------
 
-### Method `get_starting_values()`
+### `BVAR$get_starting_values()`
 
 Returns the starting values as the `StartingValuesBVAR` object.
 
 #### Usage
 
-    specify_bvar$get_starting_values()
+    BVAR$get_starting_values()
 
 #### Examples
 
@@ -191,13 +191,13 @@ Returns the starting values as the `StartingValuesBVAR` object.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `BVAR$clone()`
 
 The objects of this class are cloneable with this method.
 
 #### Usage
 
-    specify_bvar$clone(deep = FALSE)
+    BVAR$clone(deep = FALSE)
 
 #### Arguments
 
@@ -212,7 +212,7 @@ spec = specify_bvar$new(us_macro_chan)
 
 
 ## ------------------------------------------------
-## Method `specify_bvar$get_normal`
+## Method `BVAR$get_normal()`
 ## ------------------------------------------------
 
 spec = specify_bvar$new(us_macro_chan)
@@ -221,7 +221,7 @@ spec$get_normal()
 
 
 ## ------------------------------------------------
-## Method `specify_bvar$get_homoskedastic`
+## Method `BVAR$get_homoskedastic()`
 ## ------------------------------------------------
 
 spec = specify_bvar$new(us_macro_chan)
@@ -230,7 +230,7 @@ spec$get_homoskedastic()
 
 
 ## ------------------------------------------------
-## Method `specify_bvar$get_centred_sv`
+## Method `BVAR$get_centred_sv()`
 ## ------------------------------------------------
 
 spec = specify_bvar$new(us_macro_chan)
@@ -239,7 +239,7 @@ spec$get_centred_sv()
 
 
 ## ------------------------------------------------
-## Method `specify_bvar$get_data_matrices`
+## Method `BVAR$get_data_matrices()`
 ## ------------------------------------------------
 
 spec = specify_bvar$new(us_macro_chan)
@@ -1455,7 +1455,7 @@ spec$get_data_matrices()
 
 
 ## ------------------------------------------------
-## Method `specify_bvar$get_prior`
+## Method `BVAR$get_prior()`
 ## ------------------------------------------------
 
 spec = specify_bvar$new(us_macro_chan)
@@ -1476,7 +1476,7 @@ spec$get_prior()
 
 
 ## ------------------------------------------------
-## Method `specify_bvar$get_starting_values`
+## Method `BVAR$get_starting_values()`
 ## ------------------------------------------------
 
 spec = specify_bvar$new(us_macro_chan)

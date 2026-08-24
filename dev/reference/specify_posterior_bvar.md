@@ -24,23 +24,23 @@ due to the thinning of the MCMC output the starting value in element
 
 ### Public methods
 
-- [`specify_posterior_bvar$new()`](#method-PosteriorBVAR-new)
+- [`PosteriorBVAR$new()`](#method-PosteriorBVAR-initialize)
 
-- [`specify_posterior_bvar$get_posterior()`](#method-PosteriorBVAR-get_posterior)
+- [`PosteriorBVAR$get_posterior()`](#method-PosteriorBVAR-get_posterior)
 
-- [`specify_posterior_bvar$get_last_draw()`](#method-PosteriorBVAR-get_last_draw)
+- [`PosteriorBVAR$get_last_draw()`](#method-PosteriorBVAR-get_last_draw)
 
-- [`specify_posterior_bvar$clone()`](#method-PosteriorBVAR-clone)
+- [`PosteriorBVAR$clone()`](#method-PosteriorBVAR-clone)
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `PosteriorBVAR$new()`
 
 Create a new posterior output `PosteriorBVAR`.
 
 #### Usage
 
-    specify_posterior_bvar$new(specification_bvar, posterior_bvar)
+    PosteriorBVAR$new(specification_bvar, posterior_bvar)
 
 #### Arguments
 
@@ -60,14 +60,14 @@ A posterior output `PosteriorBVAR`.
 
 ------------------------------------------------------------------------
 
-### Method `get_posterior()`
+### `PosteriorBVAR$get_posterior()`
 
 Returns a list containing Bayesian estimation output collected in
 elements `A`, `Sigma`, and `V`.
 
 #### Usage
 
-    specify_posterior_bvar$get_posterior()
+    PosteriorBVAR$get_posterior()
 
 #### Examples
 
@@ -77,7 +77,7 @@ elements `A`, `Sigma`, and `V`.
 
 ------------------------------------------------------------------------
 
-### Method `get_last_draw()`
+### `PosteriorBVAR$get_last_draw()`
 
 Returns an object of class `BVAR` with the last draw of the current MCMC
 run as the starting value to be passed to the continuation of the MCMC
@@ -86,7 +86,7 @@ estimation using
 
 #### Usage
 
-    specify_posterior_bvar$get_last_draw()
+    PosteriorBVAR$get_last_draw()
 
 #### Examples
 
@@ -96,13 +96,13 @@ estimation using
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `PosteriorBVAR$clone()`
 
 The objects of this class are cloneable with this method.
 
 #### Usage
 
-    specify_posterior_bvar$clone(deep = FALSE)
+    PosteriorBVAR$clone(deep = FALSE)
 
 #### Arguments
 
@@ -131,7 +131,7 @@ class(post)
 
 
 ## ------------------------------------------------
-## Method `specify_posterior_bvar$get_posterior`
+## Method `PosteriorBVAR$get_posterior()`
 ## ------------------------------------------------
 
 spec = specify_bvar$new(us_macro_chan)
@@ -2510,7 +2510,7 @@ post$get_posterior()
 
 
 ## ------------------------------------------------
-## Method `specify_posterior_bvar$get_last_draw`
+## Method `PosteriorBVAR$get_last_draw()`
 ## ------------------------------------------------
 
 spec = specify_bvar$new(us_macro_chan)

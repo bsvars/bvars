@@ -94,6 +94,20 @@ Chan (2020) Large Bayesian VARs: A Flexible Kronecker Error Covariance
 Structure, Journal of Business and Economic Statistics, 38(1), 68–79,
 \<doi:10.1080/07350015.2018.1451336\>.
 
+Wang X, Woźniak T (2026). bsvarSIGNs: Bayesian SVARs with Sign, Zero,
+and Narrative Restrictions. R package version 3.0,
+[doi:10.32614/CRAN.package.bsvarSIGNs](https://doi.org/10.32614/CRAN.package.bsvarSIGNs)
+.
+
+Woźniak T (2026) bpvars: Forecasting with Bayesian Panel Vector
+Autoregressions. R package version 2.0,
+[doi:10.32614/CRAN.package.bpvars](https://doi.org/10.32614/CRAN.package.bpvars)
+.
+
+Woźniak (2026) bsvars: Bayesian Estimation of Structural Vector
+Autoregressive Models. R package version 4.0,
+\<doi:10.32614/CRAN.package.bsvars\>.
+
 ## See also
 
 Useful links:

@@ -42,54 +42,54 @@
 matrix \(A\).</p></dd>
 
 
-<dt><code>Sigma</code></dt>
+    <dt><code>Sigma</code></dt>
 <dd><p>an <code>NxN</code> matrix of starting values for the error term
 covariance \(\Sigma\).</p></dd>
 
 
-<dt><code>V</code></dt>
+    <dt><code>V</code></dt>
 <dd><p>a <code>KxK</code> matrix of starting values for the prior
 equation-specific covariance \(V\) of the hierarchical prior distribution
 for matrix \(A\).</p></dd>
 
 
-<dt><code>h</code></dt>
+    <dt><code>h</code></dt>
 <dd><p>an <code>T</code>-vector with the starting values of the
 log-volatility processes.</p></dd>
 
 
-<dt><code>rho</code></dt>
+    <dt><code>rho</code></dt>
 <dd><p>a scalalr for the SV autoregressive parameter.</p></dd>
 
 
-<dt><code>omega</code></dt>
+    <dt><code>omega</code></dt>
 <dd><p>a scalar for the SV process conditional standard deviation.</p></dd>
 
 
-<dt><code>sigma2v</code></dt>
+    <dt><code>sigma2v</code></dt>
 <dd><p>a scalar for SV process conditional variances.</p></dd>
 
 
-<dt><code>S</code></dt>
+    <dt><code>S</code></dt>
 <dd><p>a <code>T</code> integer vector with the auxiliary mixture
 component indicator.</p></dd>
 
 
-<dt><code>sigma2_omega</code></dt>
+    <dt><code>sigma2_omega</code></dt>
 <dd><p>a scalar for the variance of the zero-mean
 normal prior for \(\omega\).</p></dd>
 
 
-<dt><code>s_</code></dt>
+    <dt><code>s_</code></dt>
 <dd><p>a positive scalar with the scale of the gamma prior of the
 hierarchical prior for \(\sigma^2_{\omega}\).</p></dd>
 
 
-<dt><code>lambda</code></dt>
+    <dt><code>lambda</code></dt>
 <dd><p>a <code>T</code>-vetor of starting values for latent variable.</p></dd>
 
 
-<dt><code>df</code></dt>
+    <dt><code>df</code></dt>
 <dd><p>a scalar greater than 2 with the starting value
 for the degrees of freedom parameter of the Student-t
 conditional distribution of error term.</p></dd>
@@ -102,16 +102,15 @@ conditional distribution of error term.</p></dd>
 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
-
-<ul><li><p><a href="#method-StartingValuesBVAR-new"><code>specify_starting_values_bvar$new()</code></a></p></li>
-<li><p><a href="#method-StartingValuesBVAR-get_starting_values"><code>specify_starting_values_bvar$get_starting_values()</code></a></p></li>
-<li><p><a href="#method-StartingValuesBVAR-set_starting_values"><code>specify_starting_values_bvar$set_starting_values()</code></a></p></li>
-<li><p><a href="#method-StartingValuesBVAR-clone"><code>specify_starting_values_bvar$clone()</code></a></p></li>
-</ul></div><p></p><hr><a id="method-StartingValuesBVAR-new"></a><div class="section">
-<h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
+<p></p><ul><li><p><a href="#method-StartingValuesBVAR-initialize"><code>StartingValuesBVAR$new()</code></a></p></li>
+<li><p><a href="#method-StartingValuesBVAR-get_starting_values"><code>StartingValuesBVAR$get_starting_values()</code></a></p></li>
+<li><p><a href="#method-StartingValuesBVAR-set_starting_values"><code>StartingValuesBVAR$set_starting_values()</code></a></p></li>
+<li><p><a href="#method-StartingValuesBVAR-clone"><code>StartingValuesBVAR$clone()</code></a></p></li>
+</ul></div><p></p><hr><a id="method-StartingValuesBVAR-initialize"></a><div class="section">
+<h3 id="startingvaluesbvar-new-"><code>StartingValuesBVAR$new()</code><a class="anchor" aria-label="anchor" href="#startingvaluesbvar-new-"></a></h3>
 <p>Create new starting values <code>StartingValuesBVAR</code>.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/specify_starting_values_bvar.html">specify_starting_values_bvar</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span></span>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StartingValuesBVAR</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span></span>
 <span>  <span class="va">N</span>,</span>
 <span>  <span class="va">p</span>,</span>
 <span>  <span class="cn">T</span>,</span>
@@ -121,43 +120,34 @@ conditional distribution of error term.</p></dd>
 <span>  ar_sigma2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">N</span><span class="op">)</span>,</span>
 <span>  kappa <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span><span class="op">^</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>N</code></dt>
 <dd><p>a positive integer - the number of dependent variables in the model.</p></dd>
 
-
-<dt><code>p</code></dt>
+      <dt><code>p</code></dt>
 <dd><p>a positive integer - the autoregressive lag order of the BVAR model.</p></dd>
 
-
-<dt><code>T</code></dt>
+      <dt><code>T</code></dt>
 <dd><p>a positive integer - the number of time periods in the data.</p></dd>
 
-
-<dt><code>d</code></dt>
+      <dt><code>d</code></dt>
 <dd><p>a positive integer - the number of <code>exogenous</code> variables in the model.</p></dd>
 
-
-<dt><code>is_homoskedastic</code></dt>
+      <dt><code>is_homoskedastic</code></dt>
 <dd><p>a logical scalar - if <code>TRUE</code> the model assumes
 homoskedastic errors, otherwise it assumes stochastic volatility.</p></dd>
 
-
-<dt><code>is_normal</code></dt>
+      <dt><code>is_normal</code></dt>
 <dd><p>a logical scalar - if <code>TRUE</code> the model assumes normal
 error term, otherwise, it assumes Student-t errors.</p></dd>
 
-
-<dt><code>ar_sigma2</code></dt>
+      <dt><code>ar_sigma2</code></dt>
 <dd><p>a positive <code>N</code>-vector with the autoregressive variance
 estimates for each variable to be used in the Minnesota prior for the autoregressive
 parameters.</p></dd>
 
-
-<dt><code>kappa</code></dt>
+      <dt><code>kappa</code></dt>
 <dd><p>a positive <code>2</code>-vector with the hyperparameters of
 the Minnesota prior for the autoregressive parameters - the first element
 is the overall tightness hyperparameter, while the second element is the
@@ -165,44 +155,38 @@ tightness of the prior on the constant and exogenous variable coefficients.</p><
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
 <p>Starting values <code>StartingValuesBVAR</code>.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="co"># starting values for a 3-variable BVAR model</span></span>
-<span><span class="va">sv</span> <span class="op">=</span> <span class="va"><a href="../reference/specify_starting_values_bvar.html">specify_starting_values_bvar</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>N <span class="op">=</span> <span class="fl">3</span>, p <span class="op">=</span> <span class="fl">4</span>, T <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
-<span></span></code></pre></div><p></p></div>
+<span><span class="va">sv</span> <span class="op">=</span> <span class="va"><a href="../reference/specify_starting_values_bvar.html">specify_starting_values_bvar</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>N <span class="op">=</span> <span class="fl">3</span>, p <span class="op">=</span> <span class="fl">4</span>, T <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-StartingValuesBVAR-get_starting_values"></a><div class="section">
-<h3 id="method-get-starting-values-">Method <code>get_starting_values()</code><a class="anchor" aria-label="anchor" href="#method-get-starting-values-"></a></h3>
+<p></p><hr><a id="method-StartingValuesBVAR-get_starting_values"></a><div class="section">
+<h3 id="startingvaluesbvar-get-starting-values-"><code>StartingValuesBVAR$get_starting_values()</code><a class="anchor" aria-label="anchor" href="#startingvaluesbvar-get-starting-values-"></a></h3>
 <p>Returns the elements of the starting values <code>StartingValuesBVAR</code> as a <code>list</code>.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">specify_starting_values_bvar</span><span class="op">$</span><span class="fu">get_starting_values</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StartingValuesBVAR</span><span class="op">$</span><span class="fu">get_starting_values</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
 <h4 id="examples-1">Examples<a class="anchor" aria-label="anchor" href="#examples-1"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="co"># starting values for a 3-variable BVAR model</span></span>
 <span><span class="va">sv</span> <span class="op">=</span> <span class="va"><a href="../reference/specify_starting_values_bvar.html">specify_starting_values_bvar</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>N <span class="op">=</span> <span class="fl">3</span>, p <span class="op">=</span> <span class="fl">4</span>, T <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
-<span><span class="va">sv</span><span class="op">$</span><span class="fu">get_starting_values</span><span class="op">(</span><span class="op">)</span>   <span class="co"># show starting values as list</span></span>
-<span></span></code></pre></div><p></p></div>
+<span><span class="va">sv</span><span class="op">$</span><span class="fu">get_starting_values</span><span class="op">(</span><span class="op">)</span>   <span class="co"># show starting values as list</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-StartingValuesBVAR-set_starting_values"></a><div class="section">
-<h3 id="method-set-starting-values-">Method <code>set_starting_values()</code><a class="anchor" aria-label="anchor" href="#method-set-starting-values-"></a></h3>
+<p></p><hr><a id="method-StartingValuesBVAR-set_starting_values"></a><div class="section">
+<h3 id="startingvaluesbvar-set-starting-values-"><code>StartingValuesBVAR$set_starting_values()</code><a class="anchor" aria-label="anchor" href="#startingvaluesbvar-set-starting-values-"></a></h3>
 <p>Sets the elements of the starting values <code>StartingValuesBVAR</code> to
 provided values.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">specify_starting_values_bvar</span><span class="op">$</span><span class="fu">set_starting_values</span><span class="op">(</span><span class="va">last_draw</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StartingValuesBVAR</span><span class="op">$</span><span class="fu">set_starting_values</span><span class="op">(</span><span class="va">last_draw</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>last_draw</code></dt>
 <dd><p>a list containing the last draw of elements <code>A</code> -
@@ -211,14 +195,12 @@ a <code>KxK</code> matrix.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
 <p>An object of class <code>StartingValuesBVAR</code> including the
 last draw of the current MCMC as the starting value to be passed to the
 continuation of the MCMC estimation using <code><a href="https://bsvars.org/bsvars/reference/estimate.html" class="external-link">estimate()</a></code>.</p>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="examples-2">Examples<a class="anchor" aria-label="anchor" href="#examples-2"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="co"># starting values for a 3-variable BVAR model</span></span>
 <span><span class="va">sv</span> <span class="op">=</span> <span class="va"><a href="../reference/specify_starting_values_bvar.html">specify_starting_values_bvar</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>N <span class="op">=</span> <span class="fl">3</span>, p <span class="op">=</span> <span class="fl">4</span>, T <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
@@ -226,19 +208,17 @@ continuation of the MCMC estimation using <code><a href="https://bsvars.org/bsva
 <span><span class="co"># Modify the starting values by:</span></span>
 <span><span class="va">sv_list</span> <span class="op">=</span> <span class="va">sv</span><span class="op">$</span><span class="fu">get_starting_values</span><span class="op">(</span><span class="op">)</span>   <span class="co"># getting them as list</span></span>
 <span><span class="va">sv_list</span><span class="op">$</span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">12</span><span class="op">)</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span> <span class="co"># modifying the entry</span></span>
-<span><span class="va">sv</span><span class="op">$</span><span class="fu">set_starting_values</span><span class="op">(</span><span class="va">sv_list</span><span class="op">)</span>      <span class="co"># providing to the class object</span></span>
-<span></span></code></pre></div><p></p></div>
+<span><span class="va">sv</span><span class="op">$</span><span class="fu">set_starting_values</span><span class="op">(</span><span class="va">sv_list</span><span class="op">)</span>      <span class="co"># providing to the class object</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-StartingValuesBVAR-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+<p></p><hr><a id="method-StartingValuesBVAR-clone"></a><div class="section">
+<h3 id="startingvaluesbvar-clone-"><code>StartingValuesBVAR$clone()</code><a class="anchor" aria-label="anchor" href="#startingvaluesbvar-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">specify_starting_values_bvar</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">StartingValuesBVAR</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
 <h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
@@ -249,6 +229,7 @@ continuation of the MCMC estimation using <code><a href="https://bsvars.org/bsva
 
 </div>
 
+
     </div>
 
     <div class="section level2">
@@ -258,7 +239,7 @@ continuation of the MCMC estimation using <code><a href="https://bsvars.org/bsva
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `specify_starting_values_bvar$new`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `StartingValuesBVAR$new()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># starting values for a 3-variable BVAR model</span></span></span>
@@ -266,7 +247,7 @@ continuation of the MCMC estimation using <code><a href="https://bsvars.org/bsva
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `specify_starting_values_bvar$get_starting_values`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `StartingValuesBVAR$get_starting_values()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># starting values for a 3-variable BVAR model</span></span></span>
@@ -371,7 +352,7 @@ continuation of the MCMC estimation using <code><a href="https://bsvars.org/bsva
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `specify_starting_values_bvar$set_starting_values`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `StartingValuesBVAR$set_starting_values()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># starting values for a 3-variable BVAR model</span></span></span>
@@ -393,7 +374,7 @@ continuation of the MCMC estimation using <code><a href="https://bsvars.org/bsva
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

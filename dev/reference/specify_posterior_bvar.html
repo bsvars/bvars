@@ -55,7 +55,7 @@ the current MCMC run as the starting value to be passed to the
 continuation of the MCMC estimation using <code><a href="https://bsvars.org/bsvars/reference/estimate.html" class="external-link">estimate()</a></code>.</p></dd>
 
 
-<dt><code>posterior</code></dt>
+    <dt><code>posterior</code></dt>
 <dd><p>a list containing Bayesian estimation output collected
 in elements <code>A</code>,  <code>Sigma</code>, and <code>V</code>.</p></dd>
 
@@ -67,79 +67,71 @@ in elements <code>A</code>,  <code>Sigma</code>, and <code>V</code>.</p></dd>
 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
-
-<ul><li><p><a href="#method-PosteriorBVAR-new"><code>specify_posterior_bvar$new()</code></a></p></li>
-<li><p><a href="#method-PosteriorBVAR-get_posterior"><code>specify_posterior_bvar$get_posterior()</code></a></p></li>
-<li><p><a href="#method-PosteriorBVAR-get_last_draw"><code>specify_posterior_bvar$get_last_draw()</code></a></p></li>
-<li><p><a href="#method-PosteriorBVAR-clone"><code>specify_posterior_bvar$clone()</code></a></p></li>
-</ul></div><p></p><hr><a id="method-PosteriorBVAR-new"></a><div class="section">
-<h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
+<p></p><ul><li><p><a href="#method-PosteriorBVAR-initialize"><code>PosteriorBVAR$new()</code></a></p></li>
+<li><p><a href="#method-PosteriorBVAR-get_posterior"><code>PosteriorBVAR$get_posterior()</code></a></p></li>
+<li><p><a href="#method-PosteriorBVAR-get_last_draw"><code>PosteriorBVAR$get_last_draw()</code></a></p></li>
+<li><p><a href="#method-PosteriorBVAR-clone"><code>PosteriorBVAR$clone()</code></a></p></li>
+</ul></div><p></p><hr><a id="method-PosteriorBVAR-initialize"></a><div class="section">
+<h3 id="posteriorbvar-new-"><code>PosteriorBVAR$new()</code><a class="anchor" aria-label="anchor" href="#posteriorbvar-new-"></a></h3>
 <p>Create a new posterior output <code>PosteriorBVAR</code>.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/specify_posterior_bvar.html">specify_posterior_bvar</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">specification_bvar</span>, <span class="va">posterior_bvar</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">PosteriorBVAR</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">specification_bvar</span>, <span class="va">posterior_bvar</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>specification_bvar</code></dt>
 <dd><p>an object of class <code>BVAR</code> with the
 last draw of the current MCMC run as the starting value.</p></dd>
 
-
-<dt><code>posterior_bvar</code></dt>
+      <dt><code>posterior_bvar</code></dt>
 <dd><p>a list containing Bayesian estimation output
 collected in elements <code>A</code>, <code>Sigma</code>, and <code>V</code>.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
 <p>A posterior output <code>PosteriorBVAR</code>.</p>
 </div>
 
-</div><p></p><hr><a id="method-PosteriorBVAR-get_posterior"></a><div class="section">
-<h3 id="method-get-posterior-">Method <code>get_posterior()</code><a class="anchor" aria-label="anchor" href="#method-get-posterior-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-PosteriorBVAR-get_posterior"></a><div class="section">
+<h3 id="posteriorbvar-get-posterior-"><code>PosteriorBVAR$get_posterior()</code><a class="anchor" aria-label="anchor" href="#posteriorbvar-get-posterior-"></a></h3>
 <p>Returns a list containing Bayesian estimation output collected in elements
 <code>A</code>, <code>Sigma</code>, and <code>V</code>.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">specify_posterior_bvar</span><span class="op">$</span><span class="fu">get_posterior</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">PosteriorBVAR</span><span class="op">$</span><span class="fu">get_posterior</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
 <h4 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">spec</span> <span class="op">=</span> <span class="va"><a href="../reference/specify_bvar.html">specify_bvar</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">us_macro_chan</span><span class="op">)</span></span>
 <span><span class="va">post</span> <span class="op">=</span> <span class="fu"><a href="https://bsvars.org/bsvars/reference/estimate.html" class="external-link">estimate</a></span><span class="op">(</span><span class="va">spec</span>, <span class="fl">5</span><span class="op">)</span></span>
-<span><span class="va">post</span><span class="op">$</span><span class="fu">get_posterior</span><span class="op">(</span><span class="op">)</span></span>
-<span></span></code></pre></div><p></p></div>
+<span><span class="va">post</span><span class="op">$</span><span class="fu">get_posterior</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-PosteriorBVAR-get_last_draw"></a><div class="section">
-<h3 id="method-get-last-draw-">Method <code>get_last_draw()</code><a class="anchor" aria-label="anchor" href="#method-get-last-draw-"></a></h3>
+<p></p><hr><a id="method-PosteriorBVAR-get_last_draw"></a><div class="section">
+<h3 id="posteriorbvar-get-last-draw-"><code>PosteriorBVAR$get_last_draw()</code><a class="anchor" aria-label="anchor" href="#posteriorbvar-get-last-draw-"></a></h3>
 <p>Returns an object of class <code>BVAR</code> with the last draw of the
 current MCMC run as the starting value to be passed to the continuation
 of the MCMC estimation using <code><a href="https://bsvars.org/bsvars/reference/estimate.html" class="external-link">estimate()</a></code>.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">specify_posterior_bvar</span><span class="op">$</span><span class="fu">get_last_draw</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">PosteriorBVAR</span><span class="op">$</span><span class="fu">get_last_draw</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
 <h4 id="examples-1">Examples<a class="anchor" aria-label="anchor" href="#examples-1"></a></h4>
 <p></p><div class="r example copy"><div class="sourceCode"><pre><code><span><span class="va">spec</span> <span class="op">=</span> <span class="va"><a href="../reference/specify_bvar.html">specify_bvar</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">us_macro_chan</span><span class="op">)</span></span>
 <span><span class="va">burn</span> <span class="op">=</span> <span class="fu"><a href="https://bsvars.org/bsvars/reference/estimate.html" class="external-link">estimate</a></span><span class="op">(</span><span class="va">spec</span>, <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="va">post</span> <span class="op">=</span> <span class="fu"><a href="https://bsvars.org/bsvars/reference/estimate.html" class="external-link">estimate</a></span><span class="op">(</span><span class="va">burn</span>, <span class="fl">5</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
-
-</div><p></p><hr><a id="method-PosteriorBVAR-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
-<p>The objects of this class are cloneable with this method.</p><div class="section">
-<h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">specify_posterior_bvar</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
-<div class="section">
+<p></p><hr><a id="method-PosteriorBVAR-clone"></a><div class="section">
+<h3 id="posteriorbvar-clone-"><code>PosteriorBVAR$clone()</code><a class="anchor" aria-label="anchor" href="#posteriorbvar-clone-"></a></h3>
+<p>The objects of this class are cloneable with this method.</p><div class="section">
+<h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">PosteriorBVAR</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
@@ -149,6 +141,7 @@ of the MCMC estimation using <code><a href="https://bsvars.org/bsvars/reference/
 </div>
 
 </div>
+
 
     </div>
 
@@ -172,7 +165,7 @@ of the MCMC estimation using <code><a href="https://bsvars.org/bsvars/reference/
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `specify_posterior_bvar$get_posterior`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `PosteriorBVAR$get_posterior()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">spec</span> <span class="op">=</span> <span class="va"><a href="specify_bvar.html">specify_bvar</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">us_macro_chan</span><span class="op">)</span></span></span>
@@ -2551,7 +2544,7 @@ of the MCMC estimation using <code><a href="https://bsvars.org/bsvars/reference/
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Method `specify_posterior_bvar$get_last_draw`</span></span></span>
+<span class="r-in"><span><span class="co">## Method `PosteriorBVAR$get_last_draw()`</span></span></span>
 <span class="r-in"><span><span class="co">## ------------------------------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">spec</span> <span class="op">=</span> <span class="va"><a href="specify_bvar.html">specify_bvar</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">us_macro_chan</span><span class="op">)</span></span></span>
@@ -2588,7 +2581,7 @@ of the MCMC estimation using <code><a href="https://bsvars.org/bsvars/reference/
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>
