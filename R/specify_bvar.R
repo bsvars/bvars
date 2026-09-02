@@ -111,7 +111,7 @@ specify_prior_bvar = R6::R6Class(
     #' @param d a positive integer - the number of \code{exogenous} variables in the model.
     #' @param stationary an \code{N} logical vector - its element set to 
     #' \code{FALSE} sets the prior mean for the autoregressive parameters of the 
-    #' \code{N}th equation to the white noise process, otherwise to random walk.
+    #' \code{N}th equation to the random walk process, otherwise to white noise.
     #' @param is_homoskedastic a logical scalar - if \code{TRUE} the model assumes 
     #' homoskedastic errors, otherwise it assumes stochastic volatility.
     #' @return A new prior specification \code{PriorBVAR}.
@@ -391,9 +391,9 @@ specify_bvar = R6::R6Class(
     #' @param distribution a character string specifying the conditional distribution 
     #' of structural shocks. Value \code{"norm"} sets it to the normal distribution, 
     #' while value \code{"t"} sets the Student-t distribution.
-    #' @param stationary an \code{N} logical vector - its element set to
+    #' @param stationary an \code{N} logical vector - its element set to 
     #' \code{FALSE} sets the prior mean for the autoregressive parameters of the 
-    #' \code{N}th equation to the white noise process, otherwise to random walk.
+    #' \code{N}th equation to the random walk process, otherwise to white noise.
     #' @return A new complete specification for the \code{BVAR} model.
     initialize = function(
     data,
