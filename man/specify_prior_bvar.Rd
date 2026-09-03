@@ -142,7 +142,7 @@ the hierarchical prior for the common stochastic volatility.}
       \item{\code{d}}{a positive integer - the number of \code{exogenous} variables in the model.}
       \item{\code{stationary}}{an \code{N} logical vector - its element set to 
 \code{FALSE} sets the prior mean for the autoregressive parameters of the 
-\code{N}th equation to the white noise process, otherwise to random walk.}
+\code{N}th equation to the random walk process, otherwise to white noise.}
       \item{\code{is_homoskedastic}}{a logical scalar - if \code{TRUE} the model assumes 
 homoskedastic errors, otherwise it assumes stochastic volatility.}
     }

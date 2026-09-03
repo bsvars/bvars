@@ -115,9 +115,9 @@ component of the error term covariance matrix. It can take three values:
       \item{\code{distribution}}{a character string specifying the conditional distribution 
 of structural shocks. Value \code{"norm"} sets it to the normal distribution, 
 while value \code{"t"} sets the Student-t distribution.}
-      \item{\code{stationary}}{an \code{N} logical vector - its element set to
+      \item{\code{stationary}}{an \code{N} logical vector - its element set to 
 \code{FALSE} sets the prior mean for the autoregressive parameters of the 
-\code{N}th equation to the white noise process, otherwise to random walk.}
+\code{N}th equation to the random walk process, otherwise to white noise.}
     }
     \if{html}{\out{</div>}}
   }
