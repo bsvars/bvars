@@ -95,7 +95,7 @@ arma::mat forecast_sigma2_sv1 (
   vec       ht = posterior_h_T;
   
   for (int h=0; h<horizon; h++) {
-    ht        = posterior_omega % (posterior_rho % ht + randn(S));
+    ht = posterior_rho % ht + posterior_omega % randn(S);
     forecasts_sigma2.row(h) = trans(exp(ht));
   } // END h loop
   
