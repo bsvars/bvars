@@ -64,8 +64,8 @@ Rcpp::List sample_df (
   aux_df_star           = RcppTN::rtn1( aux_df, adaptive_scale, 2, R_PosInf );
   double lk_nu_star     = log_kernel_df(aux_df_star, aux_lambda);
   double lk_nu_old      = log_kernel_df(aux_df, aux_lambda);
-  double cgd_ratio      = RcppTN::dtn1( aux_df_star, aux_df, adaptive_scale, 2, R_PosInf ) /
-    RcppTN::dtn1( aux_df, aux_df_star, adaptive_scale, 2, R_PosInf );
+  double cgd_ratio      = RcppTN::dtn1( aux_df, aux_df_star, adaptive_scale, 2, R_PosInf ) /
+    RcppTN::dtn1( aux_df_star, aux_df, adaptive_scale, 2, R_PosInf );
   
   double kernel_ratio   = exp(lk_nu_star - lk_nu_old) * cgd_ratio;
   if ( kernel_ratio < 1 ) alpha = kernel_ratio;
