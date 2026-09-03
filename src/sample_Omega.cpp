@@ -19,7 +19,7 @@ arma::vec sample_lambda (
   const int T         = U.n_elem;
   U                  /= accu(U) / T;        // normalisation E[u] = 1
   double  nu_lambda   = aux_df + N;
-  vec     s_lambda    = U + aux_df - 2;
+  vec     s_lambda    = N * U + aux_df - 2;
   vec     aux_lambda  = chi2rnd(nu_lambda, T);
   aux_lambda          = s_lambda / aux_lambda;
   
