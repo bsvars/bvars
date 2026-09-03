@@ -127,12 +127,19 @@ arma::vec find_mixture_indicator_cdf (
   
   const int T = datanorm.n_elem;
   vec mixprob(10 * T);
-  for (int j = 0; j < T; j++) {  // TODO slow (10*T calls to exp)!
+  for (int j = 0; j < T; j++) {
     const int first_index = 10*j;
-    mixprob(first_index) = std::exp(aux_mix(0,0) - (datanorm(j) - aux_mix(1,0)) * (datanorm(j) - aux_mix(1,0)) / aux_mix(2,0) );
-    for (int r = 1; r < 10; r++) {
-      mixprob(first_index+r) = mixprob(first_index+r-1) + std::exp(aux_mix(0,r) - (datanorm(j) - aux_mix(1,r)) * (datanorm(j) - aux_mix(1,r)) / aux_mix(2,r) );
+    vec log_weights(10);
+    for (int r = 0; r < 10; r++) {
+      const double residual = datanorm(j) - aux_mix(1, r);
+      log_weights(r) = log(aux_mix(0, r))
+        - 0.5 * log(aux_mix(2, r))
+        - 0.5 * pow(residual, 2) / aux_mix(2, r);
     }
+
+    vec weights = exp(log_weights - max(log_weights));
+    weights /= accu(weights);
+    mixprob.subvec(first_index, first_index + 9) = cumsum(weights);
   }
   return mixprob;
 }
