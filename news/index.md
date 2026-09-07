@@ -1,6 +1,6 @@
 # Changelog
 
-## bvars (development version)
+## bvars 1.1
 
 The package is under intensive development, and more functionality will
 be provided soon! To see the package
