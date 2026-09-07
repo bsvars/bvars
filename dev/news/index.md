@@ -10,8 +10,14 @@ version.
 Have a question, or suggestion, or wanna get in touch? Email us at
 <contact@bsvars.org> forum.
 
+1.  Updated package description with the paper by [Shang, Wang, Woźniak
+    (2026)](https://doi.org/10.48550/arXiv.2608.28087)
+2.  Introduced a range of code improvements by [Fei
+    Shang](https://github.com/lcq110) in PRs
+    [\#15](https://github.com/bsvars/bvars/pull/15)-[\#21](https://github.com/bsvars/bvars/pull/21)
+
 ## bvars 1.0
 
 CRAN release: 2026-06-08
 
-- Initial CRAN submission.
+1.  Initial CRAN submission.

@@ -5,7 +5,8 @@ Autoregressions
 
 Provides fast and efficient procedures for Bayesian estimation and
 forecasting using state-of-the-art Vector Autoregressions. This package
-includes the model proposed by [Chan
+includes the model proposed by [Shang, Wang, Woźniak
+(2026)](https://doi.org/10.48550/arXiv.2608.28087) and [Chan
 (2020)](https://doi.org/10.1080/07350015.2018.1451336), that is, a
 Bayesian Vector Autoregression with Minnesota priors and a flexible
 structure of the error term specification. The latter includes:
@@ -176,6 +177,8 @@ website](reference/figures/logo.png)](https://bsvars.org/bvars/)
 ## Resources
 
 - a [reference manual](https://cran.r-project.org/package=bsvars/)
+- a [methodological paper by Shang, Wang, Woźniak
+  (2026)](https://doi.org/10.48550/arXiv.2608.28087)
 - **bsvars** on [CRAN](https://cran.r-project.org/package=bsvars)
 - a website of the family of packages [bsvars.org](https://bsvars.org/)
 

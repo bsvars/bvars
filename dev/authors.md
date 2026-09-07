@@ -10,6 +10,15 @@
 - **Tomasz Woźniak**. Author, maintainer.
   [](https://orcid.org/0000-0003-2212-2378)
 
+- **Fei Shang**. Contributor.
+  [](https://orcid.org/0000-0003-1908-3275)  
+  co-authored the paper by Shang, Wang, Woźniak (2026), introduced major
+  code corrections and improvements
+
+- **Xiaolei Wang**. Contributor.
+  [](https://orcid.org/0009-0005-6192-9061)  
+  co-authored the paper by Shang, Wang, Woźniak (2026)
+
 ## Citation
 
 Source:
