@@ -24,8 +24,8 @@ arma::field<arma::mat> sample_ASigma(
   const double  prior_nu  = as<double>(prior["nu"]);
   vec   Omega_diag_sqrt_inv = sqrt(aux_Omega_diag_inv);
   
-  mat   Ys            = Y.each_row() / Omega_diag_sqrt_inv.t();
-  mat   Xs            = X.each_row() / Omega_diag_sqrt_inv.t();
+  mat   Ys            = Y.each_row() % Omega_diag_sqrt_inv.t();
+  mat   Xs            = X.each_row() % Omega_diag_sqrt_inv.t();
   mat   A_bar_tmp     = Ys * Xs.t() + prior_A * aux_V_inv;
   mat   V_bar_inv     = Xs * Xs.t() + aux_V_inv;
   V_bar_inv           = 0.5 * (V_bar_inv + V_bar_inv.t());
@@ -48,7 +48,6 @@ arma::field<arma::mat> sample_ASigma(
   
   return out;
 } // END sample_ASigma
-
 
 
 
