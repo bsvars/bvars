@@ -7,8 +7,17 @@
 - **Andrés Ramirez Hassan**. Author.
   [](https://orcid.org/0000-0002-0467-7903)
 
-- **Tomasz Woźniak**. Author, maintainer, copyright holder.
+- **Tomasz Woźniak**. Author, maintainer.
   [](https://orcid.org/0000-0003-2212-2378)
+
+- **Fei Shang**. Contributor.
+  [](https://orcid.org/0000-0003-1908-3275)  
+  co-authored the paper by Shang, Wang, Woźniak (2026), introduced major
+  code corrections and improvements
+
+- **Xiaolei Wang**. Contributor.
+  [](https://orcid.org/0009-0005-6192-9061)  
+  co-authored the paper by Shang, Wang, Woźniak (2026)
 
 ## Citation
 
@@ -16,13 +25,13 @@ Source:
 [`DESCRIPTION`](https://github.com/bsvars/bvars/blob/master/DESCRIPTION)
 
 Liu R, Ramirez Hassan A, Woźniak T (2026). *bvars: Bayesian Forecasting
-with Large Vector Autoregressions*. R package version 1.0,
+with Large Vector Autoregressions*. R package version 1.1,
 <https://bsvars.org/bvars/>.
 
     @Manual{,
       title = {bvars: Bayesian Forecasting with Large Vector Autoregressions},
       author = {Rui Liu and Andrés {Ramirez Hassan} and Tomasz Woźniak},
       year = {2026},
-      note = {R package version 1.0},
+      note = {R package version 1.1},
       url = {https://bsvars.org/bvars/},
     }
