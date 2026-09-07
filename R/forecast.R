@@ -113,6 +113,9 @@ forecast.PosteriorBVAR = function(
     posterior_h_T   = object$posterior$h[T,]
     posterior_rho   = object$posterior$rho
     posterior_omega = object$posterior$omega
+    if (!object$last_draw$get_centred_sv()) {
+      posterior_h_T = posterior_omega * posterior_h_T
+    }
     
     forecast_sigma2 = .Call(`_bvars_forecast_sigma2_sv1`, 
                             posterior_h_T, posterior_rho, posterior_omega, horizon
