@@ -17,7 +17,7 @@ with attribute \code{PosteriorShocks} containing \code{S} draws of the shocks.
 \description{
 Each of the draws from the posterior estimation of models from
 the package \pkg{bvars} is transformed into
-a draw from the posterior distribution of the structural shocks.
+a draw from the posterior distribution of the reduced-form error terms (shocks).
 }
 \examples{
 # simple workflow

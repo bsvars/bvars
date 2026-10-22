@@ -61,7 +61,7 @@ spec$get_starting_values()
 \section{Public fields}{
   \if{html}{\out{<div class="r6-fields">}}
   \describe{
-    \item{\code{p}}{a non-negative integer specifying the autoregressive lag order of the model.}
+    \item{\code{p}}{a positive integer specifying the autoregressive lag order of the model.}
 
     \item{\code{prior}}{an object \code{PriorBVAR} with the prior specification.}
 
@@ -113,7 +113,7 @@ component of the error term covariance matrix. It can take three values:
 \code{ncSV} - the model assumes non-centred stochastic volatility, and 
 \code{cSV} - the model assumes centred stochastic volatility.}
       \item{\code{distribution}}{a character string specifying the conditional distribution 
-of structural shocks. Value \code{"norm"} sets it to the normal distribution, 
+of the error term. Value \code{"norm"} sets it to the normal distribution, 
 while value \code{"t"} sets the Student-t distribution.}
       \item{\code{stationary}}{an \code{N} logical vector - its element set to 
 \code{FALSE} sets the prior mean for the autoregressive parameters of the 
@@ -130,7 +130,7 @@ while value \code{"t"} sets the Student-t distribution.}
 \if{html}{\out{<a id="method-BVAR-get_normal"></a>}}
 \if{latex}{\out{\hypertarget{method-BVAR-get_normal}{}}}
 \subsection{\code{BVAR$get_normal()}}{
-  Returns the logical value of whether the conditional shock distribution is normal.
+  Returns the logical value of whether the conditional distribution of the error term is normal.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{BVAR$get_normal()}

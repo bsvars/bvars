@@ -1,5 +1,7 @@
 # bvars (development version)
 
+1. Package went through code revision and improvements.[#24](https://github.com/bsvars/bvars/issues/24)
+
 # bvars 1.1
 
 The package is under intensive development, and more functionality will be provided soon! See the package [ROADMAP](https://github.com/bsvars/bvars/milestones) towards the next version.

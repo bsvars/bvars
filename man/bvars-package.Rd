@@ -18,9 +18,9 @@ Stochastic Volatility. Additionally, the package facilitates predictive
 analyses using density forecasting and forecast-error variance decompositions. 
 All this is complemented by simple workflows, useful plots and summary 
 functions, and comprehensive documentation. The 'bvars' package aligns with 
-R packages 'bsvars' by Woźniak (2024) <doi:10.32614/CRAN.package.bsvars>, 
-'bsvarSIGNs' by Wang & Woźniak (2025) <doi:10.32614/CRAN.package.bsvarSIGNs>, 
-and 'bpvars' by Woźniak (2025) <doi:10.32614/CRAN.package.bpvars> regarding 
+R packages 'bsvars' by Woźniak (2026) <doi:10.32614/CRAN.package.bsvars>, 
+'bsvarSIGNs' by Wang & Woźniak (2026) <doi:10.32614/CRAN.package.bsvarSIGNs>, 
+and 'bpvars' by Woźniak (2026) <doi:10.32614/CRAN.package.bpvars> regarding 
 objects, workflows, and code structure, and they constitute an integrated toolset.
 }
 \details{
@@ -61,7 +61,7 @@ term and includes two options:
 }
 
 \strong{Prior distributions.}
-The autoregressive matrix \eqn{A} is assigned matrix-variate normal distribution:
+The autoregressive matrix \eqn{A} is assigned a matrix-variate normal distribution:
 \deqn{
 \mathbf{A} \mid \underline{\mathbf{A}}, \mathbf{V}, \boldsymbol{\Sigma}
 \sim \mathcal{MN}_{N \times K}(\underline{\mathbf{A}}, \boldsymbol{\Sigma}, \mathbf{V})

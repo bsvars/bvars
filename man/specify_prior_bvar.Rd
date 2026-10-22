@@ -6,7 +6,7 @@
 \description{
 The class \code{PriorBVAR} presents a prior specification for the BVAR model.
 
-#' \strong{The Model.} 
+\strong{The Model.} 
 All the BVAR models in this package are specified by two equations, including 
 the reduced form equation:
 \deqn{Y = AX + E}
@@ -43,7 +43,7 @@ term and includes two options:
 }
 
 \strong{Prior distributions.}
-The autoregressive matrix \eqn{A} is assigned matrix-variate normal distribution:
+The autoregressive matrix \eqn{A} is assigned a matrix-variate normal distribution:
 \deqn{
 \mathbf{A} \mid \underline{\mathbf{A}}, \mathbf{V}, \boldsymbol{\Sigma}
 \sim \mathcal{MN}_{N \times K}(\underline{\mathbf{A}}, \boldsymbol{\Sigma}, \mathbf{V})
@@ -97,15 +97,15 @@ Wishart prior distribution for the error term covariance
 matrix \eqn{\Sigma}.}
 
     \item{\code{Psi}}{a \code{KxK} scale matrix \eqn{\Psi_0} of the matrix 
-generalized inverse Gaussian distribution for the equation-specific prior 
+generalized inverse Gaussian distribution for the column-specific prior 
 covariance \eqn{V}}
 
     \item{\code{Gamma}}{a \code{KxK} scale matrix \eqn{\Gamma_0} of the matrix 
-generalized inverse Gaussian distribution for the equation-specific prior 
+generalized inverse Gaussian distribution for the column-specific prior 
 covariance \eqn{V}}
 
     \item{\code{lambda}}{a positive scalar shape parameter \eqn{\lambda_0} of the 
-matrix generalized inverse Gaussian distribution for the equation-specific 
+matrix generalized inverse Gaussian distribution for the column-specific 
 prior covariance \eqn{V}}
 
     \item{\code{sv_a}}{a positive scalar, the shape parameter of the gamma prior in 

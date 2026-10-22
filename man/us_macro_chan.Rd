@@ -20,14 +20,14 @@ on 20 variables:
  \item{pci}{Producer price index}
  \item{pce}{Personal consumption expenditures: chain-type price index}
  \item{ahem}{Average hourly earnings: manufacturing}
- \item{mi}{MI money stock}
+ \item{mi}{M1 money stock}
  \item{TMR10Y}{10-Year Treasury constant maturity rate}
  \item{rgpdi}{Real gross private domestic investment}
  \item{aetnf}{All employees: total nonfarm}
  \item{pmici}{ISM manufacturing: PMI composite index}
  \item{noi}{ISM manufacturing: new orders index}
  \item{bsro}{Business sector: real output per hour of all Persons}
- \item{sp500}{Real stock prices (S& P 500 index divided by PCE index}
+ \item{sp500}{Real stock prices (S&P 500 index divided by PCE index)}
 }
 
 The series are used and described by Chan (2020) in Appendix B of 
@@ -44,7 +44,7 @@ data(us_macro_chan)
 A system of 20 US macroeconomic aggregates used by Chan (2020).
 }
 \examples{
-data(us_macro_chan)   # upload the data
+data(us_macro_chan)   # load the data
 }
 \references{
 Chan (2020) Large Bayesian VARs: A Flexible Kronecker Error Covariance Structure,
