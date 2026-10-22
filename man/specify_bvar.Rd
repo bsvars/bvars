@@ -11,6 +11,14 @@ spec = specify_bvar$new(us_macro_chan)
 
 
 ## ------------------------------------------------
+## Method `BVAR$get_prior_cov()`
+## ------------------------------------------------
+
+spec = specify_bvar$new(us_macro_chan)
+spec$get_prior_cov()
+
+
+## ------------------------------------------------
 ## Method `BVAR$get_normal()`
 ## ------------------------------------------------
 
@@ -75,6 +83,7 @@ spec$get_starting_values()
 \subsection{Public methods}{
   \itemize{
     \item \href{#method-BVAR-initialize}{\code{BVAR$new()}}
+    \item \href{#method-BVAR-get_prior_cov}{\code{BVAR$get_prior_cov()}}
     \item \href{#method-BVAR-get_normal}{\code{BVAR$get_normal()}}
     \item \href{#method-BVAR-get_homoskedastic}{\code{BVAR$get_homoskedastic()}}
     \item \href{#method-BVAR-get_centred_sv}{\code{BVAR$get_centred_sv()}}
@@ -95,6 +104,7 @@ spec$get_starting_values()
   data,
   p = 1L,
   exogenous = NULL,
+  prior_cov = c("Minnesota", "MGIG", "GIG"),
   common_volatility = c("homoskedastic", "ncSV", "cSV"),
   distribution = c("norm", "t"),
   stationary = rep(FALSE, ncol(data))
@@ -107,10 +117,19 @@ spec$get_starting_values()
       \item{\code{data}}{a \code{(T+p)xN} matrix with time series data.}
       \item{\code{p}}{a positive integer providing model's autoregressive lag order.}
       \item{\code{exogenous}}{a \code{(T+p)xd} matrix of exogenous variables.}
+      \item{\code{prior_cov}}{a character string specifying the structure for the 
+row-specific prior covariance matrix, \eqn{\mathbf{V}} of the matrix-variate 
+normal distribution for the autoregressive parameters \eqn{\mathbf{A}}. 
+It can take one of the values: 
+\code{Minnesota} - the model uses the Minnesota prior with fixed matrix \eqn{\mathbf{V}},
+\code{MGIG} - the model uses the Matrix Generalized Inverse Gaussian prior 
+for \eqn{\mathbf{V}} and all its elements are estimated, or
+\code{GIG} - the model uses the Generalized Inverse Gaussian prior for 
+each of the diagonal elements of \eqn{\mathbf{V}}.}
       \item{\code{common_volatility}}{a character string specifying the common volatility 
-component of the error term covariance matrix. It can take three values: 
+component of the error term covariance matrix. It can take one of the values: 
 \code{homoskedastic} - the model assumes homoskedastic errors, 
-\code{ncSV} - the model assumes non-centred stochastic volatility, and 
+\code{ncSV} - the model assumes non-centred stochastic volatility, or
 \code{cSV} - the model assumes centred stochastic volatility.}
       \item{\code{distribution}}{a character string specifying the conditional distribution 
 of the error term. Value \code{"norm"} sets it to the normal distribution, 
@@ -123,6 +142,25 @@ while value \code{"t"} sets the Student-t distribution.}
   }
   \subsection{Returns}{
     A new complete specification for the \code{BVAR} model.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-BVAR-get_prior_cov"></a>}}
+\if{latex}{\out{\hypertarget{method-BVAR-get_prior_cov}{}}}
+\subsection{\code{BVAR$get_prior_cov()}}{
+  Returns the logical value of whether the conditional distribution of the error term is normal.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{BVAR$get_prior_cov()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{spec = specify_bvar$new(us_macro_chan)
+spec$get_prior_cov()
+}
+    \if{html}{\out{</div>}}
   }
 }
 

@@ -131,7 +131,14 @@ the hierarchical prior for the common stochastic volatility.}
   Create a new prior specification \code{PriorBVAR}.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{PriorBVAR$new(N, p, d = 0, stationary = rep(FALSE, N), is_homoskedastic = TRUE)}
+    \preformatted{PriorBVAR$new(
+  N,
+  p,
+  d = 0,
+  stationary = rep(FALSE, N),
+  is_homoskedastic = TRUE,
+  prior_cov = "Minnesota"
+)}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
@@ -145,6 +152,15 @@ the hierarchical prior for the common stochastic volatility.}
 \code{N}th equation to the random walk process, otherwise to white noise.}
       \item{\code{is_homoskedastic}}{a logical scalar - if \code{TRUE} the model assumes 
 homoskedastic errors, otherwise it assumes stochastic volatility.}
+      \item{\code{prior_cov}}{a character string specifying the structure for the 
+row-specific prior covariance matrix, \eqn{\mathbf{V}} of the matrix-variate 
+normal distribution for the autoregressive parameters \eqn{\mathbf{A}}. 
+It can take one of the values: 
+\code{Minnesota} - the model uses the Minnesota prior with fixed matrix \eqn{\mathbf{V}},
+\code{MGIG} - the model uses the Matrix Generalized Inverse Gaussian prior 
+for \eqn{\mathbf{V}} and all its elements are estimated, or
+\code{GIG} - the model uses the Generalized Inverse Gaussian prior for 
+each of the diagonal elements of \eqn{\mathbf{V}}.}
     }
     \if{html}{\out{</div>}}
   }
