@@ -114,13 +114,23 @@ specify_prior_bvar = R6::R6Class(
     #' \code{N}th equation to the random walk process, otherwise to white noise.
     #' @param is_homoskedastic a logical scalar - if \code{TRUE} the model assumes 
     #' homoskedastic errors, otherwise it assumes stochastic volatility.
+    #' @param prior_cov a character string specifying the structure for the 
+    #' row-specific prior covariance matrix, \eqn{\mathbf{V}} of the matrix-variate 
+    #' normal distribution for the autoregressive parameters \eqn{\mathbf{A}}. 
+    #' It can take one of the values: 
+    #' \code{Minnesota} - the model uses the Minnesota prior with fixed matrix \eqn{\mathbf{V}},
+    #' \code{MGIG} - the model uses the Matrix Generalized Inverse Gaussian prior 
+    #' for \eqn{\mathbf{V}} and all its elements are estimated, or
+    #' \code{GIG} - the model uses the Generalized Inverse Gaussian prior for 
+    #' each of the diagonal elements of \eqn{\mathbf{V}}.
+    #' 
     #' @return A new prior specification \code{PriorBVAR}.
     #' @examples 
     #' # a prior for 3-variable example with one lag and stationary data
     #' prior = specify_prior_bvar$new(N = 3, p = 1, stationary = rep(TRUE, 3))
     #' prior$A # show autoregressive prior mean
     #' 
-    initialize = function(N, p, d = 0, stationary = rep(FALSE, N), is_homoskedastic = TRUE){
+    initialize = function(N, p, d = 0, stationary = rep(FALSE, N), is_homoskedastic = TRUE, prior_cov = "Minnesota"){
       stopifnot("Argument N must be a positive integer number." = N > 0 & N %% 1 == 0)
       stopifnot("Argument p must be a positive integer number." = p > 0 & p %% 1 == 0)
       stopifnot("Argument d must be a non-negative integer number." = d >= 0 & d %% 1 == 0)
@@ -130,15 +140,27 @@ specify_prior_bvar = R6::R6Class(
       self$A        = cbind(diag(as.numeric(!stationary)), matrix(0, N, K - N))
       self$S        = diag(N)
       self$nu       = N + 3       # as in Chan (2020, JBES)
-      self$Psi      = diag(K)
-      self$Gamma    = diag(K)
-      self$lambda   = N + 1
       self$sv_a     = NA
       self$sv_s     = NA
       if (!is_homoskedastic) {
         self$sv_a   = 1
         self$sv_s   = 0.1
       }
+      
+      if (prior_cov == "Minnesota") {
+        Psi           = NA
+        Gamma         = NA
+      } else if (prior_cov == "MGIG") {
+        Psi           = diag(K)
+        Gamma         = diag(K)
+      } else if (prior_cov == "GIG") {
+        Psi           = as.matrix(rep(1, K))
+        Gamma         = as.matrix(rep(1, K))
+      }
+      
+      self$Psi      = Psi
+      self$Gamma    = Gamma
+      self$lambda   = N + 1
     }, # END initialize
     
     #' @description
@@ -361,7 +383,8 @@ specify_bvar = R6::R6Class(
   private = list(
     normal        = TRUE,
     homoskedastic = TRUE,
-    centred_sv    = FALSE
+    centred_sv    = FALSE,
+    prior_cov     = "Minnesota"
   ), # END private
   
   public = list(
@@ -383,10 +406,19 @@ specify_bvar = R6::R6Class(
     #' @param data a \code{(T+p)xN} matrix with time series data.
     #' @param p a positive integer providing model's autoregressive lag order.
     #' @param exogenous a \code{(T+p)xd} matrix of exogenous variables. 
+    #' @param prior_cov a character string specifying the structure for the 
+    #' row-specific prior covariance matrix, \eqn{\mathbf{V}} of the matrix-variate 
+    #' normal distribution for the autoregressive parameters \eqn{\mathbf{A}}. 
+    #' It can take one of the values: 
+    #' \code{Minnesota} - the model uses the Minnesota prior with fixed matrix \eqn{\mathbf{V}},
+    #' \code{MGIG} - the model uses the Matrix Generalized Inverse Gaussian prior 
+    #' for \eqn{\mathbf{V}} and all its elements are estimated, or
+    #' \code{GIG} - the model uses the Generalized Inverse Gaussian prior for 
+    #' each of the diagonal elements of \eqn{\mathbf{V}}.
     #' @param common_volatility a character string specifying the common volatility 
-    #' component of the error term covariance matrix. It can take three values: 
+    #' component of the error term covariance matrix. It can take one of the values: 
     #' \code{homoskedastic} - the model assumes homoskedastic errors, 
-    #' \code{ncSV} - the model assumes non-centred stochastic volatility, and 
+    #' \code{ncSV} - the model assumes non-centred stochastic volatility, or
     #' \code{cSV} - the model assumes centred stochastic volatility.
     #' @param distribution a character string specifying the conditional distribution 
     #' of the error term. Value \code{"norm"} sets it to the normal distribution, 
@@ -399,12 +431,16 @@ specify_bvar = R6::R6Class(
     data,
     p = 1L,
     exogenous = NULL,
+    prior_cov = c("Minnesota", "MGIG", "GIG"),
     common_volatility = c("homoskedastic", "ncSV", "cSV"),
     distribution = c("norm","t"),
     stationary = rep(FALSE, ncol(data))
     ) {
       stopifnot("Argument p has to be a positive integer." = ((p %% 1) == 0 & p > 0))
       self$p     = p
+      
+      prior_cov         = match.arg(prior_cov)
+      private$prior_cov = prior_cov
       
       common_volatility = match.arg(common_volatility)
       private$homoskedastic  = common_volatility == "homoskedastic"
@@ -423,13 +459,24 @@ specify_bvar = R6::R6Class(
       }
       K             = N * p + 1 + d
       
-      ar_sigma2     = apply(data, 2, function(x){sum(ar(x, aic = FALSE, order.max = 4)$resid^2, na.rm=TRUE) / (dim(data)[1] - 5)})
+      ar_sigma2     = apply(data, 2, function(x){sum(ar(x, aic = FALSE, order.max = 4)$resid^2, na.rm = TRUE) / (dim(data)[1] - 5)})
       
       self$data_matrices   = bsvars::specify_data_matrices$new(data, p, exogenous)
-      self$prior           = specify_prior_bvar$new(N, p, d, stationary, private$homoskedastic)
+      self$prior           = specify_prior_bvar$new(N, p, d, stationary, private$homoskedastic, prior_cov)
       self$starting_values = specify_starting_values_bvar$new(N, self$p, T, d, private$homoskedastic, private$normal, ar_sigma2)
       
     }, # END initialize
+    
+    #' @description
+    #' Returns the logical value of whether the conditional distribution of the error term is normal.
+    #' 
+    #' @examples 
+    #' spec = specify_bvar$new(us_macro_chan)
+    #' spec$get_prior_cov()
+    #' 
+    get_prior_cov = function() {
+      private$prior_cov
+    }, # END get_prior_cov
     
     #' @description
     #' Returns the logical value of whether the conditional distribution of the error term is normal.
