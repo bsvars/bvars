@@ -29,8 +29,8 @@ arma::cube Sigma2B (
 // [[Rcpp::interfaces(cpp,r)]]
 // [[Rcpp::export]]
 arma::field<arma::cube> compute_variance_decompositions (
-    arma::cube&   posterior_Sigma,    // (S)(N, N, S)
-    arma::cube&   posterior_A,        // (S)(K, N, S)
+    arma::cube&   posterior_Sigma,    // (N, N, S)
+    arma::cube&   posterior_A,        // (N, K, S)
     const int     horizon,
     const int     p
 ) {

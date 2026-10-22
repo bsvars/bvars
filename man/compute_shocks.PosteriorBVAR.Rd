@@ -2,7 +2,7 @@
 % Please edit documentation in R/compute_shocks.R
 \name{compute_shocks.PosteriorBVAR}
 \alias{compute_shocks.PosteriorBVAR}
-\title{Computes posterior draws of  shocks}
+\title{Computes posterior draws of shocks}
 \usage{
 \method{compute_shocks}{PosteriorBVAR}(posterior)
 }
@@ -15,7 +15,7 @@ An object of class \code{PosteriorShocks}, that is, an \code{NxTxS}
 array with attribute \code{PosteriorShocks} containing \code{S} draws of the shocks.
 }
 \description{
-Each of the draws from the posterior estimation of the BAVR 
+Each of the draws from the posterior estimation of the BVAR 
 model is transformed into a draw from the posterior distribution of the shocks.
 }
 \examples{

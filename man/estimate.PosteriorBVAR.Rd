@@ -30,7 +30,7 @@ estimation output and containing two elements:
  \item{A}{an \code{NxKxS} array with the posterior draws for matrix \eqn{A}}
  \item{Sigma}{an \code{NxNxS} array with the posterior draws for matrix \eqn{\Sigma}}
  \item{V}{a \code{KxKxS} array with the posterior draws for the hyper-parameter
- matrix \eqn{\Sigma}}
+ matrix \eqn{V}}
 }
 
 \code{last_draw} an object of class \code{BVAR} with the last draw of the 
@@ -65,7 +65,7 @@ us_macro_chan |>
 \references{
 Barndorff-Nielsen, Blaesild, Jensen, Jorgensen (1982) Exponential 
 Transformation Models, Proceedings of the Royal Society of London. A. 
-Mathematical and Physical Sciences, 379, 41–-65, <doi:10.1098/rspa.1982.0004>.
+Mathematical and Physical Sciences, 379, 41--65, <doi:10.1098/rspa.1982.0004>.
 
 Chan (2020) Large Bayesian VARs: A Flexible Kronecker Error Covariance Structure,
 Journal of Business and Economic Statistics, 38(1), 68--79,

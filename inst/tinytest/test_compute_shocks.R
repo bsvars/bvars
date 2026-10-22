@@ -18,7 +18,7 @@ suppressMessages(
 
 expect_true(
   all(dim(fv) == dim(fv2)),
-  info = "compute_shocks: same output dimentions for normal and pipe workflow."
+  info = "compute_shocks: same output dimensions for normal and pipe workflow."
 )
 
 expect_identical(

@@ -2,7 +2,7 @@
 % Please edit documentation in R/forecast.R
 \name{forecast.PosteriorBVAR}
 \alias{forecast.PosteriorBVAR}
-\title{Forecasting using Structural Vector Autoregression}
+\title{Forecasting using Bayesian Vector Autoregression}
 \usage{
 \method{forecast}{PosteriorBVAR}(
   object,
@@ -30,10 +30,10 @@ forecasted conditionally on the realisations provided as \code{numeric} values.}
 }
 \value{
 A list of class \code{Forecasts} containing the
-draws from the predictive density and data. The output list includes element:
+draws from the predictive density and data. The output list includes elements:
 
 \describe{
- \item{forecasts}{an \code{NxTxS} array with the draws from predictive density}
+ \item{forecasts}{an \code{NxhorizonxS} array with the draws from predictive density}
  \item{forecast_mean}{an \code{NxhorizonxS} array with the mean of the predictive density}
  \item{forecast_covariance}{an \code{NxNxhorizonxS} array with the covariance of the predictive density}
  \item{Y}{an \eqn{NxT} matrix with the data on dependent variables}

@@ -1,5 +1,5 @@
 
-#' @title Provides posterior summary of  VAR estimation
+#' @title Provides posterior summary of BVAR estimation
 #'
 #' @description Provides posterior mean, standard deviations, as well as 5 and 95 
 #' percentiles of the parameters: autoregressive 
@@ -13,7 +13,7 @@
 #' 
 #' @return A list reporting the posterior mean, standard deviations, as well as 5 and 95 
 #' percentiles of the parameters: autoregressive 
-#' parameters \eqn{\mathbf{A}}, and the covariance matrix \eqn{\Sigma}..
+#' parameters \eqn{\mathbf{A}}, and the covariance matrix \eqn{\Sigma}.
 #' 
 #' @method summary PosteriorBVAR
 #' 
@@ -80,7 +80,7 @@ summary.PosteriorBVAR = function(
         rep("lag", p * N),
         kronecker((1:p), rep(1, N)),
         rep("_var", p * N),
-        kronecker((1:N), rep(1, p))
+        kronecker(rep(1, p), (1:N))
       ),
       "const"
     )

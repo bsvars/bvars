@@ -207,8 +207,7 @@ Rcpp::List svar_nc1 (
   vec       hm1         = aux_h.subvec(0,T-2);
   double    aux_rho_var = as_scalar(pow(hm1.t()*hm1, -1));
   double    aux_rho_mean = as_scalar(aux_rho_var * hm1.t() * aux_h.subvec(1,T-1));
-  double    upper_bound = pow(1 - aux_sigma2_omega, 0.5);
-  aux_rho               = RcppTN::rtn1(aux_rho_mean, pow(aux_rho_var, 0.5),-upper_bound,upper_bound);
+  aux_rho               = RcppTN::rtn1(aux_rho_mean, pow(aux_rho_var, 0.5), 0, 1);
   
   mat       H_rho_new(T, T, fill::eye);
   H_rho_new.diag(-1)   -= aux_rho;
@@ -241,8 +240,7 @@ Rcpp::List svar_nc1 (
   hm1                   = aux_h.subvec(0,T-2);
   aux_rho_var           = as_scalar(pow(hm1.t() * hm1, -1));
   aux_rho_mean          = as_scalar(aux_rho_var * hm1.t() * aux_h.subvec(1,T-1));
-  upper_bound           = pow(1 - aux_sigma2_omega, 0.5);
-  aux_rho               = RcppTN::rtn1(aux_rho_mean, pow(aux_rho_var, 0.5),-upper_bound,upper_bound);
+  aux_rho               = RcppTN::rtn1(aux_rho_mean, pow(aux_rho_var, 0.5), 0, 1);
   
   return List::create(
     _["aux_h"]              = aux_h,
@@ -306,7 +304,7 @@ Rcpp::List svar_ce1 (
   
   // sample aux_sigma2_omega
   aux_sigma2_omega      = randg(distr_param(
-    1 + 0.5 * prior_sv_a_,
+    prior_sv_a_ + 1.5,
     pow(pow(aux_s_, -1) + pow(2 * aux_sigma2v, -1), -1)
   ));
   
@@ -314,7 +312,7 @@ Rcpp::List svar_ce1 (
   vec    hm1            = aux_h.subvec(0,T-2);
   double    aux_rho_var = as_scalar(pow( hm1.t() * hm1 / aux_sigma2v, -1));
   double    aux_rho_mean = as_scalar(aux_rho_var * (hm1.t() * aux_h.subvec(1,T-1) / aux_sigma2v) );
-  aux_rho               = RcppTN::rtn1(aux_rho_mean, pow(aux_rho_var, 0.5),-1,1);
+  aux_rho               = RcppTN::rtn1(aux_rho_mean, pow(aux_rho_var, 0.5), 0, 1);
   
   mat       H_rho_new(T, T, fill::eye);
   H_rho_new.diag(-1)   -= aux_rho;

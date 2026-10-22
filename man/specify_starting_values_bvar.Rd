@@ -51,13 +51,13 @@ matrix \eqn{A}.}
 covariance \eqn{\Sigma}.}
 
     \item{\code{V}}{a \code{KxK} matrix of starting values for the prior 
-equation-specific covariance \eqn{V} of the hierarchical prior distribution
+column-specific covariance \eqn{V} of the hierarchical prior distribution
 for matrix \eqn{A}.}
 
-    \item{\code{h}}{an \code{T}-vector with the starting values of the 
+    \item{\code{h}}{a \code{T}-vector with the starting values of the 
 log-volatility processes.}
 
-    \item{\code{rho}}{a scalalr for the SV autoregressive parameter.}
+    \item{\code{rho}}{a scalar for the SV autoregressive parameter.}
 
     \item{\code{omega}}{a scalar for the SV process conditional standard deviation.}
 
@@ -72,11 +72,11 @@ normal prior for \eqn{\omega}.}
     \item{\code{s_}}{a positive scalar with the scale of the gamma prior of the 
 hierarchical prior for \eqn{\sigma^2_{\omega}}.}
 
-    \item{\code{lambda}}{a \code{T}-vetor of starting values for latent variable.}
+    \item{\code{lambda}}{a \code{T}-vector of starting values for latent variable.}
 
     \item{\code{df}}{a scalar greater than 2 with the starting value 
 for the degrees of freedom parameter of the Student-t 
-conditional distribution of error term.}
+conditional distribution of the error term.}
   }
   \if{html}{\out{</div>}}
 }
@@ -176,7 +176,7 @@ provided values.
     \if{html}{\out{<div class="arguments">}}
     \describe{
       \item{\code{last_draw}}{a list containing the last draw of elements \code{A} - 
-a \code{KxN} matrix, \code{Sigma} - an \code{NxN} matrix, and \code{V} - 
+an \code{NxK} matrix, \code{Sigma} - an \code{NxN} matrix, and \code{V} - 
 a \code{KxK} matrix.}
     }
     \if{html}{\out{</div>}}

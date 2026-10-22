@@ -7,7 +7,7 @@ run_no2     <- rmatnorm1(matrix(0, 2, 3), diag(2), diag(3))
 
 expect_true(
   all(dim(run_no1) == dim(run_no2)),
-  info = "rmatnorm1: same output dimentions for normal and pipe workflow."
+  info = "rmatnorm1: same output dimensions for normal and pipe workflow."
 )
 
 expect_identical(

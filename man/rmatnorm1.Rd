@@ -9,9 +9,9 @@ rmatnorm1(M, V, S)
 \arguments{
 \item{M}{a real-valued matrix of the expected values}
 
-\item{V}{a positive definite symmetric matrix of column-specific covariance}
+\item{V}{a positive definite symmetric matrix of row-specific covariance}
 
-\item{S}{a positive definite symmetric matrix of row-specific covariance}
+\item{S}{a positive definite symmetric matrix of column-specific covariance}
 }
 \value{
 a matrix - a draw from the matrix-variate normal distribution
