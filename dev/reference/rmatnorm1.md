@@ -16,11 +16,11 @@ rmatnorm1(M, V, S)
 
 - V:
 
-  a positive definite symmetric matrix of column-specific covariance
+  a positive definite symmetric matrix of row-specific covariance
 
 - S:
 
-  a positive definite symmetric matrix of row-specific covariance
+  a positive definite symmetric matrix of column-specific covariance
 
 ## Value
 

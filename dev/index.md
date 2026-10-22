@@ -17,18 +17,18 @@ the package facilitates predictive analyses using density forecasting
 and forecast-error variance decompositions. All this is complemented by
 simple workflows, useful plots and summary functions, and comprehensive
 documentation. The ‘bvars’ package aligns with R packages ‘bsvars’ by
-[Woźniak (2024)](https://doi.org/10.32614/CRAN.package.bsvars),
+[Woźniak (2026)](https://doi.org/10.32614/CRAN.package.bsvars),
 ‘bsvarSIGNs’ by [Wang & Woźniak
-(2025)](https://doi.org/10.32614/CRAN.package.bsvarSIGNs), and ‘bpvars’
-by [Woźniak (2025)](https://doi.org/10.32614/CRAN.package.bpvars)
+(2026)](https://doi.org/10.32614/CRAN.package.bsvarSIGNs), and ‘bpvars’
+by [Woźniak (2026)](https://doi.org/10.32614/CRAN.package.bpvars)
 regarding objects, workflows, and code structure, and they constitute an
 integrated toolset.
 
 [![](https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/house.svg)](https://bsvars.org)
 [![](https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/envelope.svg)](mailto:contact@bsvars.org)
-[![](https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/github.svg)](https://github.com/bsvars/bpvars)
+[![](https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/github.svg)](https://github.com/bsvars/bvars)
 [![](https://upload.wikimedia.org/wikipedia/commons/7/7a/Bluesky_Logo.svg)](https://bsky.app/profile/bsvars.org)
-[![](https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/mastodon.svg)](https://fosstodon.org/@bsvars)
+[![](https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/mastodon.svg)](https://fosstodon.org/@bsvars)  
 
 [![bsvars.org
 website](https://raw.githubusercontent.com/bsvars/hex/refs/heads/main/bsvars.org/bsvars.org.png)](https://bsvars.org/)
@@ -135,7 +135,7 @@ spec = specify_bvar$new(                                # specify the model
 
 burn = estimate(spec, S = 10000)                        # run the burn-in
 post = estimate(burn, S = 10000)                        # estimate the model
-summary(fore)                                           # estimation summary
+summary(post)                                           # estimation summary
 
 fore = forecast(                                        # forecast the model 
   post,                                                 # estimation output
@@ -143,7 +143,7 @@ fore = forecast(                                        # forecast the model
 )
 
 plot(fore)                                              # plot the forecasts
-summary(fore)                                           # forecast summary forecasts
+summary(fore)                                           # forecast summary
 
 fevd = compute_variance_decompositions(
           post, horizon = 6)                            # compute variance decompositions
@@ -176,10 +176,10 @@ website](reference/figures/logo.png)](https://bsvars.org/bvars/)
 
 ## Resources
 
-- a [reference manual](https://cran.r-project.org/package=bsvars/)
+- a [reference manual](https://cran.r-project.org/package=bvars/)
 - a [methodological paper by Shang, Wang, Woźniak
   (2026)](https://doi.org/10.48550/arXiv.2608.28087)
-- **bsvars** on [CRAN](https://cran.r-project.org/package=bsvars)
+- **bvars** on [CRAN](https://cran.r-project.org/package=bvars)
 - a website of the family of packages [bsvars.org](https://bsvars.org/)
 
 ## Installation

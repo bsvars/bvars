@@ -1,4 +1,4 @@
-# Provides posterior summary of VAR estimation
+# Provides posterior summary of BVAR estimation
 
 Provides posterior mean, standard deviations, as well as 5 and 95
 percentiles of the parameters: autoregressive parameters \\\mathbf{A}\\,
@@ -29,7 +29,7 @@ summary(object, ...)
 
 A list reporting the posterior mean, standard deviations, as well as 5
 and 95 percentiles of the parameters: autoregressive parameters
-\\\mathbf{A}\\, and the covariance matrix \\\Sigma\\..
+\\\mathbf{A}\\, and the covariance matrix \\\Sigma\\.
 
 ## Author
 

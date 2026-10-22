@@ -38,7 +38,7 @@
     <div class="section level2">
     <h2 id="public-fields">Public fields<a class="anchor" aria-label="anchor" href="#public-fields"></a></h2>
     <p></p><div class="r6-fields"><dl><dt><code>p</code></dt>
-<dd><p>a non-negative integer specifying the autoregressive lag order of the model.</p></dd>
+<dd><p>a positive integer specifying the autoregressive lag order of the model.</p></dd>
 
 
     <dt><code>prior</code></dt>
@@ -100,7 +100,7 @@ component of the error term covariance matrix. It can take three values:
 
       <dt><code>distribution</code></dt>
 <dd><p>a character string specifying the conditional distribution
-of structural shocks. Value <code>"norm"</code> sets it to the normal distribution,
+of the error term. Value <code>"norm"</code> sets it to the normal distribution,
 while value <code>"t"</code> sets the Student-t distribution.</p></dd>
 
       <dt><code>stationary</code></dt>
@@ -119,7 +119,7 @@ while value <code>"t"</code> sets the Student-t distribution.</p></dd>
 
 <p></p><hr><a id="method-BVAR-get_normal"></a><div class="section">
 <h3 id="bvar-get-normal-"><code>BVAR$get_normal()</code><a class="anchor" aria-label="anchor" href="#bvar-get-normal-"></a></h3>
-<p>Returns the logical value of whether the conditional shock distribution is normal.</p><div class="section">
+<p>Returns the logical value of whether the conditional distribution of the error term is normal.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">BVAR</span><span class="op">$</span><span class="fu">get_normal</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">

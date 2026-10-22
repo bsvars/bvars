@@ -6,7 +6,7 @@ The class `BVAR` presents complete specification for the BVAR model.
 
 - `p`:
 
-  a non-negative integer specifying the autoregressive lag order of the
+  a positive integer specifying the autoregressive lag order of the
   model.
 
 - `prior`:
@@ -82,9 +82,9 @@ Create a new specification of the `BVAR` model.
 
 - `distribution`:
 
-  a character string specifying the conditional distribution of
-  structural shocks. Value `"norm"` sets it to the normal distribution,
-  while value `"t"` sets the Student-t distribution.
+  a character string specifying the conditional distribution of the
+  error term. Value `"norm"` sets it to the normal distribution, while
+  value `"t"` sets the Student-t distribution.
 
 - `stationary`:
 
@@ -100,8 +100,8 @@ A new complete specification for the `BVAR` model.
 
 ### `BVAR$get_normal()`
 
-Returns the logical value of whether the conditional shock distribution
-is normal.
+Returns the logical value of whether the conditional distribution of the
+error term is normal.
 
 #### Usage
 

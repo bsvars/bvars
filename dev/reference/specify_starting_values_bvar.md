@@ -17,18 +17,17 @@ model.
 
 - `V`:
 
-  a `KxK` matrix of starting values for the prior equation-specific
+  a `KxK` matrix of starting values for the prior column-specific
   covariance \\V\\ of the hierarchical prior distribution for matrix
   \\A\\.
 
 - `h`:
 
-  an `T`-vector with the starting values of the log-volatility
-  processes.
+  a `T`-vector with the starting values of the log-volatility processes.
 
 - `rho`:
 
-  a scalalr for the SV autoregressive parameter.
+  a scalar for the SV autoregressive parameter.
 
 - `omega`:
 
@@ -54,13 +53,13 @@ model.
 
 - `lambda`:
 
-  a `T`-vetor of starting values for latent variable.
+  a `T`-vector of starting values for latent variable.
 
 - `df`:
 
   a scalar greater than 2 with the starting value for the degrees of
-  freedom parameter of the Student-t conditional distribution of error
-  term.
+  freedom parameter of the Student-t conditional distribution of the
+  error term.
 
 ## Methods
 
@@ -175,7 +174,7 @@ provided values.
 
 - `last_draw`:
 
-  a list containing the last draw of elements `A` - a `KxN` matrix,
+  a list containing the last draw of elements `A` - an `NxK` matrix,
   `Sigma` - an `NxN` matrix, and `V` - a `KxK` matrix.
 
 #### Returns

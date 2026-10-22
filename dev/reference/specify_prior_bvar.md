@@ -2,12 +2,12 @@
 
 The class `PriorBVAR` presents a prior specification for the BVAR model.
 
-\#' **The Model.** All the BVAR models in this package are specified by
-two equations, including the reduced form equation: \$\$Y = AX + E\$\$
-where \\Y\\ is an `NxT` matrix of dependent variables, \\X\\ is a `KxT`
-matrix of explanatory variables, \\E\\ is an `NxT` matrix of reduced
-form error terms, and \\A\\ is an `NxK` matrix of autoregressive slope
-coefficients and parameters on deterministic terms in \\X\\.
+**The Model.** All the BVAR models in this package are specified by two
+equations, including the reduced form equation: \$\$Y = AX + E\$\$ where
+\\Y\\ is an `NxT` matrix of dependent variables, \\X\\ is a `KxT` matrix
+of explanatory variables, \\E\\ is an `NxT` matrix of reduced form error
+terms, and \\A\\ is an `NxK` matrix of autoregressive slope coefficients
+and parameters on deterministic terms in \\X\\.
 
 This package assumes that the error matrix follows a matrix normal
 distribution: \$\$E \mid X \sim \mathcal{MN}\_{N \times T}(\mathbf{0},
@@ -48,7 +48,7 @@ error term and includes two options:
   \\\mathcal{IG}2(\nu - 2, \nu)\\, where \\\nu \> 2\\ is a degrees of
   freedom parameter
 
-**Prior distributions.** The autoregressive matrix \\A\\ is assigned
+**Prior distributions.** The autoregressive matrix \\A\\ is assigned a
 matrix-variate normal distribution: \$\$ \mathbf{A} \mid
 \underline{\mathbf{A}}, \mathbf{V}, \boldsymbol{\Sigma} \sim
 \mathcal{MN}\_{N \times K}(\underline{\mathbf{A}}, \boldsymbol{\Sigma},
@@ -85,17 +85,17 @@ scale matrix \\\underline{\mathbf{S}}\\ and degrees of freedom
 - `Psi`:
 
   a `KxK` scale matrix \\\Psi_0\\ of the matrix generalized inverse
-  Gaussian distribution for the equation-specific prior covariance \\V\\
+  Gaussian distribution for the column-specific prior covariance \\V\\
 
 - `Gamma`:
 
   a `KxK` scale matrix \\\Gamma_0\\ of the matrix generalized inverse
-  Gaussian distribution for the equation-specific prior covariance \\V\\
+  Gaussian distribution for the column-specific prior covariance \\V\\
 
 - `lambda`:
 
   a positive scalar shape parameter \\\lambda_0\\ of the matrix
-  generalized inverse Gaussian distribution for the equation-specific
+  generalized inverse Gaussian distribution for the column-specific
   prior covariance \\V\\
 
 - `sv_a`:

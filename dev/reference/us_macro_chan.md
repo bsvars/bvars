@@ -63,7 +63,7 @@ variables:
 
 - mi:
 
-  MI money stock
+  M1 money stock
 
 - TMR10Y:
 
@@ -91,7 +91,7 @@ variables:
 
 - sp500:
 
-  Real stock prices (S& P 500 index divided by PCE index
+  Real stock prices (S&P 500 index divided by PCE index)
 
 The series are used and described by Chan (2020) in Appendix B of
 Supplementary Materials available at
@@ -111,5 +111,5 @@ Structure, Journal of Business and Economic Statistics, 38(1), 68–79,
 ## Examples
 
 ``` r
-data(us_macro_chan)   # upload the data
+data(us_macro_chan)   # load the data
 ```

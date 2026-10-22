@@ -1,4 +1,4 @@
-# Forecasting using Structural Vector Autoregression
+# Forecasting using Bayesian Vector Autoregression
 
 Samples from the joint predictive density of all of the dependent
 variables for the model by Chan (2020)
@@ -52,11 +52,11 @@ forecast(
 ## Value
 
 A list of class `Forecasts` containing the draws from the predictive
-density and data. The output list includes element:
+density and data. The output list includes elements:
 
 - forecasts:
 
-  an `NxTxS` array with the draws from predictive density
+  an `NxhorizonxS` array with the draws from predictive density
 
 - forecast_mean:
 

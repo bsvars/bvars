@@ -49,17 +49,17 @@ covariance \(\Sigma\).</p></dd>
 
     <dt><code>V</code></dt>
 <dd><p>a <code>KxK</code> matrix of starting values for the prior
-equation-specific covariance \(V\) of the hierarchical prior distribution
+column-specific covariance \(V\) of the hierarchical prior distribution
 for matrix \(A\).</p></dd>
 
 
     <dt><code>h</code></dt>
-<dd><p>an <code>T</code>-vector with the starting values of the
+<dd><p>a <code>T</code>-vector with the starting values of the
 log-volatility processes.</p></dd>
 
 
     <dt><code>rho</code></dt>
-<dd><p>a scalalr for the SV autoregressive parameter.</p></dd>
+<dd><p>a scalar for the SV autoregressive parameter.</p></dd>
 
 
     <dt><code>omega</code></dt>
@@ -86,13 +86,13 @@ hierarchical prior for \(\sigma^2_{\omega}\).</p></dd>
 
 
     <dt><code>lambda</code></dt>
-<dd><p>a <code>T</code>-vetor of starting values for latent variable.</p></dd>
+<dd><p>a <code>T</code>-vector of starting values for latent variable.</p></dd>
 
 
     <dt><code>df</code></dt>
 <dd><p>a scalar greater than 2 with the starting value
 for the degrees of freedom parameter of the Student-t
-conditional distribution of error term.</p></dd>
+conditional distribution of the error term.</p></dd>
 
 
 </dl><p></p></div>
@@ -190,7 +190,7 @@ provided values.</p><div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>last_draw</code></dt>
 <dd><p>a list containing the last draw of elements <code>A</code> -
-a <code>KxN</code> matrix, <code>Sigma</code> - an <code>NxN</code> matrix, and <code>V</code> -
+an <code>NxK</code> matrix, <code>Sigma</code> - an <code>NxN</code> matrix, and <code>V</code> -
 a <code>KxK</code> matrix.</p></dd>
 
 

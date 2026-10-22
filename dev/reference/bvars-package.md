@@ -14,9 +14,9 @@ facilitates predictive analyses using density forecasting and
 forecast-error variance decompositions. All this is complemented by
 simple workflows, useful plots and summary functions, and comprehensive
 documentation. The 'bvars' package aligns with R packages 'bsvars' by
-Woźniak (2024) \<doi:10.32614/CRAN.package.bsvars\>, 'bsvarSIGNs' by
-Wang & Woźniak (2025) \<doi:10.32614/CRAN.package.bsvarSIGNs\>, and
-'bpvars' by Woźniak (2025) \<doi:10.32614/CRAN.package.bpvars\>
+Woźniak (2026) \<doi:10.32614/CRAN.package.bsvars\>, 'bsvarSIGNs' by
+Wang & Woźniak (2026) \<doi:10.32614/CRAN.package.bsvarSIGNs\>, and
+'bpvars' by Woźniak (2026) \<doi:10.32614/CRAN.package.bpvars\>
 regarding objects, workflows, and code structure, and they constitute an
 integrated toolset.
 
@@ -68,7 +68,7 @@ error term and includes two options:
   \\\mathcal{IG}2(\nu - 2, \nu)\\, where \\\nu \> 2\\ is a degrees of
   freedom parameter
 
-**Prior distributions.** The autoregressive matrix \\A\\ is assigned
+**Prior distributions.** The autoregressive matrix \\A\\ is assigned a
 matrix-variate normal distribution: \$\$ \mathbf{A} \mid
 \underline{\mathbf{A}}, \mathbf{V}, \boldsymbol{\Sigma} \sim
 \mathcal{MN}\_{N \times K}(\underline{\mathbf{A}}, \boldsymbol{\Sigma},

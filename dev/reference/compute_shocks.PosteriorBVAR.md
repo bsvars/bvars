@@ -1,6 +1,6 @@
 # Computes posterior draws of shocks
 
-Each of the draws from the posterior estimation of the BAVR model is
+Each of the draws from the posterior estimation of the BVAR model is
 transformed into a draw from the posterior distribution of the shocks.
 
 ## Usage

@@ -28,7 +28,7 @@
   Flexible Error Term Specification
 
 - [`forecast(`*`<PosteriorBVAR>`*`)`](http://bsvars.org/bvars/dev/reference/forecast.PosteriorBVAR.md)
-  : Forecasting using Structural Vector Autoregression
+  : Forecasting using Bayesian Vector Autoregression
 
 - [`rmatnorm1()`](http://bsvars.org/bvars/dev/reference/rmatnorm1.md) :
   Samples random numbers from the matrix-variate normal distribution
@@ -54,7 +54,7 @@
   R6 Class Representing `StartingValuesBVAR`
 
 - [`summary(`*`<PosteriorBVAR>`*`)`](http://bsvars.org/bvars/dev/reference/summary.PosteriorBVAR.md)
-  : Provides posterior summary of VAR estimation
+  : Provides posterior summary of BVAR estimation
 
 - [`us_macro_chan`](http://bsvars.org/bvars/dev/reference/us_macro_chan.md)
   : A 20-variable US macroeconomic system for the period 1959 Q4 – 2013

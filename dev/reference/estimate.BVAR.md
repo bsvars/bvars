@@ -56,7 +56,7 @@ distribution generated via Gibbs sampler containing:
 - V:
 
   a `KxKxS` array with the posterior draws for the hyper-parameter
-  matrix \\\Sigma\\
+  matrix \\V\\
 
 `last_draw` an object of class `BVAR` with the last draw of the current
 MCMC run as the starting value to be passed to the continuation of the
@@ -67,7 +67,7 @@ MCMC estimation using
 
 Barndorff-Nielsen, Blaesild, Jensen, Jorgensen (1982) Exponential
 Transformation Models, Proceedings of the Royal Society of London. A.
-Mathematical and Physical Sciences, 379, 41–-65,
+Mathematical and Physical Sciences, 379, 41–65,
 \<doi:10.1098/rspa.1982.0004\>.
 
 Chan (2020) Large Bayesian VARs: A Flexible Kronecker Error Covariance

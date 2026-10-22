@@ -2,7 +2,7 @@
 
 Each of the draws from the posterior estimation of models from the
 package bvars is transformed into a draw from the posterior distribution
-of the structural shocks.
+of the reduced-form error terms (shocks).
 
 ## Usage
 
