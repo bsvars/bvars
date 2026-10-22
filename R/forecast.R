@@ -2,7 +2,7 @@
 #' @export
 generics::forecast
 
-#' @title Forecasting using Structural Vector Autoregression
+#' @title Forecasting using Bayesian Vector Autoregression
 #'
 #' @description Samples from the joint predictive density of all of the dependent 
 #' variables for the model by Chan (2020) <doi:10.1080/07350015.2018.1451336>, that is, a 
@@ -26,7 +26,7 @@ generics::forecast
 #' @param ... not used
 #' 
 #' @return A list of class \code{Forecasts} containing the
-#' draws from the predictive density and data. The output list includes element:
+#' draws from the predictive density and data. The output list includes elements:
 #' 
 #' \describe{
 #'  \item{forecasts}{an \code{NxhorizonxS} array with the draws from predictive density}
@@ -146,4 +146,4 @@ forecast.PosteriorBVAR = function(
   
   fore = specify_forecasts$new(fore, Y)
   return(fore)
-} # END forecast.PosteriorBVARGIG
+} # END forecast.PosteriorBVAR
