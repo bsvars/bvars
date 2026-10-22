@@ -39,7 +39,7 @@ compute_fitted_values.PosteriorBVAR <- function(posterior) {
   N               = dim(posterior_A)[1]
   T               = dim(posterior$last_draw$data_matrices$X)[2]
   S               = dim(posterior_A)[3]
-  posterior_sigma2 = sqrt(posterior$posterior$sigma2 * posterior$posterior$lambda)
+  posterior_sigma2 = posterior$posterior$sigma2 * posterior$posterior$lambda
   X               = posterior$last_draw$data_matrices$X
   
   fv              = .Call(`_bvars_compute_fitted_values`, posterior_A, posterior_Sigma, posterior_sigma2, X)
