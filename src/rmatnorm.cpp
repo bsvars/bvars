@@ -10,8 +10,8 @@ using namespace arma;
 // [[Rcpp::export]]
 arma::mat do_rmatnorm1(     // vec(X) ~N(vec(M), S %x% V)
     const arma::mat& M,     // mean
-    const arma::mat& V,     // column-specific covariance
-    const arma::mat& S      // row-specific covariance
+    const arma::mat& V,     // row-specific covariance
+    const arma::mat& S      // column-specific covariance
 ) {
   
   mat X = mat(size(M), fill::randn);
