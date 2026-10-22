@@ -19,6 +19,7 @@ Rcpp::List bvar_mgig_cpp(
     const Rcpp::List& prior,              // a list of priors
     const Rcpp::List& starting_values,    // a list of starting values
     const arma::mat&  sv_aux_mix,         // provide the selected auxiliary mixture components
+    const arma::uword V_sampler = 1,      // V sampler: 1 = Minnesota, 2 = MGIG, 3 = GIG
     const bool        homoskedastic = true, 
     const bool        centred_sv = false, // otherwise non-centred stochastic volatility
     const bool        normal = true,      // otherwise Student-t
@@ -162,6 +163,16 @@ Rcpp::List bvar_mgig_cpp(
         aux_sigma2    = exp(aux_omega * aux_h);
       }
       aux_hetero_inv  = 1 / (aux_sigma2 % aux_lambda);
+    }
+    
+    if (debug) Rcout << " sample V" << endl;
+    if ( V_sampler == 2 ) {
+      aux_V                 = sample_V_mgig( aux_V, aux_A, aux_Sigma_inv, prior );
+      aux_V_inv             = inv_sympd(aux_V);
+    } else if ( V_sampler == 3 ) {
+      vec V_diag            = sample_V_gig( aux_A, aux_Sigma_inv, prior );
+      aux_V                 = diagmat(V_diag);
+      aux_V_inv             = diagmat(1.0 / V_diag);
     }
     
     if (debug) Rcout << " sample ASigma" << endl;
