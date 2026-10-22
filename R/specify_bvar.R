@@ -4,7 +4,7 @@
 #' @description
 #' The class \code{PriorBVAR} presents a prior specification for the BVAR model.
 #' 
-#' #' \strong{The Model.} 
+#' \strong{The Model.} 
 #' All the BVAR models in this package are specified by two equations, including 
 #' the reduced form equation:
 #' \deqn{Y = AX + E}
@@ -41,7 +41,7 @@
 #' }
 #' 
 #' \strong{Prior distributions.}
-#' The autoregressive matrix \eqn{A} is assigned matrix-variate normal distribution:
+#' The autoregressive matrix \eqn{A} is assigned a matrix-variate normal distribution:
 #' \deqn{
 #' \mathbf{A} \mid \underline{\mathbf{A}}, \mathbf{V}, \boldsymbol{\Sigma}
 #' \sim \mathcal{MN}_{N \times K}(\underline{\mathbf{A}}, \boldsymbol{\Sigma}, \mathbf{V})
@@ -82,17 +82,17 @@ specify_prior_bvar = R6::R6Class(
     nu   = numeric(),
     
     #' @field Psi a \code{KxK} scale matrix \eqn{\Psi_0} of the matrix 
-    #' generalized inverse Gaussian distribution for the equation-specific prior 
+    #' generalized inverse Gaussian distribution for the column-specific prior 
     #' covariance \eqn{V}
     Psi   = matrix(),
     
     #' @field Gamma a \code{KxK} scale matrix \eqn{\Gamma_0} of the matrix 
-    #' generalized inverse Gaussian distribution for the equation-specific prior 
+    #' generalized inverse Gaussian distribution for the column-specific prior 
     #' covariance \eqn{V}
     Gamma   = matrix(),
     
     #' @field lambda a positive scalar shape parameter \eqn{\lambda_0} of the 
-    #' matrix generalized inverse Gaussian distribution for the equation-specific 
+    #' matrix generalized inverse Gaussian distribution for the column-specific 
     #' prior covariance \eqn{V}
     lambda   = numeric(),
     
@@ -192,15 +192,15 @@ specify_starting_values_bvar = R6::R6Class(
     Sigma             = matrix(),
     
     #' @field V a \code{KxK} matrix of starting values for the prior 
-    #' equation-specific covariance \eqn{V} of the hierarchical prior distribution
+    #' column-specific covariance \eqn{V} of the hierarchical prior distribution
     #' for matrix \eqn{A}. 
     V         = matrix(),
     
-    #' @field h an \code{T}-vector with the starting values of the 
+    #' @field h a \code{T}-vector with the starting values of the 
     #' log-volatility processes.
     h             = numeric(),
     
-    #' @field rho a scalalr for the SV autoregressive parameter.
+    #' @field rho a scalar for the SV autoregressive parameter.
     rho           = numeric(),
     
     #' @field omega a scalar for the SV process conditional standard deviation.
@@ -221,12 +221,12 @@ specify_starting_values_bvar = R6::R6Class(
     #' hierarchical prior for \eqn{\sigma^2_{\omega}}.
     s_            = numeric(),
     
-    #' @field lambda a \code{T}-vetor of starting values for latent variable.
+    #' @field lambda a \code{T}-vector of starting values for latent variable.
     lambda        = numeric(),
     
     #' @field df a scalar greater than 2 with the starting value 
     #' for the degrees of freedom parameter of the Student-t 
-    #' conditional distribution of error term.
+    #' conditional distribution of the error term.
     df            = numeric(),
     
     #' @description
@@ -312,7 +312,7 @@ specify_starting_values_bvar = R6::R6Class(
     #' Sets the elements of the starting values \code{StartingValuesBVAR} to 
     #' provided values.
     #' @param last_draw a list containing the last draw of elements \code{A} - 
-    #' a \code{KxN} matrix, \code{Sigma} - an \code{NxN} matrix, and \code{V} - 
+    #' an \code{NxK} matrix, \code{Sigma} - an \code{NxN} matrix, and \code{V} - 
     #' a \code{KxK} matrix.
     #' @return An object of class \code{StartingValuesBVAR} including the 
     #' last draw of the current MCMC as the starting value to be passed to the 
@@ -366,7 +366,7 @@ specify_bvar = R6::R6Class(
   
   public = list(
     
-    #' @field p a non-negative integer specifying the autoregressive lag order of the model. 
+    #' @field p a positive integer specifying the autoregressive lag order of the model. 
     p                      = numeric(),
     
     #' @field prior an object \code{PriorBVAR} with the prior specification. 
@@ -389,7 +389,7 @@ specify_bvar = R6::R6Class(
     #' \code{ncSV} - the model assumes non-centred stochastic volatility, and 
     #' \code{cSV} - the model assumes centred stochastic volatility.
     #' @param distribution a character string specifying the conditional distribution 
-    #' of structural shocks. Value \code{"norm"} sets it to the normal distribution, 
+    #' of the error term. Value \code{"norm"} sets it to the normal distribution, 
     #' while value \code{"t"} sets the Student-t distribution.
     #' @param stationary an \code{N} logical vector - its element set to 
     #' \code{FALSE} sets the prior mean for the autoregressive parameters of the 
@@ -432,7 +432,7 @@ specify_bvar = R6::R6Class(
     }, # END initialize
     
     #' @description
-    #' Returns the logical value of whether the conditional shock distribution is normal.
+    #' Returns the logical value of whether the conditional distribution of the error term is normal.
     #' 
     #' @examples 
     #' spec = specify_bvar$new(us_macro_chan)
@@ -546,8 +546,8 @@ specify_posterior_bvar = R6::R6Class(
     #' @return A posterior output \code{PosteriorBVAR}.
     initialize = function(specification_bvar, posterior_bvar) {
       
-      stopifnot("Argument specification_bsvar must be of class BVAR." = any(class(specification_bvar) == "BVAR"))
-      stopifnot("Argument posterior_bsvar must must contain MCMC output." = is.list(posterior_bvar) & is.array(posterior_bvar$A) & is.array(posterior_bvar$Sigma) & is.array(posterior_bvar$V))
+      stopifnot("Argument specification_bvar must be of class BVAR." = any(class(specification_bvar) == "BVAR"))
+      stopifnot("Argument posterior_bvar must contain MCMC output." = is.list(posterior_bvar) & is.array(posterior_bvar$A) & is.array(posterior_bvar$Sigma) & is.array(posterior_bvar$V))
       
       self$last_draw    = specification_bvar
       self$posterior    = posterior_bvar
@@ -580,4 +580,4 @@ specify_posterior_bvar = R6::R6Class(
     } # END get_last_draw
     
   ) # END public
-) # END specify_posterior_bsvar
+) # END specify_posterior_bvar
