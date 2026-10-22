@@ -90,6 +90,14 @@ estimate.BVAR <- function(specification, S, thin = 1, show_progress = TRUE) {
   aux_mix             = matrix(NA, 3, 10)
   if (N <= 100) {aux_mix = sv_aux_mix[,,N]}
   
+  prior_cov           = specification$get_prior_cov()
+  V_sampler           = 1
+  if ( prior_cov == "MGIG" ) {
+    V_sampler = 2
+  } else if ( prior_cov == "GIG" ) {
+    V_sampler = 3
+  }
+  
   # estimation
   qqq   = .Call(
     `_bvars_bvar_mgig_cpp`, 
@@ -99,6 +107,7 @@ estimate.BVAR <- function(specification, S, thin = 1, show_progress = TRUE) {
     prior, 
     starting_values, 
     aux_mix,
+    V_sampler,
     homoskedastic, 
     centred_sv,
     normal,
@@ -137,6 +146,14 @@ estimate.PosteriorBVAR <- function(specification, S, thin = 1, show_progress = T
   aux_mix             = matrix(NA, 3, 10)
   if (N <= 100) {aux_mix = sv_aux_mix[,,N]}
   
+  prior_cov           = specification$last_draw$get_prior_cov()
+  V_sampler           = 1
+  if ( prior_cov == "MGIG" ) {
+    V_sampler = 2
+  } else if ( prior_cov == "GIG" ) {
+    V_sampler = 3
+  }
+  
   # estimation
   qqq   = .Call(
     `_bvars_bvar_mgig_cpp`, 
@@ -146,6 +163,7 @@ estimate.PosteriorBVAR <- function(specification, S, thin = 1, show_progress = T
     prior, 
     starting_values, 
     aux_mix,
+    V_sampler,
     homoskedastic, 
     centred_sv,
     normal,
