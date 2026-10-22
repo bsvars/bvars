@@ -2,7 +2,7 @@
 % Please edit documentation in R/forecast.R
 \name{forecast.PosteriorBVAR}
 \alias{forecast.PosteriorBVAR}
-\title{Forecasting using Structural Vector Autoregression}
+\title{Forecasting using Bayesian Vector Autoregression}
 \usage{
 \method{forecast}{PosteriorBVAR}(
   object,
@@ -30,10 +30,10 @@ forecasted conditionally on the realisations provided as \code{numeric} values.}
 }
 \value{
 A list of class \code{Forecasts} containing the
-draws from the predictive density and data. The output list includes element:
+draws from the predictive density and data. The output list includes elements:
 
 \describe{
- \item{forecasts}{an \code{NxTxS} array with the draws from predictive density}
+ \item{forecasts}{an \code{NxhorizonxS} array with the draws from predictive density}
  \item{forecast_mean}{an \code{NxhorizonxS} array with the mean of the predictive density}
  \item{forecast_covariance}{an \code{NxNxhorizonxS} array with the covariance of the predictive density}
  \item{Y}{an \eqn{NxT} matrix with the data on dependent variables}
@@ -41,12 +41,15 @@ draws from the predictive density and data. The output list includes element:
 }
 \description{
 Samples from the joint predictive density of all of the dependent 
-variables for models from packages \pkg{bsvars}, \pkg{bsvarSIGNs} or 
-\pkg{bvarPANELs} at forecast horizons from 1 to \code{horizon} specified as 
-an argument of the function.
+variables for the model by Chan (2020) <doi:10.1080/07350015.2018.1451336>, that is, a 
+Bayesian Vector Autoregression with Minnesota priors and a flexible structure 
+of the error term specification. The latter includes: conditional multivariate 
+normal or Student’s t distributions, as well as homoskedastic or heteroskedastic 
+specifications with a common volatility modelled by centred or non-centred 
+Stochastic Volatility.
 }
 \examples{
-spec = specify_bvar$new(us_fiscal_lsuw)   # specify the model
+spec = specify_bvar$new(us_macro_chan)   # specify the model
 burn = estimate(spec, 5)                      # run the burn-in
 post = estimate(burn, 5)                     # estimate the model
 pred = forecast(post, 4)                      # forecast 1 year ahead
@@ -54,7 +57,7 @@ pred = forecast(post, 4)                      # forecast 1 year ahead
 # workflow with the pipe |>
 ############################################################
 set.seed(123)
-us_fiscal_lsuw |>
+us_macro_chan |>
   specify_bvar$new() |>
   estimate(S = 5) |> 
   estimate(S = 5) |> 

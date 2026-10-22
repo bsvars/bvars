@@ -37,10 +37,10 @@ Rcpp::List bvar_mgig_cpp(
   vec prog_rep_points = arma::round(arma::linspace(0, S, 50));
   if (show_progress) {
     Rcout << "**************************************************|" << endl;
-    Rcout << "bvars: Bayesian Vector Autoregressions            |" << endl;
-    Rcout << "          with Flexible Prior Distributions       |" << endl;
+    Rcout << "bvars: Forecasting with Large                     |" << endl;
+    Rcout << "       Bayesian Vector Autoregressions            |" << endl;
     Rcout << "**************************************************|" << endl;
-    Rcout << " Gibbs sampler for the BVAR model with MGIG prior |" << endl;
+    Rcout << " Gibbs sampler for the BVAR model                 |" << endl;
     Rcout << "**************************************************|" << endl;
     Rcout << " Progress of the MCMC simulation for " << S << " draws" << endl;
     Rcout << "    Every " << oo << "draw is saved via MCMC thinning" << endl;
@@ -53,6 +53,7 @@ Rcpp::List bvar_mgig_cpp(
   const int N         = Y.n_rows;
   const int K         = X.n_rows;
   const int T         = Y.n_cols;
+  const double ccc    = 0.000000001;      // a constant to make log((u+ccc)^2) feasible
   
   mat     aux_A         = as<mat>(starting_values["A"]);
   mat     aux_Sigma     = as<mat>(starting_values["Sigma"]);
@@ -128,8 +129,8 @@ Rcpp::List bvar_mgig_cpp(
       adaptive_scale  = as<double>(df_tmp["adaptive_scale"]);
       
       U_std           = sum(square( solve(trimatl(aux_L), U) ));
-      U_std          /= trans(aux_sigma2);
-      u               = trans(sum(U_std));
+      U_std          /= N * trans(aux_sigma2);
+      u               = trans(U_std);
       aux_lambda      = sample_lambda ( aux_df, u , N);
       aux_hetero_inv  = 1 / (aux_sigma2 % aux_lambda);
     }
@@ -140,7 +141,7 @@ Rcpp::List bvar_mgig_cpp(
       
       U_std           = solve(trimatl(aux_L), U);
       U_std.each_row() /= trans(sqrt(aux_lambda));
-      u               = trans(sum( log(square(U_std)) )) / N;
+      u               = trans(sum( log(square(U_std) + ccc) )) / N;
       if ( centred_sv ) {
         sv_n          = svar_ce1( aux_h, aux_rho, aux_omega, aux_sigma2v, aux_sigma2_omega, aux_s_, aux_S, u, prior, aux_mix, true);
       } else {
@@ -162,10 +163,6 @@ Rcpp::List bvar_mgig_cpp(
       }
       aux_hetero_inv  = 1 / (aux_sigma2 % aux_lambda);
     }
-    
-    // if (debug) Rcout << " sample V" << endl;
-    // aux_V                 = sample_V_mgig( aux_V, aux_A, aux_Sigma_inv, prior );
-    // aux_V_inv             = inv_sympd(aux_V);
     
     if (debug) Rcout << " sample ASigma" << endl;
     if (debug) Rcout << " aux_hetero_inv" << min(aux_hetero_inv) << endl;

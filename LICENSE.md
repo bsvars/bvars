@@ -1,4 +1,4 @@
-    bvars: Bayesian Vector Autoregressions with MGIG Prior
+    bvars: Bayesian Forecasting with Large Vector Autoregressions
     Copyright (C) 2026 Rui Liu, Andres Ramirez Hassan, and 
     Tomasz Woźniak <wozniak.tom@pm.me>
 

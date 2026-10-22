@@ -6,3 +6,8 @@
 ^\.positai$
 ^\.claude$
 ^inst/varia$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^cran-comments\.md$
+^CRAN-SUBMISSION$

@@ -19,7 +19,7 @@ arma::vec sample_lambda (
   const int T         = U.n_elem;
   U                  /= accu(U) / T;        // normalisation E[u] = 1
   double  nu_lambda   = aux_df + N;
-  vec     s_lambda    = U + aux_df - 2;
+  vec     s_lambda    = N * U + aux_df - 2;
   vec     aux_lambda  = chi2rnd(nu_lambda, T);
   aux_lambda          = s_lambda / aux_lambda;
   
@@ -64,8 +64,8 @@ Rcpp::List sample_df (
   aux_df_star           = RcppTN::rtn1( aux_df, adaptive_scale, 2, R_PosInf );
   double lk_nu_star     = log_kernel_df(aux_df_star, aux_lambda);
   double lk_nu_old      = log_kernel_df(aux_df, aux_lambda);
-  double cgd_ratio      = RcppTN::dtn1( aux_df_star, aux_df, adaptive_scale, 2, R_PosInf ) /
-    RcppTN::dtn1( aux_df, aux_df_star, adaptive_scale, 2, R_PosInf );
+  double cgd_ratio      = RcppTN::dtn1( aux_df, aux_df_star, adaptive_scale, 2, R_PosInf ) /
+    RcppTN::dtn1( aux_df_star, aux_df, adaptive_scale, 2, R_PosInf );
   
   double kernel_ratio   = exp(lk_nu_star - lk_nu_old) * cgd_ratio;
   if ( kernel_ratio < 1 ) alpha = kernel_ratio;
@@ -127,12 +127,19 @@ arma::vec find_mixture_indicator_cdf (
   
   const int T = datanorm.n_elem;
   vec mixprob(10 * T);
-  for (int j = 0; j < T; j++) {  // TODO slow (10*T calls to exp)!
+  for (int j = 0; j < T; j++) {
     const int first_index = 10*j;
-    mixprob(first_index) = std::exp(aux_mix(0,0) - (datanorm(j) - aux_mix(1,0)) * (datanorm(j) - aux_mix(1,0)) / aux_mix(2,0) );
-    for (int r = 1; r < 10; r++) {
-      mixprob(first_index+r) = mixprob(first_index+r-1) + std::exp(aux_mix(0,r) - (datanorm(j) - aux_mix(1,r)) * (datanorm(j) - aux_mix(1,r)) / aux_mix(2,r) );
+    vec log_weights(10);
+    for (int r = 0; r < 10; r++) {
+      const double residual = datanorm(j) - aux_mix(1, r);
+      log_weights(r) = log(aux_mix(0, r))
+        - 0.5 * log(aux_mix(2, r))
+        - 0.5 * pow(residual, 2) / aux_mix(2, r);
     }
+
+    vec weights = exp(log_weights - max(log_weights));
+    weights /= accu(weights);
+    mixprob.subvec(first_index, first_index + 9) = cumsum(weights);
   }
   return mixprob;
 }
@@ -200,8 +207,7 @@ Rcpp::List svar_nc1 (
   vec       hm1         = aux_h.subvec(0,T-2);
   double    aux_rho_var = as_scalar(pow(hm1.t()*hm1, -1));
   double    aux_rho_mean = as_scalar(aux_rho_var * hm1.t() * aux_h.subvec(1,T-1));
-  double    upper_bound = pow(1 - aux_sigma2_omega, 0.5);
-  aux_rho               = RcppTN::rtn1(aux_rho_mean, pow(aux_rho_var, 0.5),-upper_bound,upper_bound);
+  aux_rho               = RcppTN::rtn1(aux_rho_mean, pow(aux_rho_var, 0.5), 0, 1);
   
   mat       H_rho_new(T, T, fill::eye);
   H_rho_new.diag(-1)   -= aux_rho;
@@ -234,8 +240,7 @@ Rcpp::List svar_nc1 (
   hm1                   = aux_h.subvec(0,T-2);
   aux_rho_var           = as_scalar(pow(hm1.t() * hm1, -1));
   aux_rho_mean          = as_scalar(aux_rho_var * hm1.t() * aux_h.subvec(1,T-1));
-  upper_bound           = pow(1 - aux_sigma2_omega, 0.5);
-  aux_rho               = RcppTN::rtn1(aux_rho_mean, pow(aux_rho_var, 0.5),-upper_bound,upper_bound);
+  aux_rho               = RcppTN::rtn1(aux_rho_mean, pow(aux_rho_var, 0.5), 0, 1);
   
   return List::create(
     _["aux_h"]              = aux_h,
@@ -281,7 +286,7 @@ Rcpp::List svar_ce1 (
   mat           HH_rho  = H_rho.t() * H_rho;
   
   // sample auxiliary mixture states aux_S
-  const vec   mixprob   = find_mixture_indicator_cdf(U - aux_omega * aux_h, aux_mix);
+  const vec   mixprob   = find_mixture_indicator_cdf(U - aux_h, aux_mix);
   aux_S                 = bsvars::inverse_transform_sampling(mixprob, T);
   
   rowvec    alpha_S(T);
@@ -293,17 +298,21 @@ Rcpp::List svar_ce1 (
   
   // sample aux_s_n
   if ( sample_s_ ) {
-    aux_s_              = (1 + 2 * aux_sigma2_omega) / chi2rnd(3 + 2 * prior_sv_a_);
+    aux_s_              = (prior_sv_s_ + 2 * aux_sigma2_omega) /
+      chi2rnd(3 + 2 * prior_sv_a_);
   }
   
   // sample aux_sigma2_omega
-  aux_sigma2_omega      = randg( distr_param(1 + 0.5 * prior_sv_a_, pow(pow(prior_sv_s_,-1) + pow(2 * aux_sigma2v,-1), -1)  ) );
+  aux_sigma2_omega      = randg(distr_param(
+    prior_sv_a_ + 1.5,
+    pow(pow(aux_s_, -1) + pow(2 * aux_sigma2v, -1), -1)
+  ));
   
   // sample aux_rho
   vec    hm1            = aux_h.subvec(0,T-2);
   double    aux_rho_var = as_scalar(pow( hm1.t() * hm1 / aux_sigma2v, -1));
   double    aux_rho_mean = as_scalar(aux_rho_var * (hm1.t() * aux_h.subvec(1,T-1) / aux_sigma2v) );
-  aux_rho               = RcppTN::rtn1(aux_rho_mean, pow(aux_rho_var, 0.5),-1,1);
+  aux_rho               = RcppTN::rtn1(aux_rho_mean, pow(aux_rho_var, 0.5), 0, 1);
   
   mat       H_rho_new(T, T, fill::eye);
   H_rho_new.diag(-1)   -= aux_rho;

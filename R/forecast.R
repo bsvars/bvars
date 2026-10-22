@@ -2,12 +2,15 @@
 #' @export
 generics::forecast
 
-#' @title Forecasting using Structural Vector Autoregression
+#' @title Forecasting using Bayesian Vector Autoregression
 #'
 #' @description Samples from the joint predictive density of all of the dependent 
-#' variables for models from packages \pkg{bsvars}, \pkg{bsvarSIGNs} or 
-#' \pkg{bvarPANELs} at forecast horizons from 1 to \code{horizon} specified as 
-#' an argument of the function.
+#' variables for the model by Chan (2020) <doi:10.1080/07350015.2018.1451336>, that is, a 
+#' Bayesian Vector Autoregression with Minnesota priors and a flexible structure 
+#' of the error term specification. The latter includes: conditional multivariate 
+#' normal or Student’s t distributions, as well as homoskedastic or heteroskedastic 
+#' specifications with a common volatility modelled by centred or non-centred 
+#' Stochastic Volatility.
 #' 
 #' @method forecast PosteriorBVAR
 #' 
@@ -23,10 +26,10 @@ generics::forecast
 #' @param ... not used
 #' 
 #' @return A list of class \code{Forecasts} containing the
-#' draws from the predictive density and data. The output list includes element:
+#' draws from the predictive density and data. The output list includes elements:
 #' 
 #' \describe{
-#'  \item{forecasts}{an \code{NxTxS} array with the draws from predictive density}
+#'  \item{forecasts}{an \code{NxhorizonxS} array with the draws from predictive density}
 #'  \item{forecast_mean}{an \code{NxhorizonxS} array with the mean of the predictive density}
 #'  \item{forecast_covariance}{an \code{NxNxhorizonxS} array with the covariance of the predictive density}
 #'  \item{Y}{an \eqn{NxT} matrix with the data on dependent variables}
@@ -37,7 +40,7 @@ generics::forecast
 #' Tomasz Woźniak \email{wozniak.tom@pm.me}
 #' 
 #' @examples
-#' spec = specify_bvar$new(us_fiscal_lsuw)   # specify the model
+#' spec = specify_bvar$new(us_macro_chan)   # specify the model
 #' burn = estimate(spec, 5)                      # run the burn-in
 #' post = estimate(burn, 5)                     # estimate the model
 #' pred = forecast(post, 4)                      # forecast 1 year ahead
@@ -45,7 +48,7 @@ generics::forecast
 #' # workflow with the pipe |>
 #' ############################################################
 #' set.seed(123)
-#' us_fiscal_lsuw |>
+#' us_macro_chan |>
 #'   specify_bvar$new() |>
 #'   estimate(S = 5) |> 
 #'   estimate(S = 5) |> 
@@ -60,16 +63,19 @@ forecast.PosteriorBVAR = function(
     ...
 ) {
   
+  stopifnot("Argument horizon must be a positive integer number." = horizon > 0 & horizon %% 1 == 0)
+  
   posterior_Sigma = object$posterior$Sigma
   posterior_A     = object$posterior$A
-  T               = ncol(object$last_draw$data_matrices$X)
-  X_T             = object$last_draw$data_matrices$X[,T]
+  X               = object$last_draw$data_matrices$X
   Y               = object$last_draw$data_matrices$Y
+  T               = ncol(X)
+  K               = nrow(X)
+  N               = dim(posterior_Sigma)[1]
+  X_T             = c(Y[, T], X[seq_len(N * (object$last_draw$p - 1)), T], tail(X[, T], K - N * object$last_draw$p))
   homoskedastic   = object$last_draw$get_homoskedastic()
   normal          = object$last_draw$get_normal()
   
-  N               = dim(posterior_Sigma)[1]
-  K               = length(X_T)
   d               = K - N * object$last_draw$p - 1
   S               = dim(posterior_Sigma)[3]
   
@@ -108,6 +114,9 @@ forecast.PosteriorBVAR = function(
     posterior_h_T   = object$posterior$h[T,]
     posterior_rho   = object$posterior$rho
     posterior_omega = object$posterior$omega
+    if (!object$last_draw$get_centred_sv()) {
+      posterior_h_T = posterior_omega * posterior_h_T
+    }
     
     forecast_sigma2 = .Call(`_bvars_forecast_sigma2_sv1`, 
                             posterior_h_T, posterior_rho, posterior_omega, horizon
@@ -135,13 +144,6 @@ forecast.PosteriorBVAR = function(
                       horizon
   ) # END .Call
   
-  SS                  = dim(fore$forecasts)[3]
-  forecast_covariance = array(NA, c(N, N, horizon, SS))
-  for (s in 1:SS) forecast_covariance[,,,s] = fore$forecast_cov[s,][[1]]
-  fore$forecast_covariance = forecast_covariance
-  
-  fore$Y          = Y
-  class(fore)     = "Forecasts"
-  
+  fore = specify_forecasts$new(fore, Y)
   return(fore)
-} # END forecast.PosteriorBVARGIG
+} # END forecast.PosteriorBVAR

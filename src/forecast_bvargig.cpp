@@ -24,6 +24,7 @@ Rcpp::List forecast_bvarGIG (
   const int   d = exogenous_forecast.n_cols;
   
   bool        do_exog = exogenous_forecast.is_finite();
+  const int   Np      = do_exog ? K - 1 - d : K - 1;   // number of autoregressive entries in Xt
   vec         x_t;
   if ( do_exog ) {
     x_t       = X_T.rows(0, K - 1 - d);
@@ -57,14 +58,15 @@ Rcpp::List forecast_bvarGIG (
       if ( nonf_no == N ) {
         forecasts.slice(s).col(h) = mvnrnd( out_forecast_mean.slice(s).col(h), SigmaT.slice(h) );
       } else {
-        forecasts.slice(s).col(h) = bsvars::mvnrnd_cond( cond_forecast_h, out_forecast_mean.slice(s), SigmaT.slice(h) );   // does not work if cond_fc_h is all nan
+        forecasts.slice(s).col(h) = bsvars::mvnrnd_cond( cond_forecast_h, out_forecast_mean.slice(s).col(h), SigmaT.slice(h) );
       } // END if nonf_no
-      
+
       if ( h != horizon - 1 ) {
+        // shift lags by one period: Xt = [y_{t}; y_{t-1}; ...; y_{t-p+1}; 1; exog_{t+1}]
         if ( do_exog ) {
-          Xt                  = join_cols( forecasts.slice(s).col(h), Xt.subvec(N, K - 1 - d), trans(exogenous_forecast.row(h + 1)) );
+          Xt                  = join_cols( forecasts.slice(s).col(h), Xt.head(Np - N), Xt.subvec(Np, Np), trans(exogenous_forecast.row(h + 1)) );
         } else {
-          Xt                  = join_cols( forecasts.slice(s).col(h), Xt.subvec(N, K - 1) );
+          Xt                  = join_cols( forecasts.slice(s).col(h), Xt.head(Np - N), Xt.subvec(Np, K - 1) );
         }
       } // END if h
       
@@ -95,7 +97,7 @@ arma::mat forecast_sigma2_sv1 (
   vec       ht = posterior_h_T;
   
   for (int h=0; h<horizon; h++) {
-    ht        = posterior_omega % (posterior_rho % ht + randn(S));
+    ht = posterior_rho % ht + posterior_omega % randn(S);
     forecasts_sigma2.row(h) = trans(exp(ht));
   } // END h loop
   

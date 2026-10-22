@@ -1,8 +1,7 @@
 #  #####################################################################################
 #  R package bvars by Rui Liu, Andres Ramirez Hassan and Tomasz Woźniak Copyright (C) 2026
 #
-#  This file is part of the R package bvars: Bayesian Vector Autoregressions with 
-#  Flexible Priors
+#  This file is part of the R package bvars: Forecasting with Large Bayesian Vector Autoregressions
 #
 #  The R package bvars is free software: you can redistribute it
 #  and/or modify it under the terms of the GNU General Public License
@@ -15,104 +14,100 @@
 #  General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with the R package bsvars. If that is not the case, please
+#  along with the R package bvars. If that is not the case, please
 #  refer to <http://www.gnu.org/licenses/>.
 #  #####################################################################################
 #
-#' @title Bayesian Vector Autoregressions with Flexible Priors
+#' @title Bayesian Forecasting with Large Vector Autoregressions
 #'
-#' @description Provides fast and efficient procedures for Bayesian analysis of 
-#' vector Autoregressions with flexible priors. This package supports a hierarchical structure for the 
-#' location parameters in BVAR models. In particular, this package allows the row covariance structure of 
-#' the location parameters to follow a matrix generalized inverse Gaussian distribution. 
-#' This specification is flexible enough to encompass many previous approaches aimed at increasing
-#' flexibility in BVAR models, while also allowing for a higher degree of shrinkage. 
-#' Moreover, this package supports a Gibbs sampling algorithm that facilitates posterior inference.
+#' @description 
+#' Provides fast and efficient procedures for Bayesian estimation and forecasting 
+#' using state-of-the-art Vector Autoregressions. This package includes the model 
+#' proposed by Shang, Wang, Woźniak (2026) <doi:10.48550/arXiv.2608.28087> and 
+#' Chan (2020) <doi:10.1080/07350015.2018.1451336>, that is, a 
+#' Bayesian Vector Autoregression with Minnesota priors and a flexible structure 
+#' of the error term specification. The latter includes: conditional multivariate 
+#' normal or Student’s t distributions, as well as homoskedastic or heteroskedastic 
+#' specifications with a common volatility modelled by centred or non-centred 
+#' Stochastic Volatility. Additionally, the package facilitates predictive 
+#' analyses using density forecasting and forecast-error variance decompositions. 
+#' All this is complemented by simple workflows, useful plots and summary 
+#' functions, and comprehensive documentation. The 'bvars' package aligns with 
+#' R packages 'bsvars' by Woźniak (2026) <doi:10.32614/CRAN.package.bsvars>, 
+#' 'bsvarSIGNs' by Wang & Woźniak (2026) <doi:10.32614/CRAN.package.bsvarSIGNs>, 
+#' and 'bpvars' by Woźniak (2026) <doi:10.32614/CRAN.package.bpvars> regarding 
+#' objects, workflows, and code structure, and they constitute an integrated toolset.
 #' 
 #' @details 
-#' \strong{Models.} All the BVAR models in this package are specified by two equations, including 
+#' \strong{Models.} 
+#' All the BVAR models in this package are specified by two equations, including 
 #' the reduced form equation:
 #' \deqn{Y = AX + E}
-#' where \eqn{Y} is an \code{TxN} matrix of dependent variables, 
-#' \eqn{X} is a \code{TxK} matrix of explanatory variables, 
-#' \eqn{E} is an \code{TxN} matrix of reduced form error terms, 
-#' and \eqn{A} is an \code{KxN} matrix of autoregressive slope coefficients and 
+#' where \eqn{Y} is an \code{NxT} matrix of dependent variables, 
+#' \eqn{X} is a \code{KxT} matrix of explanatory variables, 
+#' \eqn{E} is an \code{NxT} matrix of reduced form error terms, 
+#' and \eqn{A} is an \code{NxK} matrix of autoregressive slope coefficients and 
 #' parameters on deterministic terms in \eqn{X}.
 #' 
 #' This package assumes that the error matrix follows a matrix normal distribution:
-#' \eqn{E \mid X \sim \mathcal{MN}_{T \times N}(\mathbf{0}, \mathbf{\Omega}, \mathbf{\Sigma})}
-#' where \eqn{\Omega} and \eqn{\Sigma} are the row and column covariance matrices
+#' \deqn{E \mid X \sim \mathcal{MN}_{N \times T}(\mathbf{0}, \mathbf{\Sigma}, \mathbf{\Omega})}
+#' where \eqn{\Sigma} is the \code{NxN} covariance matrix of the error term at 
+#' time \eqn{t}, and \eqn{\Omega} is a \code{TxT} diagonal matrix.
 #' 
-#' The likelihood function is proportional to
-#' \deqn{
-#' L\left(\mathbf{Y} \mid \mathbf{X} \mathbf{A}, \boldsymbol{\Omega}, \boldsymbol{\Sigma} \right)
-#' \propto \det\left( \boldsymbol{\Sigma} \right)^{-T/2}
-#' \det\left( \boldsymbol{\Omega} \right)^{-N/2}
-#' \exp\left\{
-#'   -\frac{1}{2} \mathrm{tr}\left[
-#'     \boldsymbol{\Sigma}^{-1} \left( \mathbf{Y} - \mathbf{X} \mathbf{A} \right)^{\top}
-#'     \boldsymbol{\Omega}^{-1} \left( \mathbf{Y} - \mathbf{X} \mathbf{A} \right)
-#'   \right]
-#' \right\}
+#' The diagonal elements of \eqn{\Omega} determine the specification of the error
+#' term covariance structure. Specifically, the error term at time \eqn{t} follows 
+#' the multivariate normal distribution 
+#' \deqn{e_t \sim \mathcal{N}_N(\mathbf{0}, \sigma_t^2\lambda_t \mathbf{\Sigma})} 
+#' where the scalar processes \eqn{\sigma_t^2} and \eqn{\lambda_t} determine the
+#' diagonal elements of \eqn{\Omega}. The process \eqn{\sigma_t^2} specifies 
+#' conditional variance and includes three options:
+#' \describe{
+#'  \item{\eqn{\sigma_t^2 = 1}}{homoskedastic error term}
+#'  \item{\eqn{\sigma_t^2}}{estimated and following non-centred stochastic volatility}
+#'  \item{\eqn{\sigma_t^2}}{estimated and following centred stochastic volatility}
 #' }
-#' 
-#' This package adopts the following Bayesian specification to perform inference in this model. 
-#' In particular, this package assumes that the serial covariance structure has an independent prior 
-#' that follows a stochastic volatility process (Carriero et al., 2016; Chan, 2020a): 
-#' 
-#' \deqn{
-#' \boldsymbol{\Omega} = \operatorname{diag}(\omega_1, \omega_2, \dots, \omega_T), \\
-#' \omega_t = \lambda_t \sigma_t^2, \\
-#' \lambda_t \sim \mathcal{IG}(\alpha_0, \alpha_0 + 1), \\
-#' \sigma_t^2 = \exp\{\eta h_t\}, \\
-#' h_t = g h_{t-1} + v_t, \\
-#' v_t \sim \mathcal{N}(0,1),
+#' The process \eqn{\lambda_t} specifies the conditional distribution of the error 
+#' term and includes two options:
+#' \describe{
+#'  \item{\eqn{\lambda_t = 1}}{Gaussian error term specification}
+#'  \item{\eqn{\lambda_t}}{estimated and following a priori an inverse gamma 2 
+#'        distribution \eqn{\mathcal{IG}2(\nu - 2, \nu)}, where \eqn{\nu > 2} is 
+#'        a degrees of freedom parameter}
 #' }
-#'
-#' where \eqn{\mathbb{E}(\lambda_t) = 1} by construction.
-#' 
-#' This package further assumes that 
-#' \deqn{
-#' \mathbf{A} \mid \underline{\mathbf{A}}, \mathbf{V}, \boldsymbol{\Sigma}
-#' \sim \mathcal{MN}_{K \times N}(\underline{\mathbf{A}}, \mathbf{V}, \boldsymbol{\Sigma})
-#' }
-#' that is, the location parameters follow a matrix normal distribution with mean matrix 
-#' \eqn{\underline{\mathbf{A}}}, and covariance matrices \eqn{\mathbf{V}_{K\times K}} and 
-#' \eqn{\boldsymbol{\Sigma}_{N\times N}} defining the row and column covariance structures, respectively. (Koop and Korobilis, 2010; Chan, 2020b). 
 #' 
 #' \strong{Prior distributions.}
-#' This package supports many specifications of the priors, namely: 
-#'  \itemize{
-#'  \item The column covariance structure \eqn{\boldsymbol{\Sigma} \sim \mathcal{IW}_N(\underline{\mathbf{S}}, \underline{\nu})}
-#'  \item The row covariance structure \eqn{\mathbf{V} \sim \mathcal{MGIG}_K(\underline{\boldsymbol{\Lambda}}, \underline{\boldsymbol{\Psi}}, \underline{\kappa})} 
-#'  }
-#' 
-#' Note that, the MGIG distribution encompasses several well-known distributions. 
-#' In particular, it generalizes the univariate generalized inverse Gaussian distribution; 
-#' specifically: 
-#' \itemize{ 
-#' \item \eqn{ K = 1 } recovers the scalar GIG case 
-#' \item If \eqn{\underline{\boldsymbol{\Psi}} = \mathbf{0}} and \eqn{ \underline{\kappa} > (K - 1)/2 }
-#' then \eqn{\mathbf{V} \sim \mathcal{W}(\underline{\boldsymbol{\Lambda}}, \underline{\kappa})}
-#' \item If \eqn{ \underline{\boldsymbol{\Lambda}} = \mathbf{0}}
-#' and \eqn{\underline{\kappa} < -(K - 1)/2 } 
-#' then \eqn{ \mathbf{V} \sim \mathcal{IW}(\underline{\boldsymbol{\Psi}}, \underline{\kappa})}
+#' The autoregressive matrix \eqn{A} is assigned a matrix-variate normal distribution:
+#' \deqn{
+#' \mathbf{A} \mid \underline{\mathbf{A}}, \mathbf{V}, \boldsymbol{\Sigma}
+#' \sim \mathcal{MN}_{N \times K}(\underline{\mathbf{A}}, \boldsymbol{\Sigma}, \mathbf{V})
 #' }
+#' with the mean matrix \eqn{\underline{\mathbf{A}}}, and covariance matrices 
+#' \eqn{\boldsymbol{\Sigma}_{N\times N}} and \eqn{\mathbf{V}_{K\times K}} 
+#' defining the row- and column-covariance structures. 
+#' 
+#' This is complemented by the inverse Wishart prior for the error term covariance \eqn{\boldsymbol{\Sigma}}:
+#' \deqn{
+#' \boldsymbol{\Sigma} \mid \underline{\mathbf{S}}, \underline{\nu} \sim \mathcal{IW}(\underline{\mathbf{S}}, \underline{\nu})
+#' }
+#' with the scale matrix \eqn{\underline{\mathbf{S}}} and degrees of freedom \eqn{\underline{\nu}}.
 #' 
 #' @name bvars-package
 #' @aliases bvars-package bvars
 #' @docType package
 #' @useDynLib bvars, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
-#' @importFrom bsvars estimate specify_data_matrices
+#' @importFrom bsvars estimate specify_data_matrices specify_forecasts compute_variance_decompositions compute_fitted_values
 #' @importFrom generics forecast
 #' @importFrom R6 R6Class
 #' @importFrom RcppTN rtn
-#' @import bsvars
+#' @importFrom stats quantile sd
+#' @importFrom utils tail
 #' @import RcppArmadillo
 #' @import RcppProgress
+#' 
 #' @note This package is currently in active development. Your comments,
 #' suggestions and requests are warmly welcome!
+#' 
 #' @author Rui Liu \email{rl3023@columbia.edu}, 
 #' Andres Ramirez Hassan \email{aramir21@gmail.com}, 
 #' Tomasz Woźniak \email{wozniak.tom@pm.me}
@@ -122,25 +117,30 @@
 #' Journal of Business and Economic Statistics, 38(1), 68--79,
 #' <doi:10.1080/07350015.2018.1451336>.
 #' 
-#' Hamura, Irie, Sugasawa (2024) Gibbs Sampler for Matrix Generalized Inverse 
-#' Gaussian Distributions, Journal of Computational and Graphical Statistics,
-#' 33(2), 331--340, <doi:10.1080/10618600.2023.2258186>.
+#' Shang F, Wang X, Woźniak T (2026) A Design Concept of Forecasting Software 
+#' for Normalized Vector Autoregressions with Fat Tails and Stochastic Volatility,
+#' University of Melbourne Working Paper, 1--20,
+#' <doi:10.48550/arXiv.2608.28087>.
 #' 
-#' Thabane, Safiul Haq (2004) On the Matrix-Variate Generalized Hyperbolic 
-#' Distribution and Its Bayesian Applications, Statistics: A Journal of Theoretical 
-#' and Applied Statistics, 38(6), 511--526, <doi:10.1080/02331880412331319279>.
+#' Wang X, Woźniak T (2026). bsvarSIGNs: Bayesian SVARs with Sign, Zero, and 
+#' Narrative Restrictions. R package version 3.0, \doi{10.32614/CRAN.package.bsvarSIGNs}.
 #' 
-#' !!!!!!to be updated!!!!!!!!!!!
+#' Woźniak T (2026) bpvars: Forecasting with Bayesian Panel Vector Autoregressions. 
+#' R package version 2.0, \doi{10.32614/CRAN.package.bpvars}.
+#' 
+#' Woźniak (2026) bsvars: Bayesian Estimation of Structural Vector Autoregressive Models. 
+#' R package version 4.0, <doi:10.32614/CRAN.package.bsvars>.
+#' 
 #' @examples
 #' # simple workflow
 #' ############################################################
-#' spec = specify_bvar$new(us_fiscal_lsuw)   # specify the model
+#' spec = specify_bvar$new(us_macro_chan)        # specify the model
 #' burn = estimate(spec, 5)                      # run the burn-in
 #' post = estimate(burn, 10)                     # estimate the model
 #' 
 #' # workflow with the pipe |>
 #' ############################################################
-#' us_fiscal_lsuw |>
+#' us_macro_chan |>
 #'   specify_bvar$new() |>
 #'   estimate(S = 5) |> 
 #'   estimate(S = 10) -> post

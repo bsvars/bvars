@@ -5,6 +5,58 @@
 \title{R6 Class Representing \code{PriorBVAR}}
 \description{
 The class \code{PriorBVAR} presents a prior specification for the BVAR model.
+
+\strong{The Model.} 
+All the BVAR models in this package are specified by two equations, including 
+the reduced form equation:
+\deqn{Y = AX + E}
+where \eqn{Y} is an \code{NxT} matrix of dependent variables, 
+\eqn{X} is a \code{KxT} matrix of explanatory variables, 
+\eqn{E} is an \code{NxT} matrix of reduced form error terms, 
+and \eqn{A} is an \code{NxK} matrix of autoregressive slope coefficients and 
+parameters on deterministic terms in \eqn{X}.
+
+This package assumes that the error matrix follows a matrix normal distribution:
+\deqn{E \mid X \sim \mathcal{MN}_{N \times T}(\mathbf{0}, \mathbf{\Sigma}, \mathbf{\Omega})}
+where \eqn{\Sigma} is the \code{NxN} covariance matrix of the error term at 
+time \eqn{t}, and \eqn{\Omega} is a \code{TxT} diagonal matrix.
+
+The diagonal elements of \eqn{\Omega} determine the specification of the error
+term covariance structure. Specifically, the error term at time \eqn{t} follows 
+the multivariate normal distribution 
+\deqn{e_t \sim \mathcal{N}_N(\mathbf{0}, \sigma_t^2\lambda_t \mathbf{\Sigma})} 
+where the scalar processes \eqn{\sigma_t^2} and \eqn{\lambda_t} determine the
+diagonal elements of \eqn{\Omega}. The process \eqn{\sigma_t^2} specifies 
+conditional variance and includes three options:
+\describe{
+ \item{\eqn{\sigma_t^2 = 1}}{homoskedastic error term}
+ \item{\eqn{\sigma_t^2}}{estimated and following non-centred stochastic volatility}
+ \item{\eqn{\sigma_t^2}}{estimated and following centred stochastic volatility}
+}
+The process \eqn{\lambda_t} specifies the conditional distribution of the error 
+term and includes two options:
+\describe{
+ \item{\eqn{\lambda_t = 1}}{Gaussian error term specification}
+ \item{\eqn{\lambda_t}}{estimated and following a priori an inverse gamma 2 
+       distribution \eqn{\mathcal{IG}2(\nu - 2, \nu)}, where \eqn{\nu > 2} is 
+       a degrees of freedom parameter}
+}
+
+\strong{Prior distributions.}
+The autoregressive matrix \eqn{A} is assigned a matrix-variate normal distribution:
+\deqn{
+\mathbf{A} \mid \underline{\mathbf{A}}, \mathbf{V}, \boldsymbol{\Sigma}
+\sim \mathcal{MN}_{N \times K}(\underline{\mathbf{A}}, \boldsymbol{\Sigma}, \mathbf{V})
+}
+with the mean matrix \eqn{\underline{\mathbf{A}}}, and covariance matrices 
+\eqn{\boldsymbol{\Sigma}_{N\times N}} and \eqn{\mathbf{V}_{K\times K}} 
+defining the row- and column-covariance structures. 
+
+This is complemented by the inverse Wishart prior for the error term covariance \eqn{\boldsymbol{\Sigma}}:
+\deqn{
+\boldsymbol{\Sigma} \mid \underline{\mathbf{S}}, \underline{\nu} \sim \mathcal{IW}(\underline{\mathbf{S}}, \underline{\nu})
+}
+with the scale matrix \eqn{\underline{\mathbf{S}}} and degrees of freedom \eqn{\underline{\nu}}.
 }
 \examples{
 prior = specify_prior_bvar$new(N = 3, p = 1)  # a prior for 3-variable example with one lag
@@ -12,7 +64,7 @@ prior$A                                        # show autoregressive prior mean
 
 
 ## ------------------------------------------------
-## Method `specify_prior_bvar$new`
+## Method `PriorBVAR$new()`
 ## ------------------------------------------------
 
 # a prior for 3-variable example with one lag and stationary data
@@ -21,7 +73,7 @@ prior$A # show autoregressive prior mean
 
 
 ## ------------------------------------------------
-## Method `specify_prior_bvar$get_prior`
+## Method `PriorBVAR$get_prior()`
 ## ------------------------------------------------
 
 # a prior for 3-variable example with four lags
@@ -30,133 +82,123 @@ prior$get_prior() # show the prior as list
 
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{A}}{a real-valued \code{NxK} matrix, the mean matrix \eqn{A_0} of 
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{A}}{a real-valued \code{NxK} matrix, the mean matrix \eqn{A_0} of 
 the matrix-variate normal prior distribution for the parameter 
 matrix \eqn{A}.}
 
-\item{\code{S}}{a \code{NxN} positive definite scale matrix \eqn{S_0} of the 
+    \item{\code{S}}{a \code{NxN} positive definite scale matrix \eqn{S_0} of the 
 Inverse Wishart prior distribution for the error term covariance 
 matrix \eqn{\Sigma}.}
 
-\item{\code{nu}}{a positive scalar, shape parameter \eqn{\nu_0} of the Inverse 
+    \item{\code{nu}}{a positive scalar, shape parameter \eqn{\nu_0} of the Inverse 
 Wishart prior distribution for the error term covariance 
 matrix \eqn{\Sigma}.}
 
-\item{\code{Psi}}{a \code{KxK} scale matrix \eqn{\Psi_0} of the matrix 
-generalized inverse Gaussian distribution for the equation-specific prior 
+    \item{\code{Psi}}{a \code{KxK} scale matrix \eqn{\Psi_0} of the matrix 
+generalized inverse Gaussian distribution for the column-specific prior 
 covariance \eqn{V}}
 
-\item{\code{Gamma}}{a \code{KxK} scale matrix \eqn{\Gamma_0} of the matrix 
-generalized inverse Gaussian distribution for the equation-specific prior 
+    \item{\code{Gamma}}{a \code{KxK} scale matrix \eqn{\Gamma_0} of the matrix 
+generalized inverse Gaussian distribution for the column-specific prior 
 covariance \eqn{V}}
 
-\item{\code{lambda}}{a positive scalar shape parameter \eqn{\lambda_0} of the 
-matrix generalized inverse Gaussian distribution for the equation-specific 
+    \item{\code{lambda}}{a positive scalar shape parameter \eqn{\lambda_0} of the 
+matrix generalized inverse Gaussian distribution for the column-specific 
 prior covariance \eqn{V}}
 
-\item{\code{sv_a}}{a positive scalar, the shape parameter of the gamma prior in 
+    \item{\code{sv_a}}{a positive scalar, the shape parameter of the gamma prior in 
 the hierarchical prior for the common stochastic volatility.}
 
-\item{\code{sv_s}}{a positive scalar, the scale parameter of the gamma prior in 
+    \item{\code{sv_s}}{a positive scalar, the scale parameter of the gamma prior in 
 the hierarchical prior for the common stochastic volatility.}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-PriorBVAR-new}{\code{specify_prior_bvar$new()}}
-\item \href{#method-PriorBVAR-get_prior}{\code{specify_prior_bvar$get_prior()}}
-\item \href{#method-PriorBVAR-clone}{\code{specify_prior_bvar$clone()}}
-}
+  \itemize{
+    \item \href{#method-PriorBVAR-initialize}{\code{PriorBVAR$new()}}
+    \item \href{#method-PriorBVAR-get_prior}{\code{PriorBVAR$get_prior()}}
+    \item \href{#method-PriorBVAR-clone}{\code{PriorBVAR$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-PriorBVAR-new"></a>}}
-\if{latex}{\out{\hypertarget{method-PriorBVAR-new}{}}}
-\subsection{Method \code{new()}}{
-Create a new prior specification \code{PriorBVAR}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{specify_prior_bvar$new(
-  N,
-  p,
-  d = 0,
-  stationary = rep(FALSE, N),
-  is_homoskedastic = TRUE
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{N}}{a positive integer - the number of dependent variables in the model.}
-
-\item{\code{p}}{a positive integer - the autoregressive lag order of the VAR model.}
-
-\item{\code{d}}{a positive integer - the number of \code{exogenous} variables in the model.}
-
-\item{\code{stationary}}{an \code{N} logical vector - its element set to 
+\if{html}{\out{<a id="method-PriorBVAR-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-PriorBVAR-initialize}{}}}
+\subsection{\code{PriorBVAR$new()}}{
+  Create a new prior specification \code{PriorBVAR}.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{PriorBVAR$new(N, p, d = 0, stationary = rep(FALSE, N), is_homoskedastic = TRUE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{N}}{a positive integer - the number of dependent variables in the model.}
+      \item{\code{p}}{a positive integer - the autoregressive lag order of the VAR model.}
+      \item{\code{d}}{a positive integer - the number of \code{exogenous} variables in the model.}
+      \item{\code{stationary}}{an \code{N} logical vector - its element set to 
 \code{FALSE} sets the prior mean for the autoregressive parameters of the 
-\code{N}th equation to the white noise process, otherwise to random walk.}
-
-\item{\code{is_homoskedastic}}{a logical scalar - if \code{TRUE} the model assumes 
+\code{N}th equation to the random walk process, otherwise to white noise.}
+      \item{\code{is_homoskedastic}}{a logical scalar - if \code{TRUE} the model assumes 
 homoskedastic errors, otherwise it assumes stochastic volatility.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A new prior specification \code{PriorBVAR}.
-}
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{# a prior for 3-variable example with one lag and stationary data
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A new prior specification \code{PriorBVAR}.
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{# a prior for 3-variable example with one lag and stationary data
 prior = specify_prior_bvar$new(N = 3, p = 1, stationary = rep(TRUE, 3))
 prior$A # show autoregressive prior mean
-
 }
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-PriorBVAR-get_prior"></a>}}
 \if{latex}{\out{\hypertarget{method-PriorBVAR-get_prior}{}}}
-\subsection{Method \code{get_prior()}}{
-Returns the elements of the prior specification \code{PriorBVAR} as 
+\subsection{\code{PriorBVAR$get_prior()}}{
+  Returns the elements of the prior specification \code{PriorBVAR} as 
 a \code{list}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{specify_prior_bvar$get_prior()}\if{html}{\out{</div>}}
-}
-
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{# a prior for 3-variable example with four lags
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{PriorBVAR$get_prior()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{# a prior for 3-variable example with four lags
 prior = specify_prior_bvar$new(N = 3, p = 4)
 prior$get_prior() # show the prior as list
-
 }
-\if{html}{\out{</div>}}
-
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-PriorBVAR-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-PriorBVAR-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{specify_prior_bvar$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{PriorBVAR$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{PriorBVAR$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

@@ -1,32 +1,15 @@
 
-#' @title Bayesian estimation of a Bayesian Vector Autoregression with a Flexible 
-#' Prior Distribution via Gibbs sampler
+#' @title Bayesian Estimation via Gibbs sampler of a Bayesian VAR with a Flexible 
+#' Error Term Specification 
 #'
-#' @description Estimates a Bayesian Vector Autoregression with a flexible prior
-#' specification as proposed by Liu, Ramirez Hassan, and Woźniak. The prior 
-#' distribution for the autoregressive parameter matrix \eqn{A} is matrix-variate 
-#' normal, error term  covariance \eqn{\Sigma} is inverse Wishart, both as 
-#' defined by Woźniak (2016). Additionally, the prior equation-specific 
-#' covariance of autoregressive parameters, denoted by \eqn{V} follows a matrix
-#' generalised inverse Gaussian distribution as proposed by Barndorff-Nielsen, 
-#' Blaesild, Jensen, Jorgensen (1982). The resulting marginal prior distribution
-#' for the autoregressive parameters \eqn{A} is the matrix-variate generalized 
-#' hyperbolic by Thabane, Safiul Haq (2004). The estimation proceeds by Gibbs 
-#' sampler where at each iteration parameters \eqn{A} and \eqn{\Sigma} are sampled
-#' from the matrix-variate normal inverse Wishart distribution as in Chan (2020), 
-#' while the hyper-parameter matrix \eqn{V} is sampled from the matrix generalised 
-#' inverse Gaussian distribution as in Hamura, Irie, Sugasawa (2024). 
-#' See section \bold{Details} for the model equations.
-#' 
-#' @details 
-#' The Bayesian Vector Autoregression is given by equation:
-#' \deqn{Y = AX + E}
-#' where \eqn{Y} is an \code{NxT} matrix of dependent variables, \eqn{X} is a 
-#' \code{KxT} matrix of explanatory variables, \eqn{E} is an \code{NxT} matrix 
-#' of error terms, and \eqn{A} is an \code{NxK} matrix of autoregressive 
-#' coefficients and parameters on deterministic terms in \eqn{X}.The error terms, 
-#' \code{E}, are temporally and contemporaneously independent and jointly 
-#' normally distributed with zero mean and period-specific covariance \eqn{\Sigma}.
+#' @description Estimates the model by Chan (2020) <doi:10.1080/07350015.2018.1451336>, that is, a 
+#' Bayesian Vector Autoregression with Minnesota priors and a flexible structure 
+#' of the error term specification. The latter includes: conditional multivariate 
+#' normal or Student’s t distributions, as well as homoskedastic or heteroskedastic 
+#' specifications with a common volatility modelled by centred or non-centred 
+#' Stochastic Volatility. The estimation is conducted via an efficient Gibbs sampler
+#' employing frontier numerical techniques and algorithms written in C++ for 
+#' excellent computational speed.
 #' 
 #' @param specification an object of class \code{BVAR} generated using the 
 #' \code{specify_bvar$new()} function.
@@ -44,7 +27,7 @@
 #'  \item{A}{an \code{NxKxS} array with the posterior draws for matrix \eqn{A}}
 #'  \item{Sigma}{an \code{NxNxS} array with the posterior draws for matrix \eqn{\Sigma}}
 #'  \item{V}{a \code{KxKxS} array with the posterior draws for the hyper-parameter
-#'  matrix \eqn{\Sigma}}
+#'  matrix \eqn{V}}
 #' }
 #' 
 #' \code{last_draw} an object of class \code{BVAR} with the last draw of the 
@@ -60,7 +43,7 @@
 #' @references 
 #' Barndorff-Nielsen, Blaesild, Jensen, Jorgensen (1982) Exponential 
 #' Transformation Models, Proceedings of the Royal Society of London. A. 
-#' Mathematical and Physical Sciences, 379, 41–-65, <doi:10.1098/rspa.1982.0004>.
+#' Mathematical and Physical Sciences, 379, 41--65, <doi:10.1098/rspa.1982.0004>.
 #' 
 #' Chan (2020) Large Bayesian VARs: A Flexible Kronecker Error Covariance Structure,
 #' Journal of Business and Economic Statistics, 38(1), 68--79,
@@ -82,13 +65,13 @@
 #' @examples
 #' # simple workflow
 #' ############################################################
-#' spec = specify_bvar$new(us_fiscal_lsuw)   # specify the model
+#' spec = specify_bvar$new(us_macro_chan)        # specify the model
 #' burn = estimate(spec, 5)                      # run the burn-in
 #' post = estimate(burn, 10)                     # estimate the model
 #' 
 #' # workflow with the pipe |>
 #' ############################################################
-#' us_fiscal_lsuw |>
+#' us_macro_chan |>
 #'   specify_bvar$new() |>
 #'   estimate(S = 5) |> 
 #'   estimate(S = 10) -> post

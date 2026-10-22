@@ -4,6 +4,58 @@
 #' @description
 #' The class \code{PriorBVAR} presents a prior specification for the BVAR model.
 #' 
+#' \strong{The Model.} 
+#' All the BVAR models in this package are specified by two equations, including 
+#' the reduced form equation:
+#' \deqn{Y = AX + E}
+#' where \eqn{Y} is an \code{NxT} matrix of dependent variables, 
+#' \eqn{X} is a \code{KxT} matrix of explanatory variables, 
+#' \eqn{E} is an \code{NxT} matrix of reduced form error terms, 
+#' and \eqn{A} is an \code{NxK} matrix of autoregressive slope coefficients and 
+#' parameters on deterministic terms in \eqn{X}.
+#' 
+#' This package assumes that the error matrix follows a matrix normal distribution:
+#' \deqn{E \mid X \sim \mathcal{MN}_{N \times T}(\mathbf{0}, \mathbf{\Sigma}, \mathbf{\Omega})}
+#' where \eqn{\Sigma} is the \code{NxN} covariance matrix of the error term at 
+#' time \eqn{t}, and \eqn{\Omega} is a \code{TxT} diagonal matrix.
+#' 
+#' The diagonal elements of \eqn{\Omega} determine the specification of the error
+#' term covariance structure. Specifically, the error term at time \eqn{t} follows 
+#' the multivariate normal distribution 
+#' \deqn{e_t \sim \mathcal{N}_N(\mathbf{0}, \sigma_t^2\lambda_t \mathbf{\Sigma})} 
+#' where the scalar processes \eqn{\sigma_t^2} and \eqn{\lambda_t} determine the
+#' diagonal elements of \eqn{\Omega}. The process \eqn{\sigma_t^2} specifies 
+#' conditional variance and includes three options:
+#' \describe{
+#'  \item{\eqn{\sigma_t^2 = 1}}{homoskedastic error term}
+#'  \item{\eqn{\sigma_t^2}}{estimated and following non-centred stochastic volatility}
+#'  \item{\eqn{\sigma_t^2}}{estimated and following centred stochastic volatility}
+#' }
+#' The process \eqn{\lambda_t} specifies the conditional distribution of the error 
+#' term and includes two options:
+#' \describe{
+#'  \item{\eqn{\lambda_t = 1}}{Gaussian error term specification}
+#'  \item{\eqn{\lambda_t}}{estimated and following a priori an inverse gamma 2 
+#'        distribution \eqn{\mathcal{IG}2(\nu - 2, \nu)}, where \eqn{\nu > 2} is 
+#'        a degrees of freedom parameter}
+#' }
+#' 
+#' \strong{Prior distributions.}
+#' The autoregressive matrix \eqn{A} is assigned a matrix-variate normal distribution:
+#' \deqn{
+#' \mathbf{A} \mid \underline{\mathbf{A}}, \mathbf{V}, \boldsymbol{\Sigma}
+#' \sim \mathcal{MN}_{N \times K}(\underline{\mathbf{A}}, \boldsymbol{\Sigma}, \mathbf{V})
+#' }
+#' with the mean matrix \eqn{\underline{\mathbf{A}}}, and covariance matrices 
+#' \eqn{\boldsymbol{\Sigma}_{N\times N}} and \eqn{\mathbf{V}_{K\times K}} 
+#' defining the row- and column-covariance structures. 
+#' 
+#' This is complemented by the inverse Wishart prior for the error term covariance \eqn{\boldsymbol{\Sigma}}:
+#' \deqn{
+#' \boldsymbol{\Sigma} \mid \underline{\mathbf{S}}, \underline{\nu} \sim \mathcal{IW}(\underline{\mathbf{S}}, \underline{\nu})
+#' }
+#' with the scale matrix \eqn{\underline{\mathbf{S}}} and degrees of freedom \eqn{\underline{\nu}}.
+#' 
 #' @examples 
 #' prior = specify_prior_bvar$new(N = 3, p = 1)  # a prior for 3-variable example with one lag
 #' prior$A                                        # show autoregressive prior mean
@@ -30,17 +82,17 @@ specify_prior_bvar = R6::R6Class(
     nu   = numeric(),
     
     #' @field Psi a \code{KxK} scale matrix \eqn{\Psi_0} of the matrix 
-    #' generalized inverse Gaussian distribution for the equation-specific prior 
+    #' generalized inverse Gaussian distribution for the column-specific prior 
     #' covariance \eqn{V}
     Psi   = matrix(),
     
     #' @field Gamma a \code{KxK} scale matrix \eqn{\Gamma_0} of the matrix 
-    #' generalized inverse Gaussian distribution for the equation-specific prior 
+    #' generalized inverse Gaussian distribution for the column-specific prior 
     #' covariance \eqn{V}
     Gamma   = matrix(),
     
     #' @field lambda a positive scalar shape parameter \eqn{\lambda_0} of the 
-    #' matrix generalized inverse Gaussian distribution for the equation-specific 
+    #' matrix generalized inverse Gaussian distribution for the column-specific 
     #' prior covariance \eqn{V}
     lambda   = numeric(),
     
@@ -59,7 +111,7 @@ specify_prior_bvar = R6::R6Class(
     #' @param d a positive integer - the number of \code{exogenous} variables in the model.
     #' @param stationary an \code{N} logical vector - its element set to 
     #' \code{FALSE} sets the prior mean for the autoregressive parameters of the 
-    #' \code{N}th equation to the white noise process, otherwise to random walk.
+    #' \code{N}th equation to the random walk process, otherwise to white noise.
     #' @param is_homoskedastic a logical scalar - if \code{TRUE} the model assumes 
     #' homoskedastic errors, otherwise it assumes stochastic volatility.
     #' @return A new prior specification \code{PriorBVAR}.
@@ -140,15 +192,15 @@ specify_starting_values_bvar = R6::R6Class(
     Sigma             = matrix(),
     
     #' @field V a \code{KxK} matrix of starting values for the prior 
-    #' equation-specific covariance \eqn{V} of the hierarchical prior distribution
+    #' column-specific covariance \eqn{V} of the hierarchical prior distribution
     #' for matrix \eqn{A}. 
     V         = matrix(),
     
-    #' @field h an \code{T}-vector with the starting values of the 
+    #' @field h a \code{T}-vector with the starting values of the 
     #' log-volatility processes.
     h             = numeric(),
     
-    #' @field rho a scalalr for the SV autoregressive parameter.
+    #' @field rho a scalar for the SV autoregressive parameter.
     rho           = numeric(),
     
     #' @field omega a scalar for the SV process conditional standard deviation.
@@ -169,12 +221,12 @@ specify_starting_values_bvar = R6::R6Class(
     #' hierarchical prior for \eqn{\sigma^2_{\omega}}.
     s_            = numeric(),
     
-    #' @field lambda a \code{T}-vetor of starting values for latent variable.
+    #' @field lambda a \code{T}-vector of starting values for latent variable.
     lambda        = numeric(),
     
     #' @field df a scalar greater than 2 with the starting value 
     #' for the degrees of freedom parameter of the Student-t 
-    #' conditional distribution of error term.
+    #' conditional distribution of the error term.
     df            = numeric(),
     
     #' @description
@@ -260,7 +312,7 @@ specify_starting_values_bvar = R6::R6Class(
     #' Sets the elements of the starting values \code{StartingValuesBVAR} to 
     #' provided values.
     #' @param last_draw a list containing the last draw of elements \code{A} - 
-    #' a \code{KxN} matrix, \code{Sigma} - an \code{NxN} matrix, and \code{V} - 
+    #' an \code{NxK} matrix, \code{Sigma} - an \code{NxN} matrix, and \code{V} - 
     #' a \code{KxK} matrix.
     #' @return An object of class \code{StartingValuesBVAR} including the 
     #' last draw of the current MCMC as the starting value to be passed to the 
@@ -300,7 +352,7 @@ specify_starting_values_bvar = R6::R6Class(
 #' The class \code{BVAR} presents complete specification for the BVAR model.
 #' 
 #' @examples 
-#' spec = specify_bvar$new(us_fiscal_lsuw)
+#' spec = specify_bvar$new(us_macro_chan)
 #' 
 #' @export
 specify_bvar = R6::R6Class(
@@ -314,7 +366,7 @@ specify_bvar = R6::R6Class(
   
   public = list(
     
-    #' @field p a non-negative integer specifying the autoregressive lag order of the model. 
+    #' @field p a positive integer specifying the autoregressive lag order of the model. 
     p                      = numeric(),
     
     #' @field prior an object \code{PriorBVAR} with the prior specification. 
@@ -337,11 +389,11 @@ specify_bvar = R6::R6Class(
     #' \code{ncSV} - the model assumes non-centred stochastic volatility, and 
     #' \code{cSV} - the model assumes centred stochastic volatility.
     #' @param distribution a character string specifying the conditional distribution 
-    #' of structural shocks. Value \code{"norm"} sets it to the normal distribution, 
+    #' of the error term. Value \code{"norm"} sets it to the normal distribution, 
     #' while value \code{"t"} sets the Student-t distribution.
-    #' @param stationary an \code{N} logical vector - its element set to
+    #' @param stationary an \code{N} logical vector - its element set to 
     #' \code{FALSE} sets the prior mean for the autoregressive parameters of the 
-    #' \code{N}th equation to the white noise process, otherwise to random walk.
+    #' \code{N}th equation to the random walk process, otherwise to white noise.
     #' @return A new complete specification for the \code{BVAR} model.
     initialize = function(
     data,
@@ -380,10 +432,10 @@ specify_bvar = R6::R6Class(
     }, # END initialize
     
     #' @description
-    #' Returns the logical value of whether the conditional shock distribution is normal.
+    #' Returns the logical value of whether the conditional distribution of the error term is normal.
     #' 
     #' @examples 
-    #' spec = specify_bvar$new(us_fiscal_lsuw)
+    #' spec = specify_bvar$new(us_macro_chan)
     #' spec$get_normal()
     #' 
     get_normal = function() {
@@ -394,7 +446,7 @@ specify_bvar = R6::R6Class(
     #' Returns the logical value of whether the common volatility is homoskedastic.
     #' 
     #' @examples 
-    #' spec = specify_bvar$new(us_fiscal_lsuw)
+    #' spec = specify_bvar$new(us_macro_chan)
     #' spec$get_homoskedastic()
     #' 
     get_homoskedastic = function() {
@@ -406,7 +458,7 @@ specify_bvar = R6::R6Class(
     #' Stochastic Volatility
     #' 
     #' @examples 
-    #' spec = specify_bvar$new(us_fiscal_lsuw)
+    #' spec = specify_bvar$new(us_macro_chan)
     #' spec$get_centred_sv()
     #' 
     get_centred_sv = function() {
@@ -417,7 +469,7 @@ specify_bvar = R6::R6Class(
     #' Returns the data matrices as the \code{DataMatricesBSVAR} object.
     #' 
     #' @examples 
-    #' spec = specify_bvar$new(us_fiscal_lsuw)
+    #' spec = specify_bvar$new(us_macro_chan)
     #' spec$get_data_matrices()
     #' 
     get_data_matrices = function() {
@@ -428,7 +480,7 @@ specify_bvar = R6::R6Class(
     #' Returns the prior specification as the \code{PriorBVAR} object.
     #' 
     #' @examples 
-    #' spec = specify_bvar$new(us_fiscal_lsuw)
+    #' spec = specify_bvar$new(us_macro_chan)
     #' spec$get_prior()
     #' 
     get_prior = function() {
@@ -439,7 +491,7 @@ specify_bvar = R6::R6Class(
     #' Returns the starting values as the \code{StartingValuesBVAR} object.
     #' 
     #' @examples 
-    #' spec = specify_bvar$new(us_fiscal_lsuw)
+    #' spec = specify_bvar$new(us_macro_chan)
     #' spec$get_starting_values()
     #' 
     get_starting_values = function() {
@@ -466,7 +518,7 @@ specify_bvar = R6::R6Class(
 #' 
 #' @examples 
 #' # This is a function that is used within estimate()
-#' spec = specify_bvar$new(us_fiscal_lsuw)
+#' spec = specify_bvar$new(us_macro_chan)
 #' post = estimate(spec, 5)
 #' class(post)
 #' 
@@ -494,8 +546,8 @@ specify_posterior_bvar = R6::R6Class(
     #' @return A posterior output \code{PosteriorBVAR}.
     initialize = function(specification_bvar, posterior_bvar) {
       
-      stopifnot("Argument specification_bsvar must be of class BVAR." = any(class(specification_bvar) == "BVAR"))
-      stopifnot("Argument posterior_bsvar must must contain MCMC output." = is.list(posterior_bvar) & is.array(posterior_bvar$A) & is.array(posterior_bvar$Sigma) & is.array(posterior_bvar$V))
+      stopifnot("Argument specification_bvar must be of class BVAR." = any(class(specification_bvar) == "BVAR"))
+      stopifnot("Argument posterior_bvar must contain MCMC output." = is.list(posterior_bvar) & is.array(posterior_bvar$A) & is.array(posterior_bvar$Sigma) & is.array(posterior_bvar$V))
       
       self$last_draw    = specification_bvar
       self$posterior    = posterior_bvar
@@ -506,7 +558,7 @@ specify_posterior_bvar = R6::R6Class(
     #' \code{A}, \code{Sigma}, and \code{V}.
     #' 
     #' @examples 
-    #' spec = specify_bvar$new(us_fiscal_lsuw)
+    #' spec = specify_bvar$new(us_macro_chan)
     #' post = estimate(spec, 5)
     #' post$get_posterior()
     #' 
@@ -520,7 +572,7 @@ specify_posterior_bvar = R6::R6Class(
     #' of the MCMC estimation using \code{estimate()}.
     #' 
     #' @examples
-    #' spec = specify_bvar$new(us_fiscal_lsuw)
+    #' spec = specify_bvar$new(us_macro_chan)
     #' burn = estimate(spec, 5)
     #' post = estimate(burn, 5)
     get_last_draw      = function(){
@@ -528,4 +580,4 @@ specify_posterior_bvar = R6::R6Class(
     } # END get_last_draw
     
   ) # END public
-) # END specify_posterior_bsvar
+) # END specify_posterior_bvar
