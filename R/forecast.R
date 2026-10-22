@@ -29,7 +29,7 @@ generics::forecast
 #' draws from the predictive density and data. The output list includes element:
 #' 
 #' \describe{
-#'  \item{forecasts}{an \code{NxTxS} array with the draws from predictive density}
+#'  \item{forecasts}{an \code{NxhorizonxS} array with the draws from predictive density}
 #'  \item{forecast_mean}{an \code{NxhorizonxS} array with the mean of the predictive density}
 #'  \item{forecast_covariance}{an \code{NxNxhorizonxS} array with the covariance of the predictive density}
 #'  \item{Y}{an \eqn{NxT} matrix with the data on dependent variables}
@@ -67,14 +67,15 @@ forecast.PosteriorBVAR = function(
   
   posterior_Sigma = object$posterior$Sigma
   posterior_A     = object$posterior$A
-  T               = ncol(object$last_draw$data_matrices$X)
-  X_T             = object$last_draw$data_matrices$X[,T]
+  X               = object$last_draw$data_matrices$X
   Y               = object$last_draw$data_matrices$Y
+  T               = ncol(X)
+  K               = nrow(X)
+  N               = dim(posterior_Sigma)[1]
+  X_T             = c(Y[, T], X[seq_len(N * (object$last_draw$p - 1)), T], tail(X[, T], K - N * object$last_draw$p))
   homoskedastic   = object$last_draw$get_homoskedastic()
   normal          = object$last_draw$get_normal()
   
-  N               = dim(posterior_Sigma)[1]
-  K               = length(X_T)
   d               = K - N * object$last_draw$p - 1
   S               = dim(posterior_Sigma)[3]
   

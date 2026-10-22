@@ -33,7 +33,7 @@ A list of class \code{Forecasts} containing the
 draws from the predictive density and data. The output list includes element:
 
 \describe{
- \item{forecasts}{an \code{NxTxS} array with the draws from predictive density}
+ \item{forecasts}{an \code{NxhorizonxS} array with the draws from predictive density}
  \item{forecast_mean}{an \code{NxhorizonxS} array with the mean of the predictive density}
  \item{forecast_covariance}{an \code{NxNxhorizonxS} array with the covariance of the predictive density}
  \item{Y}{an \eqn{NxT} matrix with the data on dependent variables}
